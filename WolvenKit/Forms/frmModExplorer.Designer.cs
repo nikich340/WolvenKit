@@ -43,6 +43,7 @@ namespace WolvenKit
             this.exportW3facjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW3facposejsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW3dyngjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportWithWccToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.fastRenderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,11 +56,8 @@ namespace WolvenKit
             this.markAsModDlcFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.assetBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.dumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpChunksToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpWccliteXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.showFileInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,13 +68,11 @@ namespace WolvenKit
             this.ExpandBTN = new System.Windows.Forms.ToolStripButton();
             this.CollapseBTN = new System.Windows.Forms.ToolStripButton();
             this.resetfilesButton = new System.Windows.Forms.ToolStripButton();
-            this.modexplorerSlave = new System.IO.FileSystemWatcher();
             this.treeListView = new BrightIdeasSoftware.TreeListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.exportW2entjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.searchstrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.modexplorerSlave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,7 +94,6 @@ namespace WolvenKit
             this.markAsModDlcFileToolStripMenuItem,
             this.toolStripSeparator2,
             this.assetBrowserToolStripMenuItem,
-            this.addFileToolStripMenuItem,
             this.toolStripSeparator1,
             this.dumpFileToolStripMenuItem,
             this.toolStripSeparator4,
@@ -124,7 +119,8 @@ namespace WolvenKit
             this.exportW3facjsonToolStripMenuItem,
             this.exportW3facposejsonToolStripMenuItem,
             this.exportW3dyngjsonToolStripMenuItem,
-            this.exportW2entjsonToolStripMenuItem});
+            this.exportW2entjsonToolStripMenuItem,
+            this.exportWithWccToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.exportToolStripMenuItem.Text = "Export";
@@ -172,6 +168,13 @@ namespace WolvenKit
             this.exportW3dyngjsonToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.exportW3dyngjsonToolStripMenuItem.Text = "Export w3dyng.json";
             this.exportW3dyngjsonToolStripMenuItem.Click += new System.EventHandler(this.exportW3dyngjsonToolStripMenuItem_Click);
+			//
+            // exportWithWccToolStripMenuItem
+            // 
+            this.exportWithWccToolStripMenuItem.Name = "exportWithWccToolStripMenuItem";
+            this.exportWithWccToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.exportWithWccToolStripMenuItem.Text = "Export with wcc_lite";
+            this.exportWithWccToolStripMenuItem.Click += new System.EventHandler(this.exportW2meshToFbxToolStripMenuItem_Click);
             // 
             // cookToolStripMenuItem
             // 
@@ -254,14 +257,6 @@ namespace WolvenKit
             this.assetBrowserToolStripMenuItem.Text = "Asset Browser here";
             this.assetBrowserToolStripMenuItem.Click += new System.EventHandler(this.openAssetBrowserToolStripMenuItem_Click);
             // 
-            // addFileToolStripMenuItem
-            // 
-            this.addFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
-            this.addFileToolStripMenuItem.Name = "addFileToolStripMenuItem";
-            this.addFileToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
-            this.addFileToolStripMenuItem.Text = "Add File";
-            this.addFileToolStripMenuItem.Click += new System.EventHandler(this.addFileToolStripMenuItem_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -270,31 +265,15 @@ namespace WolvenKit
             // dumpFileToolStripMenuItem
             // 
             this.dumpFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dumpXMLToolStripMenuItem,
-            this.dumpChunksToXMLToolStripMenuItem,
             this.dumpWccliteXMLToolStripMenuItem});
             this.dumpFileToolStripMenuItem.Name = "dumpFileToolStripMenuItem";
             this.dumpFileToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.dumpFileToolStripMenuItem.Text = "Dump File";
             // 
-            // dumpXMLToolStripMenuItem
-            // 
-            this.dumpXMLToolStripMenuItem.Name = "dumpXMLToolStripMenuItem";
-            this.dumpXMLToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.dumpXMLToolStripMenuItem.Text = "Dump Header to XML";
-            this.dumpXMLToolStripMenuItem.Click += new System.EventHandler(this.dumpXMLToolStripMenuItem_Click);
-            // 
-            // dumpChunksToXMLToolStripMenuItem
-            // 
-            this.dumpChunksToXMLToolStripMenuItem.Name = "dumpChunksToXMLToolStripMenuItem";
-            this.dumpChunksToXMLToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.dumpChunksToXMLToolStripMenuItem.Text = "Dump Chunks to XML";
-            this.dumpChunksToXMLToolStripMenuItem.Click += new System.EventHandler(this.dumpChunksToXMLToolStripMenuItem_Click);
-            // 
             // dumpWccliteXMLToolStripMenuItem
             // 
             this.dumpWccliteXMLToolStripMenuItem.Name = "dumpWccliteXMLToolStripMenuItem";
-            this.dumpWccliteXMLToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.dumpWccliteXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.dumpWccliteXMLToolStripMenuItem.Text = "Dump Wcc_lite XML";
             this.dumpWccliteXMLToolStripMenuItem.Click += new System.EventHandler(this.dumpWccliteXMLToolStripMenuItem_Click);
             // 
@@ -385,15 +364,6 @@ namespace WolvenKit
             this.resetfilesButton.Text = "Reset filelist";
             this.resetfilesButton.Click += new System.EventHandler(this.UpdatefilelistButtonClick);
             // 
-            // modexplorerSlave
-            // 
-            this.modexplorerSlave.EnableRaisingEvents = true;
-            this.modexplorerSlave.IncludeSubdirectories = true;
-            this.modexplorerSlave.SynchronizingObject = this;
-            this.modexplorerSlave.Created += new System.IO.FileSystemEventHandler(this.FileChanges_Detected);
-            this.modexplorerSlave.Deleted += new System.IO.FileSystemEventHandler(this.FileChanges_Detected);
-            this.modexplorerSlave.Renamed += new System.IO.RenamedEventHandler(this.FileChanges_Detected);
-            // 
             // treeListView
             // 
             this.treeListView.AllColumns.Add(this.olvColumnName);
@@ -412,11 +382,9 @@ namespace WolvenKit
             this.treeListView.UseFiltering = true;
             this.treeListView.View = System.Windows.Forms.View.Details;
             this.treeListView.VirtualMode = true;
-            this.treeListView.Expanded += new System.EventHandler<BrightIdeasSoftware.TreeBranchExpandedEventArgs>(this.treeListView_Expanded);
-            this.treeListView.Collapsed += new System.EventHandler<BrightIdeasSoftware.TreeBranchCollapsedEventArgs>(this.treeListView_Collapsed);
             this.treeListView.CellClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.treeListView_CellClick);
-            this.treeListView.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.treeListView_CellRightClick);
             this.treeListView.ItemActivate += new System.EventHandler(this.treeListView_ItemActivate);
+            this.treeListView.SelectedIndexChanged += new System.EventHandler(this.treeListView_SelectedIndexChanged);
             this.treeListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.modFileList_KeyDown);
             // 
             // olvColumnName
@@ -449,11 +417,9 @@ namespace WolvenKit
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "frmModExplorer";
             this.Text = "Mod Explorer";
-            this.Shown += new System.EventHandler(this.frmModExplorer_Shown);
             this.contextMenu.ResumeLayout(false);
             this.searchstrip.ResumeLayout(false);
             this.searchstrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.modexplorerSlave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -471,7 +437,6 @@ namespace WolvenKit
         private ToolStripTextBox searchBox;
         private ToolStripButton showhideButton;
         private ToolStripButton resetfilesButton;
-        private FileSystemWatcher modexplorerSlave;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem showFileInExplorerToolStripMenuItem;
         private ToolStripButton ExpandBTN;
@@ -479,12 +444,9 @@ namespace WolvenKit
         private ToolStripMenuItem copyRelativePathToolStripMenuItem;
         private ToolStripMenuItem markAsModDlcFileToolStripMenuItem;
         private ToolStripLabel toolStripLabel1;
-        private ToolStripMenuItem addFileToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem cookToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem dumpXMLToolStripMenuItem;
-        private ToolStripMenuItem dumpChunksToXMLToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem createW2animsToolStripMenuItem;
         private ToolStripMenuItem exportToolStripMenuItem;
@@ -501,5 +463,6 @@ namespace WolvenKit
         private BrightIdeasSoftware.OLVColumn olvColumnName;
         private ToolStripMenuItem exportW3dyngjsonToolStripMenuItem;
         private ToolStripMenuItem exportW2entjsonToolStripMenuItem;
+        private ToolStripMenuItem exportWithWccToolStripMenuItem;
     }
 }
