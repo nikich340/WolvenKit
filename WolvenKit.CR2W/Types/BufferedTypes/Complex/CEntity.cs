@@ -13,7 +13,7 @@ namespace WolvenKit.CR2W.Types
 {
     public partial class CEntity : CNode
     {
-        [Ordinal(1000)] [REDBuffer(true)] public CArray<CPtr<CComponent>> Components { get; set; }
+        [Ordinal(1000)] [REDBuffer(true)] public CArray<CPtr<CComponent>> components { get; set; }
         [Ordinal(1001)] [REDBuffer(true)] public CCompressedBuffer<SEntityBufferType1> BufferV1 { get; set; }
         [Ordinal(1002)] [REDBuffer(true)] public CBufferUInt32<SEntityBufferType2> BufferV2 { get; set; }
 
@@ -21,7 +21,7 @@ namespace WolvenKit.CR2W.Types
             
         public CEntity(CR2WFile cr2w, CVariable parent, string name) : base(cr2w, parent, name)
         {
-            Components = new CArray<CPtr<CComponent>>(cr2w, this, nameof(Components)) {IsSerialized = true, Elementtype = "ptr:CComponent"};
+            components = new CArray<CPtr<CComponent>>(cr2w, this, nameof(components)) {IsSerialized = true, Elementtype = "ptr:CComponent"};
             BufferV1 = new CCompressedBuffer<SEntityBufferType1>(cr2w, this, nameof(BufferV1)) { IsSerialized = true };
             BufferV2 = new CBufferUInt32<SEntityBufferType2>(cr2w, this, nameof(BufferV2)) { IsSerialized = true };
         }
@@ -48,16 +48,16 @@ namespace WolvenKit.CR2W.Types
             {
                 if (bytesleft > 0)
                 {
-                    Components.IsSerialized = true;
+                    components.IsSerialized = true;
                     var elementcount = file.ReadBit6();
                     for (var i = 0; i < elementcount; i++)
                     {
-                        var ptr = CR2WTypeManager.Create("ptr:CComponent", i.ToString(), cr2w, Components);
+                        var ptr = CR2WTypeManager.Create("ptr:CComponent", i.ToString(), cr2w, components);
                         if (ptr is IPtrAccessor iptr)
                         {
                             ptr.IsSerialized = true;
                             ptr.Read(file, 0);
-                            Components.AddVariable(ptr);
+                            components.AddVariable(ptr);
                         }
                         
                     }
@@ -124,10 +124,10 @@ namespace WolvenKit.CR2W.Types
             // Write componentsarray (if not created from template)
             if (!isCreatedFromTemplate)
             {
-                file.WriteBit6(Components.Count);
-                for (var i = 0; i < Components.Count; i++)
+                file.WriteBit6(components.Count);
+                for (var i = 0; i < components.Count; i++)
                 {
-                    Components[i].Write(file);
+                    components[i].Write(file);
                 }
             }
 

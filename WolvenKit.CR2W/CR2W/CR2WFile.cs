@@ -1181,7 +1181,7 @@ namespace WolvenKit.CR2W
                                 returnedVariables.Add(new SNameArg(EStringTableMod.SkipNameAndType, att));
                             if (cn is CEntity e)
                             {
-                                foreach (CPtr<CComponent> component in e.Components)
+                                foreach (CPtr<CComponent> component in e.components)
                                     returnedVariables.Add(new SNameArg(EStringTableMod.SkipNameAndType, component));
                                 foreach (SEntityBufferType1 buffer in e.BufferV1)
                                     returnedVariables.Add(new SNameArg(EStringTableMod.SkipNameAndType, buffer));
