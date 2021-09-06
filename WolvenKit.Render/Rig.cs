@@ -25,14 +25,21 @@ namespace WolvenKit.Render
         /// <summary>
         /// Read rig data.
         /// </summary>
-        public void LoadData(CR2WFile rigFile)
+        public void LoadData(CR2WFile rigFile, int sindex = 0)
         {
             // *************** READ RIG DATA ***************
             if (rigFile != null)
             foreach (var chunk in rigFile.chunks)
             {
-                if (chunk.Type == "CSkeleton")
+                if (chunk.Type == "CSkeleton" && chunk.ChunkIndex == sindex)
                 {
+                    var tracks = chunk.GetVariableByName("tracks") as CArray;
+                    if(tracks != null)
+                        foreach (CVector track in tracks)
+                        {
+                            var trackName = track.variables.GetVariableByName("nameAsCName") as CName;
+                            meshSkeleton.tracks.Add(trackName.Value);
+                        }
                     var bones = chunk.GetVariableByName("bones") as CArray;
                     meshSkeleton.nbBones = (uint)bones.array.Count;
                     foreach (CVector bone in bones)

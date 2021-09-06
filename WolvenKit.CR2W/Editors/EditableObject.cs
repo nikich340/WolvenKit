@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -83,6 +84,11 @@ namespace WolvenKit.CR2W.Editors
                 }
                 ser.WriteEndObject(xw);
             }
+        }
+
+        public void SerializeToJson(JsonWriter xw)
+        {
+            throw new NotImplementedException();
         }
     }
 }

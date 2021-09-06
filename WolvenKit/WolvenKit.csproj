@@ -473,12 +473,6 @@
     <Compile Include="Forms\frmImportUtility.Designer.cs">
       <DependentUpon>frmImportUtility.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMimics.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMimics.Designer.cs">
-      <DependentUpon>frmMimics.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmLoading.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -756,9 +750,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmImportUtility.resx">
       <DependentUpon>frmImportUtility.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMimics.resx">
-      <DependentUpon>frmMimics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAssetBrowser.resx">
       <DependentUpon>frmAssetBrowser.cs</DependentUpon>

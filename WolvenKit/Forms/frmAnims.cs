@@ -12,6 +12,7 @@ using IniParserLTK;
 //using Microsoft.Win32;
 using WolvenKit.CR2W;
 using WolvenKit.Render;
+using WolvenKit.Render.Animation;
 
 namespace WolvenKit
 {
@@ -19,6 +20,7 @@ namespace WolvenKit
     {
         private CR2WFile animsFile;
         private ExportAnimation exportAnims { get; set; }
+        private Rig exportRig { get; set; }
 
         public frmAnims(string w2animsFilePath = null, string w2rigFilePath = null)
         {
@@ -28,9 +30,9 @@ namespace WolvenKit
             txw2anims.Text = w2animsFilePath;//config.WccLite;
             //comboBoxAnim.Items.AddRange(Enum.GetValues(typeof(EColorThemes)).Cast<object>().ToArray());
             //comboBoxTheme.SelectedItem = config.ColorTheme;
-            btSave.Enabled =
-                (File.Exists(txw2anims.Text) && Path.GetExtension(txw2anims.Text) == ".w2anims" || Path.GetExtension(txw2anims.Text) == ".w2cutscene") &&
-                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig");
+            btSave.Enabled = checkEnabled();
+
+            comboBoxAnim.DataBindings.Add("Enabled", radioButtonAnim1, "Checked");
             setupcomboBox();
         }
 
@@ -45,22 +47,59 @@ namespace WolvenKit
                     string w2rigFilePath = txw2rig.Text;
                     string w2animsFilePath = txw2anims.Text;
 
-                    exportAnims = new ExportAnimation();
-                    byte[] animsData;
-                    animsData = File.ReadAllBytes(w2animsFilePath);
-                    using (MemoryStream ms = new MemoryStream(animsData))
-                    using (BinaryReader br = new BinaryReader(ms))
+                    if (File.Exists(w2animsFilePath) && (Path.GetExtension(w2animsFilePath) == ".w2cutscene"))
                     {
-                        animsFile = new CR2WFile(br)
+                        exportAnims = new ExportCutscene();
+                        byte[] animsData;
+                        animsData = File.ReadAllBytes(w2animsFilePath);
+                        using (MemoryStream ms = new MemoryStream(animsData))
+                        using (BinaryReader br = new BinaryReader(ms))
                         {
-                            FileName = w2animsFilePath
-                        };
-                        exportAnims.LoadData(animsFile);
+                            animsFile = new CR2WFile(br)
+                            {
+                                FileName = w2animsFilePath
+                            };
+                            exportAnims.LoadData(animsFile);
+                            (exportAnims as ExportCutscene).LoadCutsceneData(animsFile, App.MainController.Get().BundleManager);
+                        }
+                        Console.WriteLine("This is a cutscene file");
+                    }
+                    else if (File.Exists(w2rigFilePath))
+                    {
+                        CommonData cdata = new CommonData();
+                        exportRig = new Rig(cdata);
+                        byte[] data;
+                        data = File.ReadAllBytes(w2rigFilePath);
+                        using (MemoryStream ms = new MemoryStream(data))
+                        using (BinaryReader br = new BinaryReader(ms))
+                        {
+                            CR2WFile rigFile = new CR2WFile(br);
+
+                            if (File.Exists(w2rigFilePath) && (Path.GetExtension(w2rigFilePath) == ".w3fac"))
+                                exportRig.LoadData(rigFile, 2); //2 is skeleton chunk index for face
+                            else
+                                exportRig.LoadData(rigFile);
+                        }
+
+                        exportAnims = new ExportAnimation();
+                        byte[] animsData;
+                        animsData = File.ReadAllBytes(w2animsFilePath);
+                        using (MemoryStream ms = new MemoryStream(animsData))
+                        using (BinaryReader br = new BinaryReader(ms))
+                        {
+                            animsFile = new CR2WFile(br)
+                            {
+                                FileName = w2animsFilePath
+                            };
+                            exportAnims.LoadData(animsFile, exportRig);
+                        }
+
                     }
                     comboBoxAnim.Items.Clear();
                     for (int i = 0; i < ExportAnimation.AnimationNames.Count; i++)
                         comboBoxAnim.Items.Add(ExportAnimation.AnimationNames[i].Key);
-                    comboBoxAnim.SelectedItem = ExportAnimation.AnimationNames[0].Key;
+                    if(ExportAnimation.AnimationNames.Count > 0) comboBoxAnim.SelectedItem = ExportAnimation.AnimationNames[0].Key;
+
                 }
             }
             else
@@ -69,12 +108,14 @@ namespace WolvenKit
             }
         }
 
+        
+
         private void btnBrowseRig_Click(object sender, EventArgs e)
         {
             var dlg = new System.Windows.Forms.OpenFileDialog();
-            dlg.Title = "Select Witcher 3 Rig File.";
+            dlg.Title = "Select Rig File.";
             dlg.FileName = txw2rig.Text;
-            dlg.Filter = "Witcher 3 Rig File (*.w2rig)|*.w2rig";
+            dlg.Filter = "Rig (*.w2rig)|*.w2rig|Mimic Rig (*.w3fac)|*.w3fac";
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 txw2rig.Text = dlg.FileName;
@@ -104,18 +145,24 @@ namespace WolvenKit
                 sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
-                    CommonData cdata = new CommonData();
-                    Rig exportRig = new Rig(cdata);
-                    byte[] data;
-                    data = File.ReadAllBytes(txw2rig.Text);
-                    using (MemoryStream ms = new MemoryStream(data))
-                    using (BinaryReader br = new BinaryReader(ms))
+                    if (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2cutscene"))
                     {
-                        CR2WFile rigFile = new CR2WFile(br);
-                        exportRig.LoadData(rigFile);
+                        (exportAnims as ExportCutscene).SaveJson(sf.FileName);
                     }
-                    exportAnims.Apply(exportRig);
-                    exportAnims.SaveJson(sf.FileName);
+                    else
+                    {
+                        if (radioButtonAnim1.Checked)
+                        {
+                            exportAnims.Apply(exportRig);
+                            exportAnims.SaveJson(sf.FileName);
+                        }
+                        else
+                        {
+                            exportAnims.Apply(exportRig);
+                            exportAnims.LoadAllAnims();
+                            exportAnims.SaveSet(sf.FileName);
+                        }
+                    }
                     MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -142,34 +189,37 @@ namespace WolvenKit
             {
                 WCCexeTickLBL.Text = "✓";
                 WCCexeTickLBL.ForeColor = Color.Green;
+                setupcomboBox();
             }
             else
             {
                 WCCexeTickLBL.Text = "X";
                 WCCexeTickLBL.ForeColor = Color.Red;
             }
-            btSave.Enabled =
-                (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2anims" || Path.GetExtension(txw2anims.Text) == ".w2cutscene")) &&
-                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig");
-            setupcomboBox();
+            btSave.Enabled = checkEnabled();
         }
 
         private void txExecutablePath_TextChanged(object sender, EventArgs e)
         {
             var path = txw2rig.Text;
-            if (File.Exists(path) && Path.GetExtension(path) == ".w2rig")
+            if (File.Exists(path) && (Path.GetExtension(path) == ".w2rig" || Path.GetExtension(path) == ".w3fac"))
             {
                 W3exeTickLBL.Text = "✓";
                 W3exeTickLBL.ForeColor = Color.Green;
+                setupcomboBox();
             }
             else
             {
                 W3exeTickLBL.Text = "X";
                 W3exeTickLBL.ForeColor = Color.Red;
             }
-            btSave.Enabled =
-                (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2anims" || Path.GetExtension(txw2anims.Text) == ".w2cutscene")) &&
-                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig");
+            btSave.Enabled = checkEnabled();
+        }
+
+        private bool checkEnabled()
+        {
+            return (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2anims" || Path.GetExtension(txw2anims.Text) == ".w2cutscene")) &&
+                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig") || (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w3fac");
         }
 
         private void comboBoxAnim_SelectedIndexChanged(object sender, EventArgs e)

@@ -55,6 +55,20 @@ namespace WolvenKit.CR2W.Types
             }
         }
 
+        public void ReadJson(string file, uint size, int count, List<List<CFloat>> cake)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                T element = elementFactory.Invoke(cr2w);
+                element.Name = i.ToString();
+                foreach (var theFloat in cake[i])
+                {
+                    element.AddVariable(theFloat);
+                }
+                elements.Add(element);
+            }
+        }
+
         public override List<IEditableVariable> GetEditableVariables()
         {
             return new List<IEditableVariable>(elements);

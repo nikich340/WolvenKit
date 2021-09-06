@@ -40,6 +40,7 @@ namespace WolvenKit
     using WolvenKit.Scaleform;
     using Wwise.Player;
     using Enums = Dfust.Hotkeys.Enums;
+    using WolvenKit.Render.Animation;
 
     public partial class frmMain : Form
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 using WolvenKit.CR2W.Types;
@@ -18,5 +19,6 @@ namespace WolvenKit.CR2W.Editors
         void AddVariable(CVariable var);
         void RemoveVariable(IEditableVariable child);
         void SerializeToXml(XmlWriter xw);
+        void SerializeToJson(JsonWriter xw);
     }
 }

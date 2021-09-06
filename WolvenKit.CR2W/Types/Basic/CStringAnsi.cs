@@ -16,6 +16,7 @@ namespace WolvenKit.CR2W.Types
         {
         }
 
+        [DataMember(EmitDefaultValue = false)]
         public string val { get; set; }
 
         public override void Read(BinaryReader file, uint size)

@@ -25,6 +25,7 @@ namespace WolvenKit
     using WolvenKit.CR2W;
     using WolvenKit.Extensions;
     using WolvenKit.Render;
+    using WolvenKit.Render.Animation;
 
     public partial class frmModExplorer : DockContent, IThemedContent
     {
@@ -697,7 +698,10 @@ namespace WolvenKit
                         using (BinaryReader br = new BinaryReader(ms))
                         {
                             CR2WFile rigFile = new CR2WFile(br);
-                            exportRig.LoadData(rigFile);
+                            if ((sender as ToolStripMenuItem).Name == "exportW3dyngjsonToolStripMenuItem")
+                                exportRig.LoadData(rigFile, 1);
+                            else
+                                exportRig.LoadData(rigFile);
                             exportRig.SaveRig(sf.FileName);
                         }
                         MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -706,6 +710,10 @@ namespace WolvenKit
             }   
         }
 
+        private void exportW3dyngjsonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            exportw2rigjsonToolStripMenuItem_Click(sender, e);
+        }
         private void exportW2animsjsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
@@ -745,6 +753,8 @@ namespace WolvenKit
                 exportW3facjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3fac";
                 exportW3facposejsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3fac";
                 fastRenderToolStripMenuItem.Enabled = Path.GetExtension(selectedobject.Name) == ".w2mesh";
+                exportW3dyngjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3dyng";
+                exportW2entjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w2ent";
             }
         }
 
@@ -837,6 +847,37 @@ namespace WolvenKit
                     RequestFileOpen?.Invoke(this, new RequestFileArgs { File = selectedobject.FullName });
                 else
                     treeListView.ToggleExpansion(selectedobject);
+            }
+        }
+
+        private void exportW2entjsonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
+            {
+                string w2entFilePath = selectedobject.FullName;
+
+                SaveFileDialog sFileDialog = new SaveFileDialog
+                {
+                    Filter = "Witcher Entity |*w2ent.json",
+                    Title = "Save Entity File",
+                    InitialDirectory = selectedobject.FullName,
+                    OverwritePrompt = true,
+                    FileName = Path.GetFileName(selectedobject.FullName + ".json")
+                };
+
+                DialogResult result = sFileDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    //FileStream writer = new FileStream(sFileDialog.FileName, FileMode.Create);
+
+                    EntityGenerator generator = new EntityGenerator();
+                    generator.LoadManager(MainController.Get().BundleManager);
+                    generator.LoadWccHelper(MainController.Get().WccHelper);
+                    generator.readCEntityTemplate(w2entFilePath);
+                    generator.SaveEntAsync(sFileDialog.FileName);
+                    MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
         }
     }

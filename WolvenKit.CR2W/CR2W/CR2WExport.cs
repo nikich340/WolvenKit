@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Xml;
 using WolvenKit.Utils;
+using Newtonsoft.Json;
 
 [assembly: ContractNamespaceAttribute("",    ClrNamespace = "WolvenKit.CR2W")]
 
@@ -347,6 +348,11 @@ namespace WolvenKit.CR2W
         public override string ToString()
         {
             return Name;
+        }
+
+        public void SerializeToJson(JsonWriter xw)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

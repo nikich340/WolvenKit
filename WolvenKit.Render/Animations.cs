@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
+using WolvenKit.Render.Animation;
 
 namespace WolvenKit.Render
 {

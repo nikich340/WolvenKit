@@ -42,6 +42,7 @@ namespace WolvenKit
             this.exportw2rigjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW3facjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW3facposejsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportW3dyngjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.fastRenderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +73,7 @@ namespace WolvenKit
             this.modexplorerSlave = new System.IO.FileSystemWatcher();
             this.treeListView = new BrightIdeasSoftware.TreeListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.exportW2entjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.searchstrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modexplorerSlave)).BeginInit();
@@ -102,7 +104,7 @@ namespace WolvenKit
             this.toolStripSeparator4,
             this.showFileInExplorerToolStripMenuItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(197, 398);
+            this.contextMenu.Size = new System.Drawing.Size(197, 420);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             this.contextMenu.Opened += new System.EventHandler(this.contextMenu_Opened);
             // 
@@ -120,7 +122,9 @@ namespace WolvenKit
             this.exportW2animsjsonToolStripMenuItem,
             this.exportw2rigjsonToolStripMenuItem,
             this.exportW3facjsonToolStripMenuItem,
-            this.exportW3facposejsonToolStripMenuItem});
+            this.exportW3facposejsonToolStripMenuItem,
+            this.exportW3dyngjsonToolStripMenuItem,
+            this.exportW2entjsonToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.exportToolStripMenuItem.Text = "Export";
@@ -161,6 +165,13 @@ namespace WolvenKit
             this.exportW3facposejsonToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.exportW3facposejsonToolStripMenuItem.Text = "Export w3fac.pose.json";
             this.exportW3facposejsonToolStripMenuItem.Click += new System.EventHandler(this.exportW3facposejsonToolStripMenuItem_Click);
+            // 
+            // exportW3dyngjsonToolStripMenuItem
+            // 
+            this.exportW3dyngjsonToolStripMenuItem.Name = "exportW3dyngjsonToolStripMenuItem";
+            this.exportW3dyngjsonToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.exportW3dyngjsonToolStripMenuItem.Text = "Export w3dyng.json";
+            this.exportW3dyngjsonToolStripMenuItem.Click += new System.EventHandler(this.exportW3dyngjsonToolStripMenuItem_Click);
             // 
             // cookToolStripMenuItem
             // 
@@ -414,6 +425,13 @@ namespace WolvenKit
             this.olvColumnName.FillsFreeSpace = true;
             this.olvColumnName.Text = "Name";
             // 
+            // exportW2entjsonToolStripMenuItem
+            // 
+            this.exportW2entjsonToolStripMenuItem.Name = "exportW2entjsonToolStripMenuItem";
+            this.exportW2entjsonToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.exportW2entjsonToolStripMenuItem.Text = "Export w2ent.json";
+            this.exportW2entjsonToolStripMenuItem.Click += new System.EventHandler(this.exportW2entjsonToolStripMenuItem_Click);
+            // 
             // frmModExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -481,5 +499,7 @@ namespace WolvenKit
         private ToolStripSeparator toolStripSeparator5;
         private BrightIdeasSoftware.TreeListView treeListView;
         private BrightIdeasSoftware.OLVColumn olvColumnName;
+        private ToolStripMenuItem exportW3dyngjsonToolStripMenuItem;
+        private ToolStripMenuItem exportW2entjsonToolStripMenuItem;
     }
 }

@@ -10,8 +10,10 @@ using Newtonsoft.Json;
 using IrrlichtLime;
 using IrrlichtLime.Core;
 using IrrlichtLime.Scene;
+using WolvenKit.Render.Animation;
+using Newtonsoft.Json.Linq;
 
-namespace WolvenKit.Render
+namespace WolvenKit.Render.Animation
 {
     public class ConvertAnimation
     {
@@ -46,7 +48,7 @@ namespace WolvenKit.Render
             return newvar;
         }
 
-        void createAnimationSet()
+        public void createAnimationSet()
         {
             var SkeletalAnimationSet = W2AnimFile.CreateChunk("CSkeletalAnimationSet");
             CVariable animPointerArr = animVar("array:2,0,ptr:CSkeletalAnimationSetEntry", "animations", SkeletalAnimationSet.cr2w);
@@ -54,80 +56,220 @@ namespace WolvenKit.Render
             //(animPointerArr as CArray).AddVariable(animVar("ptr:CSkeletalAnimationSetEntry", null, SkeletalAnimationSet.cr2w).SetValue(2));
             SkeletalAnimationSet.data.AddVariable(animVar("SAnimationBufferStreamingOption", "Streaming option", SkeletalAnimationSet.cr2w).SetValue("ABSO_FullyStreamable"));
         }
-        void createChunks(int startIndex, int bufferNumber)
-        {
-            try
+        //CR2WExportWrapper createChunks(int bufferNumber, CSkeletalAnimation loadedAnim, int bonelistCount)
+        //{
+
+        //}
+
+        public CSkeletalAnimationSetEntry importJsonAnim(string filename) {
+            CSkeletalAnimationSetEntry loadedSetEntry;
+            using (StreamReader r = new StreamReader(filename))
             {
-                var SkeletalAnimationSet = w2AnimFile.chunks[0];
-                (SkeletalAnimationSet.GetVariableByName("animations") as CArray).AddVariable(animVar("ptr:CSkeletalAnimationSetEntry", null, SkeletalAnimationSet.cr2w).SetValue(startIndex+ 2));
-
-                var SkeletalAnimationSetEntry = W2AnimFile.CreateChunk("CSkeletalAnimationSetEntry");
-                var SkeletalAnimation = W2AnimFile.CreateChunk("CSkeletalAnimation");
-                var bitbuff = W2AnimFile.CreateChunk("CAnimationBufferBitwiseCompressed");
-
-                SkeletalAnimationSetEntry.data.AddVariable(animVar("ptr:CSkeletalAnimation", "animation", SkeletalAnimationSetEntry.cr2w).SetValue(startIndex +3));
-
-                // SkeletalAnimation start
-                SkeletalAnimation.data.AddVariable(animVar("CName", "name", SkeletalAnimation.cr2w));
-                SkeletalAnimation.data.AddVariable(animVar("ptr:IAnimationBuffer", "animBuffer", SkeletalAnimation.cr2w).SetValue(startIndex + 4));
-                SkeletalAnimation.data.AddVariable(animVar("Float", "framesPerSecond", SkeletalAnimation.cr2w).SetValue(30F));
-                SkeletalAnimation.data.AddVariable(animVar("Float", "duration", SkeletalAnimation.cr2w).SetValue(1F));
-
-                //bitbuff
-                bitbuff.data.AddVariable(animVar("Uint32", "version", bitbuff.cr2w).SetValue((uint)2));
-                CVariable bones = animVar("array:129,0,SAnimationBufferBitwiseCompressedBoneTrack", "bones", bitbuff.cr2w);
-                bitbuff.data.AddVariable(bones);
-                for (int i = 0; i < 93; i++)
-                {
-                    CVariable newvar = animVar("SAnimationBufferBitwiseCompressedBoneTrack", "", bitbuff.cr2w);
-                    CVariable position = animVar("SAnimationBufferBitwiseCompressedData", "position", bitbuff.cr2w);
-                    CVariable orientation = animVar("SAnimationBufferBitwiseCompressedData", "orientation", bitbuff.cr2w);
-                    CVariable scale = animVar("SAnimationBufferBitwiseCompressedData", "scale", bitbuff.cr2w);
-                    
-                    position.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(0.03333334F));
-                    position.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
-                    position.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w));
-                    position.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
-                    position.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
-
-                    orientation.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(0.03333334F));
-                    orientation.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
-                    orientation.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w));
-                    orientation.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
-                    orientation.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
-
-                    scale.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(0.03333334F));
-                    scale.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
-                    scale.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w));
-                    scale.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
-                    scale.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
-
-                    newvar.AddVariable(position);
-                    newvar.AddVariable(orientation);
-                    newvar.AddVariable(scale);
-                    (bones as CArray).AddVariable(newvar);
-                }
-
-                bitbuff.data.AddVariable(animVar("array:129,0,Int8", "data", bitbuff.cr2w));
-                bitbuff.data.AddVariable(animVar("array:129,0,Int8", "fallbackData", bitbuff.cr2w));
-                bitbuff.data.AddVariable(animVar("DeferredDataBuffer", "deferredData", bitbuff.cr2w).SetValue(bufferNumber.ToString()));
-                bitbuff.data.AddVariable(animVar("SAnimationBufferOrientationCompressionMethod", "orientationCompressionMethod", bitbuff.cr2w).SetValue("ABOCM_PackIn48bitsW"));
-
-                bitbuff.data.AddVariable(animVar("Float", "duration", bitbuff.cr2w).SetValue(1F));
-                bitbuff.data.AddVariable(animVar("Uint32", "numFrames", bitbuff.cr2w).SetValue((uint)30));
-
-                bitbuff.data.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(0.03333334F));
-
-                bitbuff.data.AddVariable(animVar("SAnimationBufferStreamingOption", "streamingOption", bitbuff.cr2w).SetValue("ABSO_NonStreamable"));
-                bitbuff.data.AddVariable(animVar("Bool", "hasRefIKBones", bitbuff.cr2w).SetValue(true));
-
+                string json = r.ReadToEnd();
+                JsonConverter[] converters = { new BufferConverter(), new IMotionExtractionConverter(), new CVariableConverter(W2AnimFile) };
+                var jset = new JsonSerializerSettings() { Converters = converters, NullValueHandling = NullValueHandling.Ignore };
+                loadedSetEntry = JsonConvert.DeserializeObject<CSkeletalAnimationSetEntry>(json, jset);
             }
-            catch (InvalidChunkTypeException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            return loadedSetEntry;
         }
 
+        public void createAnimation(CSkeletalAnimationSetEntry loadedSetEntry, int i, string savefileName)
+        {
+            CSkeletalAnimation loadedAnim;
+            loadedAnim = loadedSetEntry.animation;
+
+
+            int bufferNumber = i + 1;
+            //CR2WExportWrapper SkeletalAnimationSetEntry = createChunks(bufferNumber, loadedAnim, bonelist.Count());
+
+
+            //createMotionExtraction = false;
+            CR2WExportWrapper SkeletalAnimationSet = w2AnimFile.chunks[0];
+            CR2WExportWrapper SkeletalAnimationSetEntry = W2AnimFile.CreateChunk("CSkeletalAnimationSetEntry");
+            CR2WExportWrapper SkeletalAnimation = W2AnimFile.CreateChunk("CSkeletalAnimation");
+            CR2WExportWrapper MotionExtraction2;
+
+
+            (SkeletalAnimationSet.GetVariableByName("animations") as CArray).AddVariable((animVar("ptr:CSkeletalAnimationSetEntry", null, SkeletalAnimationSet.cr2w) as CPtr).SetValue(SkeletalAnimationSetEntry));
+
+            SkeletalAnimationSetEntry.data.AddVariable((animVar("ptr:CSkeletalAnimation", "animation", SkeletalAnimationSetEntry.cr2w) as CPtr).SetValue(SkeletalAnimation));
+
+            // SkeletalAnimation start
+            SkeletalAnimation.data.AddVariable(animVar("CName", "name", SkeletalAnimation.cr2w).SetValue(loadedAnim.name));
+            SkeletalAnimation.data.AddVariable(animVar("Float", "framesPerSecond", SkeletalAnimation.cr2w).SetValue(loadedAnim.framesPerSecond));
+            SkeletalAnimation.data.AddVariable(animVar("Float", "duration", SkeletalAnimation.cr2w).SetValue(loadedAnim.duration));
+
+            //CR2WExportWrapper SkeletalAnimationSetEntry = SkeletalAnimationSetEntry;
+            foreach (var entry in SkeletalAnimationSetEntry.data.GetEditableVariables())
+            {
+                //loadedSetEntry.entries
+                if (entry.Name == "entries")
+                {
+                    foreach (CVariable item in loadedSetEntry.entries)
+                    {
+                        entry.AddVariable(item);
+                    }
+                }
+            }
+
+            CR2WExportWrapper bitbuff;
+            if (loadedAnim.animBuffer.GetType() == typeof(CAnimationBufferMultipart))
+            {
+                CAnimationBufferMultipart i_multipart = loadedAnim.animBuffer as CAnimationBufferMultipart;
+                CR2WExportWrapper bitbuffMulti = W2AnimFile.CreateChunk("CAnimationBufferMultipart");
+                bitbuffMulti.data.AddVariable(animVar("Uint32", "numFrames", w2AnimFile).SetValue(i_multipart.numFrames));
+                bitbuffMulti.data.AddVariable(animVar("Uint32", "numTracks", w2AnimFile).SetValue(i_multipart.numTracks));
+                bitbuffMulti.data.AddVariable(animVar("Uint32", "numBones", w2AnimFile).SetValue(i_multipart.numBones));
+
+                bitbuffMulti.data.AddVariable(animVar("array:2,0,Uint32", "firstFrames", w2AnimFile));
+                foreach (uint item in i_multipart.firstFrames)
+                {
+                    bitbuffMulti.GetVariableByName("firstFrames").AddVariable(animVar("Uint32", "Uint32", w2AnimFile).SetValue(item));
+                }
+                //public uint numFrames;
+                //public uint numBones;
+                //public uint numTracks;
+                //public List<uint> firstFrames = new ><uint>();
+
+
+                //public ><CAnimationBufferBitwiseCompressed> parts = new ><CAnimationBufferBitwiseCompressed>();
+                bitbuffMulti.data.AddVariable(animVar("array:2,0,ptr:IAnimationBuffer", "parts", w2AnimFile));
+                foreach (CAnimationBufferBitwiseCompressed bufferPart in (loadedAnim.animBuffer as CAnimationBufferMultipart).parts)
+                {
+                    CR2WExportWrapper bitbuffpart = getBitBuff(bufferPart, bufferNumber, savefileName);
+                    bitbuffMulti.GetVariableByName("parts").AddVariable((animVar("ptr:IAnimationBuffer", "part", bitbuffpart.cr2w) as CPtr).SetValue(bitbuffpart));
+                    //createAnimationPart(bufferPart, i, savefileName);
+                }
+                bitbuff = bitbuffMulti;
+            }
+            else
+            {
+                //createAnimationPart((loadedAnim.animBuffer as CAnimationBufferBitwiseCompressed), i, savefileName);
+
+                bitbuff = getBitBuff((loadedAnim.animBuffer as CAnimationBufferBitwiseCompressed),  bufferNumber, savefileName);
+            }
+
+            SkeletalAnimation.data.AddVariable((animVar("ptr:IAnimationBuffer", "animBuffer", SkeletalAnimation.cr2w) as CPtr).SetValue(bitbuff));
+
+
+
+            if (loadedAnim.motionExtraction != null)
+            {
+                MotionExtraction2 = W2AnimFile.CreateChunk("CLineMotionExtraction2");
+                SkeletalAnimation.data.AddVariable((animVar("ptr:IAnimationBuffer", "motionExtraction", SkeletalAnimation.cr2w) as CPtr).SetValue(MotionExtraction2));
+
+                MotionExtraction2.data.AddVariable(animVar("Float", "duration", MotionExtraction2.cr2w).SetValue((loadedAnim.motionExtraction as CLineMotionExtraction2).duration));
+                CVariable deltaTimes = animVar("array:2,0,Uint8", "deltaTimes", MotionExtraction2.cr2w);
+                CVariable frames = animVar("array:2,0,Float", "frames", MotionExtraction2.cr2w);
+
+                deltaTimes.SetValue((loadedAnim.motionExtraction as CLineMotionExtraction2).deltaTimes);
+                MotionExtraction2.data.AddVariable(deltaTimes);
+                MotionExtraction2.data.AddVariable(frames);
+                MotionExtraction2.data.AddVariable(animVar("Uint8", "flags", MotionExtraction2.cr2w).SetValue((loadedAnim.motionExtraction as CLineMotionExtraction2).flags));
+                foreach (var frame in (loadedAnim.motionExtraction as CLineMotionExtraction2).frames)
+                {
+                    CVariable newvar = animVar("Float", "", MotionExtraction2.cr2w).SetValue(frame);
+                    frames.AddVariable(newvar as CFloat);
+                }
+            }
+            
+        }
+
+        private CR2WExportWrapper getBitBuff(CAnimationBufferBitwiseCompressed animBuffer, int bufferNumber, string savefileName)
+        {
+            CR2WExportWrapper bitbuff = W2AnimFile.CreateChunk("CAnimationBufferBitwiseCompressed");
+            //bitbuff
+            bitbuff.data.AddVariable(animVar("Uint32", "version", bitbuff.cr2w).SetValue((uint)2));
+            CVariable bones = animVar("array:129,0,SAnimationBufferBitwiseCompressedBoneTrack", "bones", bitbuff.cr2w);
+            bitbuff.data.AddVariable(bones);
+
+            List<Bone> bonelist;
+            bonelist = animBuffer.bones;
+
+            foreach (var item in bonelist)
+            {
+                CVariable newvar = animVar("SAnimationBufferBitwiseCompressedBoneTrack", "", bitbuff.cr2w);
+                CVariable position = animVar("SAnimationBufferBitwiseCompressedData", "position", bitbuff.cr2w);
+                CVariable orientation = animVar("SAnimationBufferBitwiseCompressedData", "orientation", bitbuff.cr2w);
+                CVariable scale = animVar("SAnimationBufferBitwiseCompressedData", "scale", bitbuff.cr2w);
+
+                position.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.position_dt));
+                position.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
+                position.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.position_numFrames));
+                position.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
+                position.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
+
+                orientation.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.rotation_dt));
+                orientation.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
+                orientation.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.rotation_numFrames));
+                orientation.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
+                orientation.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
+
+                scale.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.scale_dt));
+                scale.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
+                scale.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.scale_numFrames));
+                scale.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
+                scale.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
+
+                newvar.AddVariable(position);
+                newvar.AddVariable(orientation);
+                newvar.AddVariable(scale);
+                (bones as CArray).AddVariable(newvar);
+            }
+
+            bitbuff.data.AddVariable(animVar("array:129,0,Int8", "data", bitbuff.cr2w));
+            bitbuff.data.AddVariable(animVar("array:129,0,Int8", "fallbackData", bitbuff.cr2w));
+            bitbuff.data.AddVariable(animVar("DeferredDataBuffer", "deferredData", bitbuff.cr2w).SetValue(bufferNumber.ToString()));
+            bitbuff.data.AddVariable(animVar("SAnimationBufferOrientationCompressionMethod", "orientationCompressionMethod", bitbuff.cr2w).SetValue("ABOCM_PackIn48bitsW"));
+
+            bitbuff.data.AddVariable(animVar("Float", "duration", bitbuff.cr2w).SetValue(1F));
+            bitbuff.data.AddVariable(animVar("Uint32", "numFrames", bitbuff.cr2w).SetValue((uint)30));
+
+            bitbuff.data.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(animBuffer.dt));
+
+            bitbuff.data.AddVariable(animVar("SAnimationBufferStreamingOption", "streamingOption", bitbuff.cr2w).SetValue("ABSO_NonStreamable"));
+            bitbuff.data.AddVariable(animVar("Bool", "hasRefIKBones", bitbuff.cr2w).SetValue(true));
+
+
+            //TRACKS
+            if (animBuffer.tracks != null)
+            {
+                CArray tracks = (CArray)animVar("array:129,0,SAnimationBufferBitwiseCompressedData", "tracks", bitbuff.cr2w);
+                bitbuff.data.AddVariable(tracks);
+
+                foreach (Track track in animBuffer.tracks)
+                {
+                    CVariable trackData = animVar("SAnimationBufferBitwiseCompressedData", "SAnimationBufferBitwiseCompressedData", bitbuff.cr2w);
+
+                    trackData.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(track.dt));
+                    trackData.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue(track.compression));
+                    trackData.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(track.numFrames));
+                    trackData.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
+                    trackData.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
+
+
+                    tracks.AddVariable(trackData);
+                }
+            }
+            (bitbuff.GetVariableByName("duration") as CFloat).SetValue(animBuffer.duration);
+            (bitbuff.GetVariableByName("numFrames") as CUInt32).SetValue(animBuffer.numFrames);
+
+            CByteArray fallbackData = (bitbuff.GetVariableByName("fallbackData") as CByteArray);
+            CByteArray dataData = (bitbuff.GetVariableByName("data") as CByteArray);
+
+            byte[] bufferData = getBuffer(bitbuff, animBuffer, "dataAddr");
+            byte[] fallback = getBuffer(bitbuff, animBuffer, "dataAddrFallback");
+
+            fallbackData.SetValue(fallback);
+            dataData.SetValue(bufferData);
+            saveToFileBuffer(bufferData, savefileName + "." + bufferNumber + ".buffer");
+            return bitbuff;
+        }
+
+        //private byte[] getTrackBufferuffer(List<CVariable> tracks, List<Track> tracksList, string dataAddrType)
+        //{
+        //    return bufferData;
+        //}
 
         public void Load(List<string> files, string savefileName)
         {
@@ -142,52 +284,7 @@ namespace WolvenKit.Render
                 for (int i = 0; i < files.Count(); i++)
                 {
                     string filename = files[i];
-                    int startIndex = (i * 3); // each aniamtion in the set has 3 chunks (for now)
-                    int bufferNumber = i + 1;
-                    createChunks(startIndex, bufferNumber);
-                    ReadAnims loadedAnim;
-                    List<Bone> bonelist;
-                    using (StreamReader r = new StreamReader(filename))
-                    {
-                        string json = r.ReadToEnd();
-                        loadedAnim = JsonConvert.DeserializeObject<ReadAnims>(json);
-                        bonelist = loadedAnim.bones;
-                    }
-
-                    var skeletalAnimation = w2AnimFile.chunks[startIndex + 2];
-                    var chunk = W2AnimFile.chunks[startIndex + 3];
-
-                    (skeletalAnimation.GetVariableByName("name") as CName).SetValue(loadedAnim.name);
-                    (skeletalAnimation.GetVariableByName("duration") as CFloat).SetValue(loadedAnim.duration);
-                    (chunk.GetVariableByName("duration") as CFloat).SetValue(loadedAnim.duration);
-                    (chunk.GetVariableByName("numFrames") as CUInt32).SetValue(loadedAnim.numFrames);
-                    CByteArray fallbackData = (chunk.GetVariableByName("fallbackData") as CByteArray);
-                    CByteArray dataData = (chunk.GetVariableByName("data") as CByteArray);
-
-                    int ibx = 0;
-                    foreach (CVector bone in (chunk.GetVariableByName("bones") as CArray).array)
-                    {
-                        CVector positionVar = bone.GetVariableByName("position") as CVector;
-                        CVector orientationVar = bone.GetVariableByName("orientation") as CVector;
-                        CVector scaleVar = bone.GetVariableByName("scale") as CVector;
-
-                        positionVar.GetVariableByName("numFrames").SetValue((ushort)bonelist[ibx].positionFrames.Count);
-                        orientationVar.GetVariableByName("numFrames").SetValue((ushort)bonelist[ibx].rotationFrames.Count);
-                        scaleVar.GetVariableByName("numFrames").SetValue((ushort)bonelist[ibx].scaleFrames.Count);
-
-                        positionVar.GetVariableByName("dt").SetValue((ushort)bonelist[ibx].position_dt);
-                        orientationVar.GetVariableByName("dt").SetValue((ushort)bonelist[ibx].rotation_dt);
-                        scaleVar.GetVariableByName("dt").SetValue((ushort)bonelist[ibx].scale_dt);
-
-                        ibx++;
-                    }
-
-                    byte[] bufferData = getBuffer(chunk, bonelist, "dataAddr");
-                    byte[] fallback = getBuffer(chunk, bonelist, "dataAddrFallback");
-
-                    fallbackData.SetValue(fallback);
-                    dataData.SetValue(bufferData);
-                    saveToFileBuffer(bufferData, savefileName + "."+ bufferNumber +".buffer");
+                    createAnimation(importJsonAnim(filename), i, savefileName);
                 }
                 saveToFile(savefileName);
             }
@@ -212,18 +309,24 @@ namespace WolvenKit.Render
             return single_24;
         }
 
-        private byte[] getBuffer(CR2WExportWrapper chunk, List<Bone> bonelist, string dataAddr)
+
+
+        private byte[] getBuffer(CR2WExportWrapper lastAnimBuffer, CAnimationBufferBitwiseCompressed animBuffer, string dataAddrType)
         {
+
+            List<Bone> bonelist = animBuffer.bones;
             Dictionary<string, uint> dataAddrDict = new Dictionary<string, uint>();
             //dataAddrDict.Clear();
             byte[] bufferData = new byte[0];
             int ibx = 0;
-            foreach (CVector bone in (chunk.GetVariableByName("bones") as CArray).array)
+            foreach (CVector bone in (lastAnimBuffer.GetVariableByName("bones") as CArray).array)
             {
-                CUInt32 dataAddrPos = (bone.GetVariableByName("position") as CVector).GetVariableByName(dataAddr) as CUInt32;
-                CUInt32 dataAddrRot = (bone.GetVariableByName("orientation") as CVector).GetVariableByName(dataAddr) as CUInt32;
-                CUInt32 dataAddrScale = (bone.GetVariableByName("scale") as CVector).GetVariableByName(dataAddr) as CUInt32;
+                CUInt32 dataAddrPos = (bone.GetVariableByName("position") as CVector).GetVariableByName(dataAddrType) as CUInt32;
+                CUInt32 dataAddrRot = (bone.GetVariableByName("orientation") as CVector).GetVariableByName(dataAddrType) as CUInt32;
+                CUInt32 dataAddrScale = (bone.GetVariableByName("scale") as CVector).GetVariableByName(dataAddrType) as CUInt32;
 
+
+                ///>>>>>>>>>>>>>>> POSITION
                 //TODO position compression levels? Seems to just involve shaving off float bytes to 24-bit or 16-bit and accepting the precision loss
                 byte[] posData = new byte[0];
                 if (bonelist[ibx].positionFrames.Count == 1)
@@ -247,7 +350,7 @@ namespace WolvenKit.Render
                         posData = Combine(posData, new byte[] { bA1[1], bA1[2], bA1[3] });
                         posData = Combine(posData, new byte[] { bA2[1], bA2[2], bA2[3] });
                         posData = Combine(posData, new byte[] { bA3[1], bA3[2], bA3[3] });
-                        if (dataAddr == "dataAddrFallback")
+                        if (dataAddrType == "dataAddrFallback")
                             break;
                     }
                 }
@@ -277,7 +380,7 @@ namespace WolvenKit.Render
                     byte[] bA = BitConverter.GetBytes(compress);
                     byte[] bA2 = new byte[] { bA[5], bA[4], bA[3], bA[2], bA[1], bA[0] };
                     rotData = Combine(rotData, bA2);
-                    if (dataAddr == "dataAddrFallback")
+                    if (dataAddrType == "dataAddrFallback")
                         break;
                 }
                 string rotKey = string.Join(":", rotData);
@@ -310,7 +413,7 @@ namespace WolvenKit.Render
                     scaleData = Combine(scaleData, new byte[] { bA3[2], bA3[3] });
 
                     (bone.GetVariableByName("scale") as CVector).GetVariableByName("compression").SetValue((sbyte)2);
-                    if (dataAddr == "dataAddrFallback")
+                    if (dataAddrType == "dataAddrFallback")
                         break;
                 }
 
@@ -332,6 +435,60 @@ namespace WolvenKit.Render
 
                 ibx++;
             }
+
+            //TRACKS MUST HAVE THE FULL 144 track names, currently they don't
+            List<Track> tracksList = animBuffer.tracks;
+            if (tracksList !=null && tracksList.Count() > 7)
+            {
+
+            }
+            CArray tracksArray = lastAnimBuffer.GetVariableByName("tracks") as CArray;
+            int iby = 0;
+            if (tracksArray != null)
+                foreach (CVector track in tracksArray.array)
+                {
+                    Track importTrack = tracksList[iby];
+                    CUInt32 dataAddr = track.GetVariableByName(dataAddrType) as CUInt32;
+                    byte[] CompressedData = new byte[0];
+                    if (importTrack.trackFrames.Count == 1)
+                    {
+                        track.GetVariableByName("compression").SetValue((sbyte)2);
+                        float trackValue = importTrack.trackFrames[0];
+                        byte[] bA1 = BitConverter.GetBytes(HalfFloat(trackValue));
+                        CompressedData = Combine(CompressedData, new byte[] { bA1[2], bA1[3] });
+                    }
+                    else
+                    {
+                        track.GetVariableByName("compression").SetValue((sbyte)1);
+                        for (int i = 0; i < importTrack.trackFrames.Count; i++)
+                        {
+                            float trackValue = importTrack.trackFrames[i];
+                            byte[] bA1 = BitConverter.GetBytes(HalfFloat(trackValue));
+                            CompressedData = Combine(CompressedData, new byte[] { bA1[1], bA1[2], bA1[3] });
+                            if (dataAddrType == "dataAddrFallback")
+                                break;
+                        }
+                    }
+                    string posKey = string.Join(":", CompressedData);
+                    if (!dataAddrDict.ContainsKey(posKey))
+                    {
+                        //set the address to use for all
+                        dataAddrDict.Add(posKey, (uint)bufferData.Length);
+                        if (dataAddr != null)
+                            dataAddr.SetValue(dataAddrDict[posKey]);
+                        bufferData = Combine(bufferData, CompressedData);
+
+                    }
+                    else
+                    {
+                        //get the address
+                        if (dataAddr != null)
+                            dataAddr.SetValue(dataAddrDict[posKey]);
+                    }
+                    iby++;
+                }
+
+
             return bufferData;
         }
 
@@ -345,7 +502,7 @@ namespace WolvenKit.Render
             return (ulong)a << 36 | (ulong)b << 24 | (ulong)c << 12 | (ulong)d;
         }
 
-        private void saveToFile(string FileName)
+        public void saveToFile(string FileName)
         {
             try
             {
@@ -408,33 +565,14 @@ namespace WolvenKit.Render
         }
     }
 
-    public class ReadAnims
-    {
-        public List<Bone> bones = new List<Bone>();
-        public float dt;
-        public float duration;
-        public string name;
-        public uint numFrames;
-    };
-    public class Bone
-    {
-        public int index = 0;
-        public string BoneName = "????";
-        public float position_dt = 0;
-        public uint position_dataAddr = 0;
-        public uint position_dataAddrFallback = 0;
-        public ushort position_numFrames = 0;
-        public List<Vector> positionFrames = new List<Vector>();
-        public float rotation_dt = 0;
-        public uint rotation_dataAddr = 0;
-        public uint rotation_dataAddrFallback = 0;
-        public ushort rotation_numFrames = 0;
-        public List<Quaternion> rotationFrames = new List<Quaternion>();
-        public float scale_dt = 0;
-        public uint scale_dataAddr = 0;
-        public uint scale_dataAddrFallback = 0;
-        public ushort scale_numFrames = 0;
-        public List<Vector> scaleFrames = new List<Vector>();
-    }
+    //public class ReadAnims
+    //{
+    //    animBuffer
+    //    public List<Bone> bones = new List<Bone>();
+    //    public float dt;
+    //    public float duration;
+    //    public string name;
+    //    public uint numFrames;
+    //};
 
 }

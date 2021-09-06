@@ -93,9 +93,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\IrrlichtLime.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -126,14 +125,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations.cs" />
+    <Compile Include="Animation\CExtAnimEvent.cs" />
+    <Compile Include="Animation\EditScene.cs" />
+    <Compile Include="Animation\IMotionExtraction.cs" />
     <Compile Include="Animation\ConvertAnimation.cs" />
     <Compile Include="Animation\ConvertCutscene.cs" />
     <Compile Include="Animation\ConvertRig.cs" />
+    <Compile Include="Animation\CSkeletalAnimationSet.cs" />
+    <Compile Include="Animation\EntityGenerator.cs" />
     <Compile Include="Animation\ExportAnimation.cs" />
+    <Compile Include="Animation\ExportCutscene.cs" />
     <Compile Include="Animation\ExportFace.cs" />
     <Compile Include="Animation\IgnorableSerializerContractResolver.cs" />
+    <Compile Include="Animation\CMimicFace.cs" />
+    <Compile Include="Animation\JsonConverters.cs" />
     <Compile Include="CommonData.cs" />
     <Compile Include="CSkeleton.cs" />
+    <Compile Include="Animation\CCutsceneTemplate.cs" />
     <Compile Include="FastRender\frmFastRender.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +217,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WolvenKit.App\WolvenKit.App.csproj">
+      <Project>{6C5EE693-7F88-4259-90D5-9B247E61A15A}</Project>
+      <Name>WolvenKit.App</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WolvenKit.Bundles\WolvenKit.Bundles.csproj">
+      <Project>{5BD2292A-24DB-4B4A-A5B1-5D435769C289}</Project>
+      <Name>WolvenKit.Bundles</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WolvenKit.Cache\WolvenKit.Cache.csproj">
       <Project>{17cf5901-6e1f-467f-afe0-3cc04dc9688a}</Project>
       <Name>WolvenKit.Cache</Name>
