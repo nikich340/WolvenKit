@@ -68,14 +68,15 @@ namespace WolvenKit.Render.Animation
                             generator.readCEntityTemplate(sceneActor.template, true);
                             sceneActor.rig = generator.entJson.animation_rig_object;
 
-                            foreach (ModelEnt template in generator.entJson.appearances[0].includedTemplates)
-                            {
-                                if (template.animation_face_object != null)
+                            if (generator.entJson.appearances.Count > 0)
+                                foreach (ModelEnt template in generator.entJson.appearances[0].includedTemplates)
                                 {
-                                    sceneActor.useMimic = true;
-                                    sceneActor.face_rig = template.animation_face_object.MimicFace.floatTrackSkeleton;
+                                    if (template.animation_face_object != null)
+                                    {
+                                        sceneActor.useMimic = true;
+                                        sceneActor.face_rig = template.animation_face_object.MimicFace.floatTrackSkeleton;
+                                    }
                                 }
-                            }
                             //sceneActor.templateData = generator;
                             CutsceneTemplate.SCutsceneActorDefsNat.Add(sceneActor);
                             //IF ACTOR USES MIMIC YOU MUST ADD ACTOR:FACE geralt:face skeleton based on geralt mimic face

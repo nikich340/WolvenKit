@@ -434,46 +434,22 @@ namespace WolvenKit.Render.Animation
                             keyFrame = idx;
                             currkeyframe.Add(keyFrame);
 
-                            //find an animation that doesn't move toes
-                            //compare with working animation
-
-                            //float test = br.ReadSingle();
                             float x = br.ReadSingle();
                             float y = br.ReadSingle();
                             float z = br.ReadSingle();
-                            float w = 1.0f;
-                            //float w = br.ReadSingle();
 
-                            //byte[] lastBit = {0,0,0,0};
-                            //lastBit[0] = br.ReadByte();
-                            //var bitsx = ReadFloat24(br);
-                            ////float bitsx = br.ReadSingle();
-                            ////byte[] bAXTEST = BitConverter.GetBytes(bitsx);
-                            //lastBit[1] = br.ReadByte();
-                            //var bitsy = ReadFloat24(br);
-                            //lastBit[2] = br.ReadByte();
-                            //lastBit[3] = 0;
-                            //var bitsz = ReadFloat24(br);
+                            // Yeah, a value stored inside float..
+                            // 1st bit doesn't affect float much, used here to store W sign
+                            bool signW = (BitConverter.GetBytes(z).First() & 1) > 0;
 
-                            //var bitsx = ReadFloat24(br);
-                            //var bitsy = ReadFloat24(br);
-                            //var bitsz = ReadFloat24(br);
-                            //var bitsw = ReadFloat24(br);
-                            //float x = BitConverter.ToSingle(BitConverter.GetBytes(bitsx), 0);
-                            //float y = BitConverter.ToSingle(BitConverter.GetBytes(bitsy), 0);
-                            //float z = BitConverter.ToSingle(BitConverter.GetBytes(bitsz), 0);
-                            //float w = BitConverter.ToSingle(BitConverter.GetBytes(bitsw), 0);
-                            ////float w = BitConverter.ToSingle(BitConverter.GetBytes(bitsw), 0);
-                            //byte[] bAX = BitConverter.GetBytes(x);
-                            //byte[] bAY = BitConverter.GetBytes(y);
-                            byte[] bAZ = BitConverter.GetBytes(z);
+                            float minScalar = Math.Min(x * x + y * y + z * z, 1.0f);
+                            float w = (float)Math.Sqrt(1.0f - minScalar);
+                            if (!signW)
+                            {
+                                w = -w;
+                            }
+                            //Console.WriteLine("X = " + x + ", Y = " + y + ", Z = " + z + ", w = " + w);
 
-                            //float fVal = (2047.0f - bAZ[3]) * (1 / 2048.0f);
-                            //float w = 1.0f;
-                            //if (!IsBitSet(bAX[3], 0)) x = -x;
-                            //if (!IsBitSet(bAY[3], 0)) y = -y;
-                            //if (!IsBitSet(bAZ[3], 0)) z = -z;
-                            //if (IsBitSet(bAZ[0], 0)) w = 0.0f;
                             Quaternion orientation = new Quaternion(x, y, z, w);
                             currorient.Add(orientation);
                             Vector3Df euler = orientation.ToEuler();

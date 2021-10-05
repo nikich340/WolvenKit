@@ -192,20 +192,19 @@ namespace WolvenKit.Render.Animation
                 CVariable position = animVar("SAnimationBufferBitwiseCompressedData", "position", bitbuff.cr2w);
                 CVariable orientation = animVar("SAnimationBufferBitwiseCompressedData", "orientation", bitbuff.cr2w);
                 CVariable scale = animVar("SAnimationBufferBitwiseCompressedData", "scale", bitbuff.cr2w);
-
-                position.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.position_dt));
+                position.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(item.position_dt, 8)) );
                 position.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
                 position.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.position_numFrames));
                 position.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
                 position.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
 
-                orientation.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.rotation_dt));
+                orientation.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(item.rotation_dt, 8)) );
                 orientation.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
                 orientation.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.rotation_numFrames));
                 orientation.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
                 orientation.AddVariable(animVar("Uint32", "dataAddrFallback", bitbuff.cr2w));
 
-                scale.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(item.scale_dt));
+                scale.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(item.scale_dt, 8)) );
                 scale.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue((sbyte)2));
                 scale.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(item.scale_numFrames));
                 scale.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
@@ -225,7 +224,7 @@ namespace WolvenKit.Render.Animation
             bitbuff.data.AddVariable(animVar("Float", "duration", bitbuff.cr2w).SetValue(1F));
             bitbuff.data.AddVariable(animVar("Uint32", "numFrames", bitbuff.cr2w).SetValue((uint)30));
 
-            bitbuff.data.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(animBuffer.dt));
+            bitbuff.data.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(animBuffer.dt, 8)) );
 
             bitbuff.data.AddVariable(animVar("SAnimationBufferStreamingOption", "streamingOption", bitbuff.cr2w).SetValue("ABSO_NonStreamable"));
             bitbuff.data.AddVariable(animVar("Bool", "hasRefIKBones", bitbuff.cr2w).SetValue(true));
@@ -241,7 +240,7 @@ namespace WolvenKit.Render.Animation
                 {
                     CVariable trackData = animVar("SAnimationBufferBitwiseCompressedData", "SAnimationBufferBitwiseCompressedData", bitbuff.cr2w);
 
-                    trackData.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue(track.dt));
+                    trackData.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(track.dt, 8)) );
                     trackData.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue(track.compression));
                     trackData.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(track.numFrames));
                     trackData.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
