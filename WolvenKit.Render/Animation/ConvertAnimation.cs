@@ -97,7 +97,7 @@ namespace WolvenKit.Render.Animation
             // SkeletalAnimation start
             SkeletalAnimation.data.AddVariable(animVar("CName", "name", SkeletalAnimation.cr2w).SetValue(loadedAnim.name));
             SkeletalAnimation.data.AddVariable(animVar("Float", "framesPerSecond", SkeletalAnimation.cr2w).SetValue(loadedAnim.framesPerSecond));
-            SkeletalAnimation.data.AddVariable(animVar("Float", "duration", SkeletalAnimation.cr2w).SetValue(loadedAnim.duration));
+            SkeletalAnimation.data.AddVariable(animVar("Float", "duration", SkeletalAnimation.cr2w).SetValue( (float)Math.Round(loadedAnim.duration, 8) ));
 
             //CR2WExportWrapper SkeletalAnimationSetEntry = SkeletalAnimationSetEntry;
             foreach (var entry in SkeletalAnimationSetEntry.data.GetEditableVariables())
@@ -158,7 +158,7 @@ namespace WolvenKit.Render.Animation
                 MotionExtraction2 = W2AnimFile.CreateChunk("CLineMotionExtraction2");
                 SkeletalAnimation.data.AddVariable((animVar("ptr:IAnimationBuffer", "motionExtraction", SkeletalAnimation.cr2w) as CPtr).SetValue(MotionExtraction2));
 
-                MotionExtraction2.data.AddVariable(animVar("Float", "duration", MotionExtraction2.cr2w).SetValue((loadedAnim.motionExtraction as CLineMotionExtraction2).duration));
+                MotionExtraction2.data.AddVariable(animVar("Float", "duration", MotionExtraction2.cr2w).SetValue((float)Math.Round((loadedAnim.motionExtraction as CLineMotionExtraction2).duration, 8) ));
                 CVariable deltaTimes = animVar("array:2,0,Uint8", "deltaTimes", MotionExtraction2.cr2w);
                 CVariable frames = animVar("array:2,0,Float", "frames", MotionExtraction2.cr2w);
 
@@ -240,7 +240,7 @@ namespace WolvenKit.Render.Animation
                 {
                     CVariable trackData = animVar("SAnimationBufferBitwiseCompressedData", "SAnimationBufferBitwiseCompressedData", bitbuff.cr2w);
 
-                    trackData.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(track.dt, 8)) );
+                    trackData.AddVariable(animVar("Float", "dt", bitbuff.cr2w).SetValue( (float)Math.Round(track.dt, 8) ));
                     trackData.AddVariable(animVar("Int8", "compression", bitbuff.cr2w).SetValue(track.compression));
                     trackData.AddVariable(animVar("Uint16", "numFrames", bitbuff.cr2w).SetValue(track.numFrames));
                     trackData.AddVariable(animVar("Uint32", "dataAddr", bitbuff.cr2w));
@@ -250,7 +250,7 @@ namespace WolvenKit.Render.Animation
                     tracks.AddVariable(trackData);
                 }
             }
-            (bitbuff.GetVariableByName("duration") as CFloat).SetValue(animBuffer.duration);
+            (bitbuff.GetVariableByName("duration") as CFloat).SetValue((float)Math.Round(animBuffer.duration, 8));
             (bitbuff.GetVariableByName("numFrames") as CUInt32).SetValue(animBuffer.numFrames);
 
             CByteArray fallbackData = (bitbuff.GetVariableByName("fallbackData") as CByteArray);
