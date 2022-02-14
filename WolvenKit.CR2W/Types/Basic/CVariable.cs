@@ -351,7 +351,10 @@ namespace WolvenKit.CR2W.Types
                                                 var ValueProp = thistype.GetProperty("Value");
                                                 if (ValueProp != null)
                                                     Array.Add(ValueProp.GetValue(item));
-
+                                                if(valProp == null && ValueProp == null)
+                                                {
+                                                    Array.Add(GetObject(item as CVariable));
+                                                }
                                             }
                                             catch (Exception)
                                             {

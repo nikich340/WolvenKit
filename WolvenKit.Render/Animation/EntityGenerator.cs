@@ -24,6 +24,7 @@ namespace WolvenKit.Render.Animation
         public BundleManager manager { get; private set; }
         public string depo { get; private set; }
         public WccLite wccHelper { get; private set; }
+        public string entityFilename { get; private set; }
 
         public EntityGenerator()
         {
@@ -32,7 +33,8 @@ namespace WolvenKit.Render.Animation
             //WccHelper = new WccHelper(wccpath, Logger);
         }
 
-        public async Task SaveEntAsync(string filename)
+        //public async Task SaveEntAsync(string filename)
+        public void SaveEntAsync(string filename = null)
         {
             //private bool AddToMod(WitcherListViewItem in frmMain
             //extract and convert all the relevent files to the raw directory
@@ -47,7 +49,8 @@ namespace WolvenKit.Render.Animation
                     foreach (var chunk in template.chunks)
                         switch (chunk.type)
                         {
-                            case "CMeshComponent": await ExportMeshAsync((chunk as CMeshComponent).mesh); break;
+                            //case "CMeshComponent": if(!entJson.fbx_list.Contains((chunk as CMeshComponent).mesh)) entJson.fbx_list.Add((chunk as CMeshComponent).mesh); break;
+                            //case "CMeshComponent": await ExportMeshAsync((chunk as CMeshComponent).mesh); break;
                             case "CMimicComponent": ExportFace((chunk as CMimicComponent).mimicFace); break;
                             case "CAnimDangleBufferComponent": ExportRig((chunk as CAnimDangleBufferComponent).skeleton); break;
                             case "CAnimDangleConstraint_Dyng": ExportRig((chunk as CAnimDangleConstraint_Dyng).dyng, 1); break;
@@ -69,7 +72,6 @@ namespace WolvenKit.Render.Animation
             //            ExportMeshAsync((chunk as CStaticMeshComponent).mesh);
             //}
 
-
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Error = (serializer, err) =>
             {
@@ -78,10 +80,21 @@ namespace WolvenKit.Render.Animation
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.NullValueHandling = NullValueHandling.Ignore;
 
-            //filename = depo + filename + ".json";
-            Directory.CreateDirectory(Path.GetDirectoryName(filename));
-            //open file stream
-            using (StreamWriter file = File.CreateText(filename))
+            //Save a copy of the entity to provided filename
+            if (filename != null)
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                using (StreamWriter file = File.CreateText(filename))
+                {
+                    string json = JsonConvert.SerializeObject(entJson, Formatting.Indented, settings);
+                    file.Write(json);
+                }
+            }
+
+            //save the entity in the depo
+            string saveFile = depo + entityFilename + ".json";
+            Directory.CreateDirectory(Path.GetDirectoryName(saveFile));
+            using (StreamWriter file = File.CreateText(saveFile))
             {
                 string json = JsonConvert.SerializeObject(entJson, Formatting.Indented, settings);
                 file.Write(json);
@@ -90,7 +103,7 @@ namespace WolvenKit.Render.Animation
 
         async Task ExportMeshAsync(string mesh)
         {
-            string importwdir = "D:/Witcher_uncooked_clean"; // MainController.DepotDir ??
+            string importwdir = "E:/w3.modding/modkit/r4data"; // MainController.DepotDir ??
             string outfile = depo + Path.ChangeExtension(mesh, ".fbx");
             string wccPath = "E:/w3.modding/modkit/bin/x64/wcc_lite.exe";
             string args1 = "export -depot=\"{0}\" -file=\"{1}\" -out=\"{2}\" fbx=2016";
@@ -226,6 +239,7 @@ namespace WolvenKit.Render.Animation
 
         public void readCEntityTemplate(string templateFilename, bool fromBundle = false)
         {
+            entityFilename = templateFilename;
             byte[] dataRig = new byte[0];
             if (fromBundle)
             {
@@ -249,7 +263,7 @@ namespace WolvenKit.Render.Animation
             {
                 bool hasCMovingPhysicalAgentComponent = false;
                 entJson = new EntFile();
-                entJson.name = "shani_name";
+                entJson.name = Path.GetFileNameWithoutExtension(templateFilename);//"shani_name";
                 CR2WFile entity = new CR2WFile(br);
                 ModelEnt new_mesh = new ModelEnt("staticMeshes", "staticMeshes");
                 if (entity != null)
@@ -278,7 +292,8 @@ namespace WolvenKit.Render.Animation
                                 }
                                 else
                                 {
-                                    throw new Exception("Entity has no includedTemplates");
+                                    //some "invisible" appearances have no entities attached
+                                    //throw new Exception("Entity has no includedTemplates");
                                     //GetFace(@"characters\models\geralt\head\model\h_01_mg__geralt.w3fac");
                                 }
                             }
@@ -292,6 +307,14 @@ namespace WolvenKit.Render.Animation
                                 {
                                     string mesh = (staticChunk.GetVariableByName("mesh") as CHandle).ToString().Split(' ')[1];
                                     new_mesh.chunks.Add(new CStaticMeshComponent(mesh));
+                                    new_mesh.chunks.Last().refChunk = staticChunk.cr2w;
+                                    new_mesh.chunks.Last().type = staticChunk.Type;
+                                    new_mesh.chunks.Last().chunkIndex = staticChunk.ChunkIndex;
+                                }
+                                if (staticChunk.Type == "CMeshComponent")
+                                {
+                                    string mesh = (staticChunk.GetVariableByName("mesh") as CHandle).ToString().Split(' ')[1];
+                                    new_mesh.chunks.Add(new CMeshComponent(mesh));
                                     new_mesh.chunks.Last().refChunk = staticChunk.cr2w;
                                     new_mesh.chunks.Last().type = staticChunk.Type;
                                     new_mesh.chunks.Last().chunkIndex = staticChunk.ChunkIndex;
@@ -410,6 +433,16 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
+                            if (chunk.Type == "CMorphedMeshComponent")
+                            {
+                                string morphTarget = (chunk.GetVariableByName("morphTarget") as CHandle).ToString().Split(' ')[1];
+                                string morphSource = (chunk.GetVariableByName("morphSource") as CHandle).ToString().Split(' ')[1];
+                                string morphComponentId = (chunk.GetVariableByName("morphComponentId") as CName).Value;
+                                new_mesh.chunks.Add(new CMorphedMeshComponent(morphTarget, morphSource, morphComponentId));
+                                new_mesh.chunks.Last().refChunk = chunk.cr2w;
+                                new_mesh.chunks.Last().type = chunk.Type;
+                                new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
+                            }
                             if (chunk.Type == "CMimicComponent")
                             {
                                 string name = (chunk.GetVariableByName("name") as CString).val;
@@ -522,6 +555,7 @@ namespace WolvenKit.Render.Animation
     public class EntFile
     {
         public string name;
+        //public List<string> fbx_list = new List<string>();
         public CMovingPhysicalAgentComponent MovingPhysicalAgentComponent = new CMovingPhysicalAgentComponent();
         public List<EntityAppearance> appearances = new List<EntityAppearance>();
         public ModelEnt staticMeshes;
@@ -574,6 +608,22 @@ namespace WolvenKit.Render.Animation
         }
 
         public string mesh { get; private set; }
+    }
+
+    public class CMorphedMeshComponent : JsonChunk
+    {
+        public CMorphedMeshComponent(string morphTarget, string morphSource, string morphComponentId)
+        {
+            this.morphTarget = morphTarget;
+            this.morphSource = morphSource;
+            //this.morphControlTextures = morphSource;
+            this.morphComponentId = morphComponentId;
+        }
+
+        public string morphTarget { get; private set; }
+        public string morphSource { get; private set; }
+        //public string morphControlTextures { get; private set; }
+        public string morphComponentId { get; private set; }
     }
 
     public class CStaticMeshComponent : JsonChunk
