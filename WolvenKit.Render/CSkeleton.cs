@@ -15,6 +15,7 @@ namespace WolvenKit.Render
         public List<Vector3Df> positions = new List<Vector3Df>();
         public List<Quaternion> rotations = new List<Quaternion>();
         public List<Vector3Df> scales = new List<Vector3Df>();
+        public List<string> tracks = new List<string>();
 
         /// <summary>
         /// Try to get real parent.

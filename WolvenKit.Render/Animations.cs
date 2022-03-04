@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
+using WolvenKit.Render.Animation;
 
 namespace WolvenKit.Render
 {
@@ -89,6 +90,7 @@ namespace WolvenKit.Render
                                     currkeyframe.Add(keyFrame);
                                     //bone.GetVariableByName("position");
                                     string cm = chunk.GetVariableByName("orientationCompressionMethod")?.ToString() ?? "";
+									Console.WriteLine("compressionnn = " + cm);
                                     if (cm.Contains("ABOCM_PackIn48bitsW"))
                                     {
                                         byte[] odata = br.ReadBytes(6);

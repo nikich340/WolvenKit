@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using WolvenKit.App.ViewModels;
 using WolvenKit.CR2W;
 
 namespace WolvenKit
@@ -8,12 +7,12 @@ namespace WolvenKit
     {
         public string Filename { get; set; }
         public MemoryStream Stream { get; set; }
-        public DocumentViewModel ViewModel { get; set; }
+        public frmCR2WDocument Doc { get; set; }
         public bool SuppressErrors { get; set; }
-        public LoadFileArgs(string filename, DocumentViewModel viewmodel, MemoryStream stream = null, bool suppressErrors = false)
+        public LoadFileArgs(string filename, frmCR2WDocument doc, MemoryStream stream = null, bool suppressErrors = false)
         {
             Filename = filename;
-            ViewModel = viewmodel;
+            Doc = doc;
             if (stream != null)
                 Stream = stream;
             SuppressErrors = suppressErrors;

@@ -369,21 +369,9 @@ namespace WolvenKit
                 }
             }
 
-            public string Value
-            {
-                get
-                {
-                    return Variable.ToString() ?? "";
-                }
-            }
+            public string Value => Variable.ToString();
 
-            public string Type
-            {
-                get
-                {
-                    return Variable.Type ?? "";
-                }
-            }
+            public string Type => Variable.Type;
 
             public int ChildCount => Children.Count;
 

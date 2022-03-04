@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParserLTK;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using WolvenKit.App;
 using WolvenKit.Common.Model;
 
@@ -35,13 +34,6 @@ namespace WolvenKit
             txWCC_Lite.Text = config.WccLite;
             checkBoxDisableWelcomeForm.Checked = config.IsWelcomeFormDisabled;
             
-            
-
-
-
-            checkBoxDisableWelcomeForm.Checked = config.IsWelcomeFormDisabled;
-            checkBoxOverflow.Checked = config.OverflowEnabled;
-            
             comboBoxTheme.Items.AddRange(Enum.GetValues(typeof(EColorThemes)).Cast<object>().ToArray());
             comboBoxTheme.SelectedItem = UIController.Get().Configuration.ColorTheme;
             
@@ -49,30 +41,23 @@ namespace WolvenKit
             comboBoxExtension.SelectedItem = MainController.Get().Configuration.UncookExtension;
 
             exeSearcherSlave.RunWorkerAsync();
-
-            // get the depot path
-            // if depot path is empty, get the r4data from wcc_lite
-            if (string.IsNullOrEmpty(config.DepotPath) || !Directory.Exists(config.DepotPath))
-            {
-                if (File.Exists(txWCC_Lite.Text) && Path.GetExtension(txWCC_Lite.Text) == ".exe" && txWCC_Lite.Text.Contains("wcc_lite.exe"))
-                {
-                    DirectoryInfo wccDir = new FileInfo(txWCC_Lite.Text).Directory.Parent.Parent;
-                    string wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
-                    if (Directory.Exists(wcc_r4data))
-                    {
-                        config.DepotPath = wcc_r4data;
-                    }
-                }
-            }
-            txDepot.Text = config.DepotPath;
-
             btSave.Enabled =
                 (File.Exists(txWCC_Lite.Text) && Path.GetExtension(txWCC_Lite.Text) == ".exe" && txWCC_Lite.Text.Contains("wcc_lite.exe")) &&
-                (File.Exists(txExecutablePath.Text) && Path.GetExtension(txExecutablePath.Text) == ".exe" && txExecutablePath.Text.Contains("witcher3.exe")) &&
-                Directory.Exists(txDepot.Text);
+                (File.Exists(txExecutablePath.Text) && Path.GetExtension(txExecutablePath.Text) == ".exe" && txExecutablePath.Text.Contains("witcher3.exe"));
+
         }
 
-        
+        private void btnBrowseExe_Click(object sender, EventArgs e)
+        {
+            var dlg = new System.Windows.Forms.OpenFileDialog();
+            dlg.Title = "Select Witcher 3 Executable.";
+            dlg.FileName = txExecutablePath.Text;
+            dlg.Filter = "witcher3.exe|witcher3.exe";
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+            {
+                txExecutablePath.Text = dlg.FileName;
+            }
+        }
 
         private void btSave_Click(object sender, EventArgs e)
         {
@@ -102,24 +87,11 @@ namespace WolvenKit
             // save settings
             config.ExecutablePath = txExecutablePath.Text;
             config.WccLite = txWCC_Lite.Text;
-
-            // double check that r4depot exists
-            if (string.IsNullOrEmpty(config.DepotPath))
-            {
-                DirectoryInfo wccDir = new FileInfo(txWCC_Lite.Text).Directory.Parent.Parent;
-                string wcc_r4data = Path.Combine(wccDir.FullName, "r4data");
-                if (Directory.Exists(wcc_r4data))
-                {
-                    config.DepotPath = wcc_r4data;
-                }
-            }
-            config.DepotPath = txDepot.Text;
-
             config.TextLanguage = txTextLanguage.Text;
             config.VoiceLanguage = txVoiceLanguage.Text;
             config.UncookExtension = (EUncookExtension)comboBoxExtension.SelectedItem;
             config.IsWelcomeFormDisabled = checkBoxDisableWelcomeForm.Checked;
-            config.OverflowEnabled = checkBoxOverflow.Checked;
+
 
             uiconfig.ColorTheme = (EColorThemes)comboBoxTheme.SelectedItem;
 
@@ -228,17 +200,7 @@ Would you like to perform this patch?", "wcc_lite faster patch", MessageBoxButto
 
         }
 
-        private void btnBrowseExe_Click(object sender, EventArgs e)
-        {
-            var dlg = new System.Windows.Forms.OpenFileDialog();
-            dlg.Title = "Select Witcher 3 Executable.";
-            dlg.FileName = txExecutablePath.Text;
-            dlg.Filter = "witcher3.exe|witcher3.exe";
-            if (dlg.ShowDialog(this) == DialogResult.OK)
-            {
-                txExecutablePath.Text = dlg.FileName;
-            }
-        }
+
 
         private void btBrowseWCC_Lite_Click(object sender, EventArgs e)
         {
@@ -254,20 +216,6 @@ Would you like to perform this patch?", "wcc_lite faster patch", MessageBoxButto
             }
         }
 
-        private void btBrowseDepot_Click(object sender, EventArgs e)
-        {
-            CommonOpenFileDialog dlg = new CommonOpenFileDialog
-            {
-                InitialDirectory = "C:\\Users",
-                IsFolderPicker = true
-            };
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                txDepot.Text = dlg.FileName;
-            }
-        }
-
-        #region Events
         private void exeSearcherSlave_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             const string uninstallkey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\";
@@ -388,6 +336,5 @@ Would you like to perform this patch?", "wcc_lite faster patch", MessageBoxButto
                 (File.Exists(txWCC_Lite.Text) && Path.GetExtension(txWCC_Lite.Text) == ".exe" && txWCC_Lite.Text.Contains("wcc_lite.exe")) &&
                 (File.Exists(txExecutablePath.Text) && Path.GetExtension(txExecutablePath.Text) == ".exe" && txExecutablePath.Text.Contains("witcher3.exe"));
         }
-        #endregion
     }
 }

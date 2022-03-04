@@ -363,48 +363,34 @@ namespace WolvenKit.Render
         {
             string modPath = renderHelper.getW3Mod().ModDirectory;
             string texturePath = Path.ChangeExtension(Path.GetFullPath(modPath + "\\Bundle\\" + handleFilename)
-                .Replace("Mod\\Bundle", "Raw\\Mod")
-                .Replace("DLC\\Bundle", "Raw\\DLC"), null);
+                .Replace("Mod\\Bundle", "Raw\\Mod\\TextureCache")
+                .Replace("DLC\\Bundle", "Raw\\DLC\\TextureCache"), null);
 
             string[] textureFileExtensions = { ".dds", ".bmp", ".tga", ".jpg", ".jpeg", ".png", ".xbm" };
             Texture texture = null;
             foreach (var textureFileExtension in textureFileExtensions)
             {
-                var texturepath = Path.ChangeExtension(texturePath, textureFileExtension);
-                if (File.Exists(texturepath))
-                {
-                    texture = driver.GetTexture(texturePath + textureFileExtension);
-                    if (texture != null)
-                        return texture; ;
-                }
+                texture = driver.GetTexture(texturePath + textureFileExtension);
+                if (texture != null)
+                    return texture; ;
+
             }
-
-
             string dlcPath = renderHelper.getW3Mod().DlcDirectory;
             string texturePath1 = Path.ChangeExtension(Path.GetFullPath(dlcPath + "\\Bundle\\" + handleFilename)
-                .Replace("Mod\\Bundle", "Raw\\Mod")
-                .Replace("DLC\\Bundle", "Raw\\DLC"), null);
+                .Replace("Mod\\Bundle", "Raw\\Mod\\TextureCache")
+                .Replace("DLC\\Bundle", "Raw\\DLC\\TextureCache"), null);
                         
             texture = null;
             foreach (var textureFileExtension in textureFileExtensions)
             {
-                var texturepath = Path.ChangeExtension(texturePath, textureFileExtension);
-                if (File.Exists(texturepath))
-                {
-                    texture = driver.GetTexture(texturePath + textureFileExtension);
-                    if (texture != null) break;
-                }
+                texture = driver.GetTexture(texturePath + textureFileExtension);
+                if (texture != null) break;
             }
             //ImageUtility.Xbm2Dds();
             if (texture == null && !suppressTextureWarning)
             {
-                // try to extract from game files
-
-
-
-
                 suppressTextureWarning = true;
-                Logger.LogString($"Could not parse texture: {texturePath} or {texturePath1}", Logtype.Error);
+                MessageBox.Show("Have you extracted texture files properly?" + "\n\n" + "Could not parse texture: " + texturePath + " or " + texturePath1, "Missing texture!");
             }
             return texture;
         }
