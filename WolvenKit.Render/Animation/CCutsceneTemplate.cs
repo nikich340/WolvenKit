@@ -22,6 +22,15 @@ namespace WolvenKit.Render.Animation
         public CVariable entToHideTags;
         public CVariable lastLevelLoaded;
         public CVariable effects;
+		
+        public CVariable requiredSfxTag;
+        public CVariable fadeBefore;
+        public CVariable fadeAfter;
+        public CVariable cameraBlendInTime;
+        public CVariable cameraBlendOutTime;
+        public CVariable blackscreenWhenLoading;
+        public CVariable usedInFiles;
+        public CVariable banksDependency;
         //public CVariable animevents;
         public CBufferUInt32<CVectorWrapper> animevents;
 

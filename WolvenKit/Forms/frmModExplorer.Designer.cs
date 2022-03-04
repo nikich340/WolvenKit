@@ -122,14 +122,14 @@ namespace WolvenKit
             // 
             this.createW2animsToolStripMenuItem.Name = "createW2animsToolStripMenuItem";
             this.createW2animsToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
-            this.createW2animsToolStripMenuItem.Text = "Create w2anims";
+            this.createW2animsToolStripMenuItem.Text = "Create .w2anims";
             this.createW2animsToolStripMenuItem.Click += new System.EventHandler(this.createW2animsToolStripMenuItem_Click);
 			// 
             // createW2cutsceneToolStripMenuItem
             // 
             this.createW2cutsceneToolStripMenuItem.Name = "createW2cutsceneToolStripMenuItem";
             this.createW2cutsceneToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
-            this.createW2cutsceneToolStripMenuItem.Text = "Create w2cutscene";
+            this.createW2cutsceneToolStripMenuItem.Text = "Create .w2cutscene";
             this.createW2cutsceneToolStripMenuItem.Click += new System.EventHandler(this.createW2cutsceneToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
