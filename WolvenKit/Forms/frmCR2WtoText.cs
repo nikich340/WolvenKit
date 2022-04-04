@@ -469,7 +469,7 @@ namespace WolvenKit.Forms
                             outputDestination = WriterData.OutputLocation;
 
                         outputDestinationTxt = outputDestination + "\\" + fileBaseName + ".txt";
-                        outputDestinationYml = outputDestination + ".yml";
+                        outputDestinationYml = outputDestination + "\\" + fileBaseName + ".yml";
 
                         try
                         {
@@ -719,6 +719,7 @@ namespace WolvenKit.Forms
         private List<CR2WExportWrapper> Chunks { get; }
         private List<CR2WEmbeddedWrapper> Embedded { get; }
         private HashSet<string> wasDumped = new HashSet<string>();
+        private Dictionary<string, CR2WExportWrapper> chunkByREDName = new Dictionary<string, CR2WExportWrapper>();
         private List<string> simpleTypes = new List<string> { "CName", "Float", "Int", "Bool", "CGUID", "String" };
         private List<string> enumTypes = new List<string> { "EDrawableFlags", "ELightChannel", "EInterpMethodType", "EInterpCurveMode", "ECompareOp", "ESpaceFillMode", "EComboAttackResponse", "ECameraState", "ECameraShakeState", "ECameraShakeMagnitude", "EDismembermentEffectTypeFlag", "ETriggerChannel", "EDayPart", "EGameplayMimicMode", "EPlayerGameplayMimicMode", "ESoundGameState", "ESoundEventSaveBehavior", "EStaticCameraAnimState", "EStaticCameraGuiEffect", "ECharacterPowerStats", "ECharacterRegenStats", "EDirection", "EDirectionZ", "EMoonState", "EWeatherEffect", "EScriptedEventCategory", "EScriptedEventType", "EInputDeviceType", "EncumbranceBoyMode", "EActorImmortalityMode", "EActorImmortalityChanel", "ETerrainType", "EAreaName", "EDlcAreaName", "EZoneName", "EHitReactionType", "EFocusHitReaction", "EAttackSwingType", "EAttackSwingDirection", "EManageGravity", "ECounterAttackSwitch", "EAttitudeGroupPriority", "ETimescaleSource", "EMonsterCategory", "EButtonStage", "EStaminaActionType", "EFocusModeSoundEffectType", "EStatistic", "EAchievement", "ETutorialHintDurationType", "ETutorialHintPositionType", "ESpeedType", "EBloodType", "EStatOwner", "ETestSubject", "ETargetName", "EMonsterTactic", "EOperator", "ESpawnPositionPattern", "ESpawnRotation", "EFlyingCheck", "ECriticalEffectCounterType", "EFairytaleWitchAction", "EActionInfoType", "EBossAction", "EBossSpecialAttacks", "EEredinPhaseChangeAction", "ESpawnCondition", "ENPCCollisionStance", "ENPCBaseType", "EGuardState", "ENPCType", "EChosenTarget", "ETeleportType", "ECameraAnimPriority", "ECameraBlendSpeedMode", "EMerchantMapPinType", "EScriptedDetroyableComponentState", "EFoodGroup", "EClimbProbeUsed", "ESideSelected", "EPlayerCollisionStance", "EMovementCorrectionType", "EGameplayContextInput", "EExplorationStateType", "EBehGraphConfirmationState", "EAirCollisionSide", "EClimbRequirementType", "EClimbRequirementVault", "EClimbRequirementPlatform", "EClimbHeightType", "EClimbDistanceType", "EClimbEndReady", "EOutsideCapsuleState", "EPlayerIdleSubstate", "ExplorationInteractionType", "EJumpSubState", "EJumpType", "ELandPredictionType", "ELandType", "ELandRunForcedMode", "EPushSide", "ESlidingSubState", "ESlideCameraShakeState", "EFallType", "ECollisionTrajecoryStatus", "ECollisionTrajecoryExplorationStatus", "ECollisionTrajectoryPart", "ECollisionTrajectoryToWaterState", "EDoorMarkingState", "EntityType", "ESkillColor", "ESkillPath", "ESkillSubPath", "EPlayerMutationType", "EActionHitAnim", "EAlchemyExceptions", "EAlchemyCookedItemType", "EBirdType", "EWhaleMovementPatern", "EJobTreeType", "ECraftsmanType", "ECraftingException", "ECraftsmanLevel", "EItemUpgradeException", "EElevatorSwitchType", "ETrapOperation", "EEffectInteract", "EEffectType", "ECriticalHandling", "EEncounterMonitorCounterType", "EEncounterSpawnGroup", "EFocusModeChooseEntityStrategy", "ETriggeredDamageType", "EIllusionDiscoveredOneliner", "EDoorOperation", "EMonsterNestType", "ENestType", "ENewDoorOperation", "EShrineBuffs", "EToxicCloudOperation", "EOilBarrelOperation", "EArmorType", "EEquipmentSlots", "EItemGroup", "EInventoryFilterType", "EInventoryActionType", "ECompareType", "ESpendablePointType", "EEP2PoiType", "EPhysicalDamagemechanismOperation", "ESwitchState", "EResetSwitchMode", "ERequiredSwitchState", "EEncounterOperation", "EFactOperation", "EOcurrenceTime", "ELogicalOperator", "EBoidClueState", "EMonsterCluesTypes", "EMonsterSize", "EMonsterEmittedSound", "EMonsterDamageMarks", "EMonsterVictimState", "EMonsterApperance", "EMonsterSkinFacture", "EMonsterMovement", "EMonsterBehaviour", "EMonsterAttitude", "EMonsterAttackTime", "EMonsterHideout", "EFocusClueAttributeAction", "EClueOperation", "EFocusClueMedallionReaction", "EPlayerVoicesetType", "EMonsterClueAnim", "EReputationLevel", "EFactionName", "ETutorialMessageType", "EUITutorialTriggerCondition", "EUserDialogButtons", "EUniqueMessageIDs", "ELockedControlScheme", "EGamepadType", "ECursorType", "EGuiSceneControllerRenderFocus", "EQuantityTransferFunction", "EHudVisibilitySource", "EFloatingValueType", "EUpdateEventType", "EMutationFeedbackType", "EIngameMenuConstants", "EMutationResourceType", "EBonusSkillSlot", "EInventoryMenuState", "ENotificationType", "EItemSelectionPopupMode", "EUserMessageAction", "EUserMessageProgressType", "EPreporationItemType", "EBackgroundNPCWork_Single", "EBackgroundNPCWork_Paired", "EBgNPCType", "EBackgroundNPCWomanWork", "EConverserType", "EDeathType", "EFinisherDeathType", "EActionFail", "ETauntType", "EBehaviorGraph", "EExplorationMode", "EAgonyType", "ENPCFightStage", "ECriticalStateType", "EHitReactionDirection", "EHitReactionSide", "EDetailedHitType", "EAttackType", "EChargeAttackType", "EDodgeType", "EDodgeDirection", "ETurnDirection", "ETargetDirection", "ENpcPose", "EFlightStance", "ENPCRightItemType", "ENPCLeftItemType", "EInventoryFundsType", "EWeaponSubType1Handed", "EWeaponSubType2Handed", "EWeaponSubTypeRanged", "ENpcWeapons", "ENpcFightingStyles", "EAnimalType", "EPlayerDeathType", "EAimType", "EPlayerMode", "EForceCombatModeReason", "EGeneralEnum", "EPlayerExplorationAction", "EPlayerBoatMountFacing", "EPlayerAttackType", "ESkill", "EItemSetBonus", "EItemSetType", "EPlayerCommentary", "EPlayerWeapon", "EPlayerRangedWeapon", "EPlayerCombatStance", "ESignType", "EMoveSwitchDirection", "EPlayerEvadeType", "EPlayerEvadeDirection", "EPlayerParryDirection", "EPlayerRepelType", "ERotationRate", "EItemType", "ESpecialAbilityInput", "EThrowStage", "EParryStage", "EParryType", "EAttackSwingRange", "EInputActionBlock", "EPlayerMoveType", "EPlayerActionToRestore", "EPlayerInteractionLock", "EPlayerPreviewInventory", "EDismembermentWoundTypes", "ERecoilLevel", "EPlayerMovementLockType", "EHorseMode", "ECustomCameraType", "ECustomCameraController", "EInitialAction", "EDir", "EPlayerStopPose", "EVehicleCombatAction", "EBookDirection", "EQuestSword", "EFactValueChangeMethod", "EMapPinStatus", "EFocusEffectActivationAction", "ECameraEffect", "EQuestReplacerEntities", "EItemSelectionType", "EQuestNPCStates", "EDrawWeaponQuestType", "ESwarmStateOnArrival", "EAnimalReaction", "EDoorQuestState", "EGeraltPath", "EDM_MappinType", "EGwentCardFaction", "EGwentDeckUnlock", "EEnableMode", "EHudTimeOutAction", "EQuestPadVibrationStrength", "ELanguageCheckType", "ECheckedLanguage", "EQuestConditionDLCType", "EContainerMode", "EQuestPlayerSkillLevel", "EQuestPlayerSkillCondition", "EQuestConditionPlayerState", "ESwitchStateCondition", "EPlayerReplacerType", "EStorySceneOutputAction", "EStorySceneGameplayAction", "ENegotiationResult", "ECollectItemsRes", "ECollectItemsCustomRes", "EHorseWaterTestResult" };
         private List<string> exclNames = new List<string> { "unknownBytes", "Parent", "flatCompiledData", "SharedDataBuffer", "attachments reference" };
@@ -743,6 +744,22 @@ namespace WolvenKit.Forms
             Options = options;
             if (Options.LocalizeStrings)
                 CR2W.LocalizedStringSource = MainController.Get();
+
+            foreach (var chunk in Chunks)
+            {
+                try
+                {
+                    chunkByREDName.Add(chunk.Name, chunk);
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine("processCR2W::Null chunk!");
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("processCR2W::Already existing chunk name!");
+                }
+            }
         }
         string prepareName(string name)
         {
@@ -772,8 +789,8 @@ namespace WolvenKit.Forms
             Writer.Write("Chunks:", level);
             foreach (var chunk in Chunks)
             {
-                var dumpYml = Options.DumpYML && !wasDumped.Contains(chunk.Name);
-                wasDumped.Add(chunk.Name);
+                var dumpYml = Options.DumpYML && chunkByREDName.ContainsKey(chunk.Name);
+                chunkByREDName.Remove(chunk.Name);
                 if (dumpYml)
                     WriterYml.Write(CR2WFilePath.Split('\\').Last() + ":", level);
                 if (Options.DumpTXT)
@@ -1101,31 +1118,28 @@ namespace WolvenKit.Forms
                     Console.WriteLine("  >> ProcessNodeYML::Good! Chunk");
 
                     bool chunkFound = false;
-                    foreach (var chunk in Chunks)
+                    //foreach (var chunk in Chunks)
+                    if (chunkByREDName.ContainsKey(node.Value))
                     {
-                        if (!wasDumped.Contains(chunk.Name) && chunk.Name == node.Value)
+                        VariableListNode nodeDFS = GetNodes(chunkByREDName[node.Value]);
+                        chunkByREDName.Remove(node.Value);
+                        if (isMeArray || isArrayElement)
                         {
-                            VariableListNode nodeDFS = GetNodes(chunk);
-                            wasDumped.Add(chunk.Name);
-                            if (isMeArray || isArrayElement)
+                            if (string.IsNullOrEmpty(nodeDFS.Type))
                             {
-                                if (string.IsNullOrEmpty(nodeDFS.Type))
-                                {
-                                    nodeDFS.Variable.Type = suggestedArrayType;
-                                }
+                                nodeDFS.Variable.Type = suggestedArrayType;
                             }
-                            if (!isArrayElement)
-                            {
-                                WriterYml.Write(prepareName(node.Name) + ":", cur_level);
-                                //WriterYml.Write("- \".type\": " + node.Type, cur_level);
-                            }
-                            if (isArrayElement)
-                                ProcessNodeYml(nodeDFS, cur_level, true, false);
-                            else
-                                ProcessNodeYml(nodeDFS, cur_level + 1, false, true);
-                            chunkFound = true;
-                            break;
                         }
+                        if (!isArrayElement)
+                        {
+                            WriterYml.Write(prepareName(node.Name) + ":", cur_level);
+                            //WriterYml.Write("- \".type\": " + node.Type, cur_level);
+                        }
+                        if (isArrayElement)
+                            ProcessNodeYml(nodeDFS, cur_level, true, false);
+                        else
+                            ProcessNodeYml(nodeDFS, cur_level + 1, false, true);
+                        chunkFound = true;
                     }
                     if (!chunkFound)
                     {
