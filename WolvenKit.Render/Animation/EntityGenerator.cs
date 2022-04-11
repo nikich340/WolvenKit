@@ -41,7 +41,15 @@ namespace WolvenKit.Render.Animation
             //The will be fbx files, converted fbx files, w2rig.json etc.
             //save the ent.json at top level for importing into maya
 
-            ExportRig(entJson.MovingPhysicalAgentComponent.skeleton);
+            if (entJson.MovingPhysicalAgentComponent.skeleton != null)
+            {
+                ExportRig(entJson.MovingPhysicalAgentComponent.skeleton);
+            }
+            else
+            {
+                entJson.MovingPhysicalAgentComponent.skeleton = "characters\\base_entities\\man_base\\man_base.w2rig";
+                ExportRig(entJson.MovingPhysicalAgentComponent.skeleton);
+            }
 
             foreach (EntityAppearance appearance in entJson.appearances)
             {
