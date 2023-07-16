@@ -106,12 +106,12 @@ namespace WolvenKit.W3Speech
                 LoadBundle(file);
             }
 
-            var dlc = Path.Combine(exedir, @"..\..\DLC\");
+            var dlc = Path.Combine(exedir, @"..\..\dlc\");
             if (Directory.Exists(dlc))
             {
                 var dlcdirs = new List<string>(Directory.GetDirectories(dlc));
                 dlcdirs.Sort(new AlphanumComparator<string>());
-                foreach (var file in dlcdirs.Where(dir => new Regex("(DLC..)|(DLC.)|(BOB)|(ep.)|(bob)|(EP.)").IsMatch(Path.GetFileName(dir ?? ""))).SelectMany(dir => Directory.GetFiles(dir ?? "", "*.w3speech", SearchOption.AllDirectories).OrderBy(k => k)))
+                foreach (var file in dlcdirs.Where(dir => new Regex("(dlc..)|(dlc.)|(DLC..)|(DLC.)|(BOB)|(ep.)|(bob)|(EP.)").IsMatch(Path.GetFileName(dir ?? ""))).SelectMany(dir => Directory.GetFiles(dir ?? "", "*.w3speech", SearchOption.AllDirectories).OrderBy(k => k)))
                 {
                     LoadBundle(file);
                 }
@@ -137,12 +137,12 @@ namespace WolvenKit.W3Speech
                 LoadModBundle(file);
             }
 
-            var dlc = Path.Combine(exedir, @"..\..\DLC\");
+            var dlc = Path.Combine(exedir, @"..\..\dlc\");
             if (Directory.Exists(dlc))
             {
                 var dlcdirs = new List<string>(Directory.GetDirectories(dlc));
                 dlcdirs.Sort(new AlphanumComparator<string>());
-                foreach (var file in dlcdirs.Where(dir => !new Regex("(DLC..)|(DLC.)|(BOB)|(bob)|(EP.)|(ep.)").IsMatch(Path.GetFileName(dir ?? ""))).SelectMany(dir => Directory.GetFiles(dir ?? "", "*.w3speech", SearchOption.AllDirectories).OrderBy(k => k)))
+                foreach (var file in dlcdirs.Where(dir => !new Regex("(dlc..)|(dlc.)|(DLC..)|(DLC.)|(BOB)|(bob)|(EP.)|(ep.)").IsMatch(Path.GetFileName(dir ?? ""))).SelectMany(dir => Directory.GetFiles(dir ?? "", "*.w3speech", SearchOption.AllDirectories).OrderBy(k => k)))
                 {
                     LoadModBundle(file);
                 }
