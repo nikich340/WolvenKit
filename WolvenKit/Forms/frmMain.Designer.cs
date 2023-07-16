@@ -168,7 +168,7 @@ namespace WolvenKit
             this.toolbarToolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolbarToolStrip.Name = "toolbarToolStrip";
             this.toolbarToolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolbarToolStrip.Size = new System.Drawing.Size(36, 340);
+            this.toolbarToolStrip.Size = new System.Drawing.Size(37, 430);
             this.toolbarToolStrip.Stretch = true;
             this.toolbarToolStrip.TabIndex = 6;
             this.toolbarToolStrip.Text = "topTS";
@@ -179,7 +179,7 @@ namespace WolvenKit
             this.toolStripBtnNewMod.Image = global::WolvenKit.Properties.Resources.NewSolutionFolder_16x;
             this.toolStripBtnNewMod.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnNewMod.Name = "toolStripBtnNewMod";
-            this.toolStripBtnNewMod.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnNewMod.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnNewMod.Text = "New mod";
             this.toolStripBtnNewMod.Click += new System.EventHandler(this.newModToolStripMenuItem_Click);
             // 
@@ -189,7 +189,7 @@ namespace WolvenKit
             this.toolStripBtnOpenMod.Image = global::WolvenKit.Properties.Resources.OpenFolder_16x;
             this.toolStripBtnOpenMod.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnOpenMod.Name = "toolStripBtnOpenMod";
-            this.toolStripBtnOpenMod.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnOpenMod.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnOpenMod.Text = "Open mod";
             this.toolStripBtnOpenMod.Click += new System.EventHandler(this.openModToolStripMenuItem_Click);
             // 
@@ -199,14 +199,14 @@ namespace WolvenKit
             this.toolStripBtnOpenFile.Image = global::WolvenKit.Properties.Resources.OpenFile_16x;
             this.toolStripBtnOpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnOpenFile.Name = "toolStripBtnOpenFile";
-            this.toolStripBtnOpenFile.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnOpenFile.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnOpenFile.Text = "Open file";
             this.toolStripBtnOpenFile.Click += new System.EventHandler(this.tbtOpen_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(32, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(33, 6);
             // 
             // toolStripBtnSave
             // 
@@ -214,7 +214,7 @@ namespace WolvenKit
             this.toolStripBtnSave.Image = global::WolvenKit.Properties.Resources.SaveStatusBar1_16x_c;
             this.toolStripBtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnSave.Name = "toolStripBtnSave";
-            this.toolStripBtnSave.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnSave.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnSave.Text = "Save";
             this.toolStripBtnSave.Click += new System.EventHandler(this.tbtSave_Click);
             // 
@@ -224,7 +224,7 @@ namespace WolvenKit
             this.toolStripBtnSaveAll.Image = global::WolvenKit.Properties.Resources.SaveAll_16x;
             this.toolStripBtnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnSaveAll.Name = "toolStripBtnSaveAll";
-            this.toolStripBtnSaveAll.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnSaveAll.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnSaveAll.Text = "toolStripButton5";
             this.toolStripBtnSaveAll.ToolTipText = "Save all";
             this.toolStripBtnSaveAll.Click += new System.EventHandler(this.tbtSaveAll_Click);
@@ -235,7 +235,7 @@ namespace WolvenKit
             this.toolStripBtnAssetbrowser.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.toolStripBtnAssetbrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnAssetbrowser.Name = "toolStripBtnAssetbrowser";
-            this.toolStripBtnAssetbrowser.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnAssetbrowser.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnAssetbrowser.Text = "toolStripButton7";
             this.toolStripBtnAssetbrowser.ToolTipText = "Add file from bundle";
             this.toolStripBtnAssetbrowser.Click += new System.EventHandler(this.addFileFromBundleToolStripMenuItem_Click);
@@ -243,7 +243,7 @@ namespace WolvenKit
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(32, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(33, 6);
             // 
             // toolStripBtnPack
             // 
@@ -251,7 +251,7 @@ namespace WolvenKit
             this.toolStripBtnPack.Image = global::WolvenKit.Properties.Resources.package_16xLG;
             this.toolStripBtnPack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnPack.Name = "toolStripBtnPack";
-            this.toolStripBtnPack.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnPack.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnPack.Text = "btPack";
             this.toolStripBtnPack.ToolTipText = "Pack and install mod";
             this.toolStripBtnPack.Click += new System.EventHandler(this.toolStripBtnPack_Click);
@@ -268,48 +268,48 @@ namespace WolvenKit
             this.toolStripBtnRunGame.Image = global::WolvenKit.Properties.Resources.witcher3;
             this.toolStripBtnRunGame.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnRunGame.Name = "toolStripBtnRunGame";
-            this.toolStripBtnRunGame.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnRunGame.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnRunGame.Text = "Launch game";
             // 
             // launchGameForDebuggingToolStripMenuItem
             // 
             this.launchGameForDebuggingToolStripMenuItem.Name = "launchGameForDebuggingToolStripMenuItem";
-            this.launchGameForDebuggingToolStripMenuItem.Size = new System.Drawing.Size(365, 22);
+            this.launchGameForDebuggingToolStripMenuItem.Size = new System.Drawing.Size(445, 26);
             this.launchGameForDebuggingToolStripMenuItem.Text = "Launch game for debugging";
             this.launchGameForDebuggingToolStripMenuItem.Click += new System.EventHandler(this.LaunchGameForDebuggingToolStripMenuItem_Click);
             // 
             // packProjectAndLaunchGameCustomToolStripMenuItem
             // 
             this.packProjectAndLaunchGameCustomToolStripMenuItem.Name = "packProjectAndLaunchGameCustomToolStripMenuItem";
-            this.packProjectAndLaunchGameCustomToolStripMenuItem.Size = new System.Drawing.Size(365, 22);
+            this.packProjectAndLaunchGameCustomToolStripMenuItem.Size = new System.Drawing.Size(445, 26);
             this.packProjectAndLaunchGameCustomToolStripMenuItem.Text = "Pack project and launch game with custom parameters";
             this.packProjectAndLaunchGameCustomToolStripMenuItem.Click += new System.EventHandler(this.packProjectAndLaunchGameCustomToolStripMenuItem_Click);
             // 
             // launchWithCustomParametersToolStripMenuItem
             // 
             this.launchWithCustomParametersToolStripMenuItem.Name = "launchWithCustomParametersToolStripMenuItem";
-            this.launchWithCustomParametersToolStripMenuItem.Size = new System.Drawing.Size(365, 22);
+            this.launchWithCustomParametersToolStripMenuItem.Size = new System.Drawing.Size(445, 26);
             this.launchWithCustomParametersToolStripMenuItem.Text = "Launch with custom parameters";
             this.launchWithCustomParametersToolStripMenuItem.Click += new System.EventHandler(this.launchWithCostumParametersToolStripMenuItem_Click);
             // 
             // packProjectToolStripMenuItem
             // 
             this.packProjectToolStripMenuItem.Name = "packProjectToolStripMenuItem";
-            this.packProjectToolStripMenuItem.Size = new System.Drawing.Size(365, 22);
+            this.packProjectToolStripMenuItem.Size = new System.Drawing.Size(445, 26);
             this.packProjectToolStripMenuItem.Text = "Pack project";
             this.packProjectToolStripMenuItem.Click += new System.EventHandler(this.packProjectToolStripMenuItem_Click);
             // 
             // packProjectAndRunGameToolStripMenuItem
             // 
             this.packProjectAndRunGameToolStripMenuItem.Name = "packProjectAndRunGameToolStripMenuItem";
-            this.packProjectAndRunGameToolStripMenuItem.Size = new System.Drawing.Size(365, 22);
+            this.packProjectAndRunGameToolStripMenuItem.Size = new System.Drawing.Size(445, 26);
             this.packProjectAndRunGameToolStripMenuItem.Text = "Pack project and run game";
             this.packProjectAndRunGameToolStripMenuItem.Click += new System.EventHandler(this.PackProjectAndRunGameToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(32, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(33, 6);
             // 
             // toolStripBtnImportUtil
             // 
@@ -317,7 +317,7 @@ namespace WolvenKit
             this.toolStripBtnImportUtil.Image = global::WolvenKit.Properties.Resources.ImportPackage_16x;
             this.toolStripBtnImportUtil.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnImportUtil.Name = "toolStripBtnImportUtil";
-            this.toolStripBtnImportUtil.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnImportUtil.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnImportUtil.Text = "Import Utility";
             this.toolStripBtnImportUtil.Click += new System.EventHandler(this.toolStripButtonImportUtil_Click);
             // 
@@ -327,7 +327,7 @@ namespace WolvenKit
             this.toolStripBtnRadishUtil.Image = global::WolvenKit.Properties.Resources.radish_32x;
             this.toolStripBtnRadishUtil.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnRadishUtil.Name = "toolStripBtnRadishUtil";
-            this.toolStripBtnRadishUtil.Size = new System.Drawing.Size(32, 24);
+            this.toolStripBtnRadishUtil.Size = new System.Drawing.Size(33, 24);
             this.toolStripBtnRadishUtil.Text = "Radish Utility";
             this.toolStripBtnRadishUtil.Click += new System.EventHandler(this.toolStripButtonRadishUtil_Click);
             // 
@@ -349,8 +349,8 @@ namespace WolvenKit
             this.MenuLabelProject});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(824, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1099, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "topMS";
             this.menuStrip1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.menuStrip1_MouseDown_1);
@@ -383,7 +383,7 @@ namespace WolvenKit
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.DropDownOpening += new System.EventHandler(this.fileToolStripMenuItem_DropDownOpening);
             // 
@@ -391,7 +391,7 @@ namespace WolvenKit
             // 
             this.newModToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.NewSolutionFolder_16x;
             this.newModToolStripMenuItem.Name = "newModToolStripMenuItem";
-            this.newModToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.newModToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.newModToolStripMenuItem.Text = "New mod";
             this.newModToolStripMenuItem.Click += new System.EventHandler(this.tbtNewMod_Click);
             // 
@@ -399,7 +399,7 @@ namespace WolvenKit
             // 
             this.openModToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.OpenFolder_16x;
             this.openModToolStripMenuItem.Name = "openModToolStripMenuItem";
-            this.openModToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.openModToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.openModToolStripMenuItem.Text = "Open mod";
             this.openModToolStripMenuItem.Click += new System.EventHandler(this.tbtOpenMod_Click);
             // 
@@ -407,7 +407,7 @@ namespace WolvenKit
             // 
             this.openFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.OpenFile_16x;
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.openFileToolStripMenuItem.Text = "Open file";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -415,13 +415,13 @@ namespace WolvenKit
             // 
             this.recentFilesToolStripMenuItem.Enabled = false;
             this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
-            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.recentFilesToolStripMenuItem.Text = "Recent files";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(244, 6);
             // 
             // exportToolStripMenuItem
             // 
@@ -430,13 +430,13 @@ namespace WolvenKit
             this.extractCollisioncacheToolStripMenuItem});
             this.exportToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.wooden_box__arrow;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // exportCr2wToolStripMenuItem
             // 
             this.exportCr2wToolStripMenuItem.Name = "exportCr2wToolStripMenuItem";
-            this.exportCr2wToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.exportCr2wToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.exportCr2wToolStripMenuItem.Text = "Export Cr2w";
             this.exportCr2wToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
@@ -444,7 +444,7 @@ namespace WolvenKit
             // 
             this.extractCollisioncacheToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.t_shirt_gray;
             this.extractCollisioncacheToolStripMenuItem.Name = "extractCollisioncacheToolStripMenuItem";
-            this.extractCollisioncacheToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.extractCollisioncacheToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.extractCollisioncacheToolStripMenuItem.Text = "Extract collision.cache";
             this.extractCollisioncacheToolStripMenuItem.Click += new System.EventHandler(this.extractCollisioncacheToolStripMenuItem_Click);
             // 
@@ -457,14 +457,14 @@ namespace WolvenKit
             this.w2animsjsonToolStripMenuItem});
             this.importToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.box__arrow;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // fbxWithCollisionsToolStripMenuItem
             // 
             this.fbxWithCollisionsToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.stickman;
             this.fbxWithCollisionsToolStripMenuItem.Name = "fbxWithCollisionsToolStripMenuItem";
-            this.fbxWithCollisionsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.fbxWithCollisionsToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.fbxWithCollisionsToolStripMenuItem.Text = "Fbx with collisions";
             this.fbxWithCollisionsToolStripMenuItem.Click += new System.EventHandler(this.fbxWithCollisionsToolStripMenuItem_Click);
             // 
@@ -472,21 +472,21 @@ namespace WolvenKit
             // 
             this.nvidiaClothFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.t_shirt_gray;
             this.nvidiaClothFileToolStripMenuItem.Name = "nvidiaClothFileToolStripMenuItem";
-            this.nvidiaClothFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.nvidiaClothFileToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.nvidiaClothFileToolStripMenuItem.Text = "Nvidia cloth file";
             this.nvidiaClothFileToolStripMenuItem.Click += new System.EventHandler(this.nvidiaClothFileToolStripMenuItem_Click);
             // 
             // w2rigjsonToolStripMenuItem
             // 
             this.w2rigjsonToolStripMenuItem.Name = "w2rigjsonToolStripMenuItem";
-            this.w2rigjsonToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.w2rigjsonToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.w2rigjsonToolStripMenuItem.Text = "w2rig.json";
             this.w2rigjsonToolStripMenuItem.Click += new System.EventHandler(this.w2rigjsonToolStripMenuItem_Click);
             // 
             // w2animsjsonToolStripMenuItem
             // 
             this.w2animsjsonToolStripMenuItem.Name = "w2animsjsonToolStripMenuItem";
-            this.w2animsjsonToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.w2animsjsonToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.w2animsjsonToolStripMenuItem.Text = "w2anims.json";
             this.w2animsjsonToolStripMenuItem.Click += new System.EventHandler(this.w2animsjsonToolStripMenuItem_Click);
             // 
@@ -497,7 +497,7 @@ namespace WolvenKit
             this.dLCToolStripMenuItem});
             this.newFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.FileGroup_10135_16x;
             this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
-            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.newFileToolStripMenuItem.Text = "New file";
             // 
             // modToolStripMenuItem1
@@ -507,14 +507,14 @@ namespace WolvenKit
             this.modwwise,
             this.ModchunkToolStripMenuItem});
             this.modToolStripMenuItem1.Name = "modToolStripMenuItem1";
-            this.modToolStripMenuItem1.Size = new System.Drawing.Size(99, 22);
+            this.modToolStripMenuItem1.Size = new System.Drawing.Size(115, 26);
             this.modToolStripMenuItem1.Text = "Mod";
             // 
             // ModscriptToolStripMenuItem
             // 
             this.ModscriptToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.FileGroup_10135_16x;
             this.ModscriptToolStripMenuItem.Name = "ModscriptToolStripMenuItem";
-            this.ModscriptToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.ModscriptToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
             this.ModscriptToolStripMenuItem.Text = "Script";
             this.ModscriptToolStripMenuItem.Click += new System.EventHandler(this.ModscriptToolStripMenuItem_Click);
             // 
@@ -522,7 +522,7 @@ namespace WolvenKit
             // 
             this.modwwise.Image = global::WolvenKit.Properties.Resources.bug;
             this.modwwise.Name = "modwwise";
-            this.modwwise.Size = new System.Drawing.Size(178, 22);
+            this.modwwise.Size = new System.Drawing.Size(213, 26);
             this.modwwise.Text = "Wwise sound(bank)";
             this.modwwise.Click += new System.EventHandler(this.ModWwiseNew_Click);
             // 
@@ -531,7 +531,7 @@ namespace WolvenKit
             this.ModchunkToolStripMenuItem.Enabled = false;
             this.ModchunkToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.ModchunkToolStripMenuItem.Name = "ModchunkToolStripMenuItem";
-            this.ModchunkToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.ModchunkToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
             this.ModchunkToolStripMenuItem.Text = "Chunk file";
             // 
             // dLCToolStripMenuItem
@@ -540,14 +540,14 @@ namespace WolvenKit
             this.dlcwwise,
             this.DLCChunkToolStripMenuItem});
             this.dLCToolStripMenuItem.Name = "dLCToolStripMenuItem";
-            this.dLCToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.dLCToolStripMenuItem.Size = new System.Drawing.Size(115, 26);
             this.dLCToolStripMenuItem.Text = "DLC";
             // 
             // dlcwwise
             // 
             this.dlcwwise.Image = global::WolvenKit.Properties.Resources.bug;
             this.dlcwwise.Name = "dlcwwise";
-            this.dlcwwise.Size = new System.Drawing.Size(178, 22);
+            this.dlcwwise.Size = new System.Drawing.Size(213, 26);
             this.dlcwwise.Text = "Wwise sound(bank)";
             this.dlcwwise.Click += new System.EventHandler(this.DLCWwise_Click);
             // 
@@ -556,14 +556,14 @@ namespace WolvenKit
             this.DLCChunkToolStripMenuItem.Enabled = false;
             this.DLCChunkToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.DLCChunkToolStripMenuItem.Name = "DLCChunkToolStripMenuItem";
-            this.DLCChunkToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.DLCChunkToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
             this.DLCChunkToolStripMenuItem.Text = "Chunk file";
             // 
             // addFileFromBundleToolStripMenuItem
             // 
             this.addFileFromBundleToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.addFileFromBundleToolStripMenuItem.Name = "addFileFromBundleToolStripMenuItem";
-            this.addFileFromBundleToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.addFileFromBundleToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.addFileFromBundleToolStripMenuItem.Text = "Asset browser";
             this.addFileFromBundleToolStripMenuItem.Click += new System.EventHandler(this.addFileFromBundleToolStripMenuItem_Click);
             // 
@@ -571,7 +571,7 @@ namespace WolvenKit
             // 
             this.addFileFromOtherModToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.addFileFromOtherModToolStripMenuItem.Name = "addFileFromOtherModToolStripMenuItem";
-            this.addFileFromOtherModToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.addFileFromOtherModToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.addFileFromOtherModToolStripMenuItem.Text = "Add file from other mod";
             this.addFileFromOtherModToolStripMenuItem.Click += new System.EventHandler(this.AddFileFromOtherModToolStripMenuItem_Click_1);
             // 
@@ -580,20 +580,20 @@ namespace WolvenKit
             this.addFileToolStripMenuItem.Enabled = false;
             this.addFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.AddNodefromFile_354;
             this.addFileToolStripMenuItem.Name = "addFileToolStripMenuItem";
-            this.addFileToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.addFileToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.addFileToolStripMenuItem.Text = "Add file";
             this.addFileToolStripMenuItem.Click += new System.EventHandler(this.addFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(244, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.SaveStatusBar1_16x_c;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -601,19 +601,19 @@ namespace WolvenKit
             // 
             this.saveAllToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.SaveAll_16x;
             this.saveAllToolStripMenuItem.Name = "saveAllToolStripMenuItem";
-            this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.saveAllToolStripMenuItem.Text = "Save all";
             this.saveAllToolStripMenuItem.Click += new System.EventHandler(this.SaveAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(244, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -621,7 +621,7 @@ namespace WolvenKit
             // 
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // modToolStripMenuItem
@@ -632,7 +632,7 @@ namespace WolvenKit
             this.toolStripSeparator4,
             this.settingsToolStripMenuItem});
             this.modToolStripMenuItem.Name = "modToolStripMenuItem";
-            this.modToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.modToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.modToolStripMenuItem.Text = "Project";
             this.modToolStripMenuItem.DropDownOpening += new System.EventHandler(this.modToolStripMenuItem_DropDownOpening);
             // 
@@ -640,7 +640,7 @@ namespace WolvenKit
             // 
             this.createPackedInstallerToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.box__arrow;
             this.createPackedInstallerToolStripMenuItem.Name = "createPackedInstallerToolStripMenuItem";
-            this.createPackedInstallerToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.createPackedInstallerToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
             this.createPackedInstallerToolStripMenuItem.Text = "Create Packed Installer";
             this.createPackedInstallerToolStripMenuItem.Click += new System.EventHandler(this.createPackedInstallerToolStripMenuItem_Click);
             // 
@@ -648,20 +648,20 @@ namespace WolvenKit
             // 
             this.reloadProjectToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Refresh_16x;
             this.reloadProjectToolStripMenuItem.Name = "reloadProjectToolStripMenuItem";
-            this.reloadProjectToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.reloadProjectToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
             this.reloadProjectToolStripMenuItem.Text = "Reload project";
             this.reloadProjectToolStripMenuItem.Click += new System.EventHandler(this.ReloadProjectToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(230, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Settings_Inverse_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.modSettingsToolStripMenuItem_Click);
             // 
@@ -678,7 +678,7 @@ namespace WolvenKit
             this.toolStripSeparator5,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
             this.toolsToolStripMenuItem.Text = "Tools";
             this.toolsToolStripMenuItem.DropDownOpening += new System.EventHandler(this.toolsToolStripMenuItem_DropDownOpening);
             // 
@@ -686,7 +686,7 @@ namespace WolvenKit
             // 
             this.packageInstallerToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.box;
             this.packageInstallerToolStripMenuItem.Name = "packageInstallerToolStripMenuItem";
-            this.packageInstallerToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.packageInstallerToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.packageInstallerToolStripMenuItem.Text = "Package Installer";
             this.packageInstallerToolStripMenuItem.Click += new System.EventHandler(this.packageInstallerToolStripMenuItem_Click);
             // 
@@ -694,7 +694,7 @@ namespace WolvenKit
             // 
             this.saveExplorerToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.properties_16xLG;
             this.saveExplorerToolStripMenuItem.Name = "saveExplorerToolStripMenuItem";
-            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.saveExplorerToolStripMenuItem.Text = "Save explorer";
             this.saveExplorerToolStripMenuItem.Click += new System.EventHandler(this.saveExplorerToolStripMenuItem_Click);
             // 
@@ -702,7 +702,7 @@ namespace WolvenKit
             // 
             this.stringsEncoderGUIToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.edit_letter_spacing;
             this.stringsEncoderGUIToolStripMenuItem.Name = "stringsEncoderGUIToolStripMenuItem";
-            this.stringsEncoderGUIToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.stringsEncoderGUIToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.stringsEncoderGUIToolStripMenuItem.Text = "Strings Encoder GUI";
             this.stringsEncoderGUIToolStripMenuItem.Click += new System.EventHandler(this.StringsGUIToolStripMenuItem_Click);
             // 
@@ -710,7 +710,7 @@ namespace WolvenKit
             // 
             this.menuCreatorToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.ui_menu_blue;
             this.menuCreatorToolStripMenuItem.Name = "menuCreatorToolStripMenuItem";
-            this.menuCreatorToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.menuCreatorToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.menuCreatorToolStripMenuItem.Text = "Menu creator";
             this.menuCreatorToolStripMenuItem.Click += new System.EventHandler(this.menuCreatorToolStripMenuItem_Click);
             // 
@@ -718,7 +718,7 @@ namespace WolvenKit
             // 
             this.renderW2meshToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.ui_check_box_uncheck;
             this.renderW2meshToolStripMenuItem.Name = "renderW2meshToolStripMenuItem";
-            this.renderW2meshToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.renderW2meshToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.renderW2meshToolStripMenuItem.Tag = "false";
             this.renderW2meshToolStripMenuItem.Text = "Render w2mesh";
             this.renderW2meshToolStripMenuItem.Click += new System.EventHandler(this.renderW2meshToolStripMenuItem_Click);
@@ -730,13 +730,13 @@ namespace WolvenKit
             this.cR2WToTextToolStripMenuItem,
             this.dumpFileToolStripMenuItem});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.advancedToolStripMenuItem.Text = "Advanced";
             // 
             // verifyFileToolStripMenuItem
             // 
             this.verifyFileToolStripMenuItem.Name = "verifyFileToolStripMenuItem";
-            this.verifyFileToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.verifyFileToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.verifyFileToolStripMenuItem.Text = "Verify File";
             this.verifyFileToolStripMenuItem.Click += new System.EventHandler(this.verifyFileToolStripMenuItem_Click);
             // 
@@ -744,7 +744,7 @@ namespace WolvenKit
             // 
             this.cR2WToTextToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.TextFileIcon64px;
             this.cR2WToTextToolStripMenuItem.Name = "cR2WToTextToolStripMenuItem";
-            this.cR2WToTextToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.cR2WToTextToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.cR2WToTextToolStripMenuItem.Text = "CR2W To Text";
             this.cR2WToTextToolStripMenuItem.Click += new System.EventHandler(this.cR2WToTextToolStripMenuItem_Click);
             // 
@@ -752,7 +752,7 @@ namespace WolvenKit
             // 
             this.dumpFileToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.bug;
             this.dumpFileToolStripMenuItem.Name = "dumpFileToolStripMenuItem";
-            this.dumpFileToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.dumpFileToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.dumpFileToolStripMenuItem.Text = "Dump game assets";
             this.dumpFileToolStripMenuItem.Click += new System.EventHandler(this.dumpFileToolStripMenuItem_Click);
             // 
@@ -761,26 +761,26 @@ namespace WolvenKit
             this.experimentalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.terrainViewerToolStripMenuItem});
             this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
-            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.experimentalToolStripMenuItem.Text = "Experimental";
             // 
             // terrainViewerToolStripMenuItem
             // 
             this.terrainViewerToolStripMenuItem.Name = "terrainViewerToolStripMenuItem";
-            this.terrainViewerToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.terrainViewerToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.terrainViewerToolStripMenuItem.Text = "Terrain viewer";
             this.terrainViewerToolStripMenuItem.Click += new System.EventHandler(this.terrainViewerToolStripMenuItem_Click_1);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(175, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(212, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Settings_Inverse_16x;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -796,7 +796,7 @@ namespace WolvenKit
             this.radishUtilitytoolStripMenuItem,
             this.gameDebuggerToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.viewToolStripMenuItem.Text = "View";
             this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
             // 
@@ -804,7 +804,7 @@ namespace WolvenKit
             // 
             this.modExplorerToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.RemoteServer_16x;
             this.modExplorerToolStripMenuItem.Name = "modExplorerToolStripMenuItem";
-            this.modExplorerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.modExplorerToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.modExplorerToolStripMenuItem.Text = "Mod explorer";
             this.modExplorerToolStripMenuItem.Click += new System.EventHandler(this.modExplorerToolStripMenuItem_Click);
             // 
@@ -812,7 +812,7 @@ namespace WolvenKit
             // 
             this.outputToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Output_16x;
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.outputToolStripMenuItem.Text = "Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.OutputToolStripMenuItem_Click);
             // 
@@ -820,7 +820,7 @@ namespace WolvenKit
             // 
             this.consoleToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.Console_16x;
             this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
-            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.consoleToolStripMenuItem.Text = "Console";
             this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
             // 
@@ -828,20 +828,20 @@ namespace WolvenKit
             // 
             this.scriptToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.PlayStep_16x;
             this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
-            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.scriptToolStripMenuItem.Text = "Script Manager";
             this.scriptToolStripMenuItem.Click += new System.EventHandler(this.scriptToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(156, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
             // 
             // importUtilityToolStripMenuItem
             // 
             this.importUtilityToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.ImportPackage_16x;
             this.importUtilityToolStripMenuItem.Name = "importUtilityToolStripMenuItem";
-            this.importUtilityToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.importUtilityToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.importUtilityToolStripMenuItem.Text = "Import Utility";
             this.importUtilityToolStripMenuItem.Click += new System.EventHandler(this.importUtilityToolStripMenuItem_Click);
             // 
@@ -849,7 +849,7 @@ namespace WolvenKit
             // 
             this.radishUtilitytoolStripMenuItem.Image = global::WolvenKit.Properties.Resources.radish_32x;
             this.radishUtilitytoolStripMenuItem.Name = "radishUtilitytoolStripMenuItem";
-            this.radishUtilitytoolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.radishUtilitytoolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.radishUtilitytoolStripMenuItem.Text = "Radish Utility";
             this.radishUtilitytoolStripMenuItem.Click += new System.EventHandler(this.RadishUtilitytoolStripMenuItem_Click);
             // 
@@ -857,7 +857,7 @@ namespace WolvenKit
             // 
             this.gameDebuggerToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.bug;
             this.gameDebuggerToolStripMenuItem.Name = "gameDebuggerToolStripMenuItem";
-            this.gameDebuggerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.gameDebuggerToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.gameDebuggerToolStripMenuItem.Text = "Game debugger";
             this.gameDebuggerToolStripMenuItem.Click += new System.EventHandler(this.GameDebuggerToolStripMenuItem_Click);
             // 
@@ -873,14 +873,14 @@ namespace WolvenKit
             this.aboutRedkit2ToolStripMenuItem,
             this.donateToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.aboutToolStripMenuItem.Text = "Help";
             // 
             // joinOurDiscordToolStripMenuItem
             // 
             this.joinOurDiscordToolStripMenuItem.Image = global::WolvenKit.Properties.Resources._2c21aeda16de354ba5334551a883b481;
             this.joinOurDiscordToolStripMenuItem.Name = "joinOurDiscordToolStripMenuItem";
-            this.joinOurDiscordToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.joinOurDiscordToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.joinOurDiscordToolStripMenuItem.Text = "Join our discord";
             this.joinOurDiscordToolStripMenuItem.Click += new System.EventHandler(this.joinOurDiscordToolStripMenuItem_Click_1);
             // 
@@ -888,7 +888,7 @@ namespace WolvenKit
             // 
             this.tutorialsToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.info_icon_23818;
             this.tutorialsToolStripMenuItem.Name = "tutorialsToolStripMenuItem";
-            this.tutorialsToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.tutorialsToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.tutorialsToolStripMenuItem.Text = "Witcherscript documentation";
             this.tutorialsToolStripMenuItem.Click += new System.EventHandler(this.WitcherScriptToolStripMenuItem_Click);
             // 
@@ -896,7 +896,7 @@ namespace WolvenKit
             // 
             this.witcherIIIModdingToolLicenseToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.witcher3;
             this.witcherIIIModdingToolLicenseToolStripMenuItem.Name = "witcherIIIModdingToolLicenseToolStripMenuItem";
-            this.witcherIIIModdingToolLicenseToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.witcherIIIModdingToolLicenseToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.witcherIIIModdingToolLicenseToolStripMenuItem.Text = "Witcher III Modding Tool License";
             this.witcherIIIModdingToolLicenseToolStripMenuItem.Click += new System.EventHandler(this.witcherIIIModdingToolLicenseToolStripMenuItem_Click);
             // 
@@ -904,7 +904,7 @@ namespace WolvenKit
             // 
             this.reportABugToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.mail;
             this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
-            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.reportABugToolStripMenuItem.Text = "Report a bug";
             this.reportABugToolStripMenuItem.Click += new System.EventHandler(this.ReportABugToolStripMenuItem_Click);
             // 
@@ -912,20 +912,20 @@ namespace WolvenKit
             // 
             this.recordStepsToReproduceBugToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.player_record;
             this.recordStepsToReproduceBugToolStripMenuItem.Name = "recordStepsToReproduceBugToolStripMenuItem";
-            this.recordStepsToReproduceBugToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.recordStepsToReproduceBugToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.recordStepsToReproduceBugToolStripMenuItem.Text = "Record steps to reproduce bug";
             this.recordStepsToReproduceBugToolStripMenuItem.Click += new System.EventHandler(this.RecordStepsToReproduceBugToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(298, 6);
             // 
             // aboutRedkit2ToolStripMenuItem
             // 
             this.aboutRedkit2ToolStripMenuItem.Image = global::WolvenKit.Properties.Resources.info_icon_23818;
             this.aboutRedkit2ToolStripMenuItem.Name = "aboutRedkit2ToolStripMenuItem";
-            this.aboutRedkit2ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.aboutRedkit2ToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.aboutRedkit2ToolStripMenuItem.Text = "About Wolven kit";
             this.aboutRedkit2ToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
@@ -933,7 +933,7 @@ namespace WolvenKit
             // 
             this.donateToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("donateToolStripMenuItem.Image")));
             this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
-            this.donateToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.donateToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
             this.donateToolStripMenuItem.Text = "Donate";
             this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
             // 
@@ -942,7 +942,7 @@ namespace WolvenKit
             this.buildDateToolStripMenuItem.Enabled = false;
             this.buildDateToolStripMenuItem.Name = "buildDateToolStripMenuItem";
             this.buildDateToolStripMenuItem.ShowShortcutKeys = false;
-            this.buildDateToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
+            this.buildDateToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
             this.buildDateToolStripMenuItem.Text = "Build date";
             // 
             // closeToolStripMenuItem
@@ -985,7 +985,7 @@ namespace WolvenKit
             this.MenuLabelProject.ForeColor = System.Drawing.SystemColors.Highlight;
             this.MenuLabelProject.Name = "MenuLabelProject";
             this.MenuLabelProject.ShowShortcutKeys = false;
-            this.MenuLabelProject.Size = new System.Drawing.Size(72, 24);
+            this.MenuLabelProject.Size = new System.Drawing.Size(89, 24);
             this.MenuLabelProject.Text = "Build date";
             // 
             // DLCScriptToolStripMenuItem
@@ -1001,10 +1001,10 @@ namespace WolvenKit
             this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.dockPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dockPanel.Name = "dockPanel";
             this.dockPanel.ShowDocumentIcon = true;
-            this.dockPanel.Size = new System.Drawing.Size(788, 340);
+            this.dockPanel.Size = new System.Drawing.Size(1062, 430);
             this.dockPanel.TabIndex = 9;
             this.dockPanel.ActiveDocumentChanged += new System.EventHandler(this.dockPanel_ActiveDocumentChanged);
             // 
@@ -1018,23 +1018,23 @@ namespace WolvenKit
             this.statusToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLBL,
             this.toolStripProgressBar1});
-            this.statusToolStrip.Location = new System.Drawing.Point(0, 393);
+            this.statusToolStrip.Location = new System.Drawing.Point(0, 489);
             this.statusToolStrip.Name = "statusToolStrip";
-            this.statusToolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.statusToolStrip.Size = new System.Drawing.Size(824, 25);
+            this.statusToolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.statusToolStrip.Size = new System.Drawing.Size(1099, 25);
             this.statusToolStrip.TabIndex = 12;
             this.statusToolStrip.Text = "bottomTS";
             // 
             // statusLBL
             // 
             this.statusLBL.Name = "statusLBL";
-            this.statusLBL.Size = new System.Drawing.Size(39, 22);
+            this.statusLBL.Size = new System.Drawing.Size(50, 22);
             this.statusLBL.Text = "Ready";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(133, 27);
             this.toolStripProgressBar1.Visible = false;
             // 
             // richpresenceworker
@@ -1054,17 +1054,17 @@ namespace WolvenKit
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dockPanel);
-            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(788, 340);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1062, 430);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
             // 
             this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolbarToolStrip);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 28);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(2);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(824, 365);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1099, 461);
             this.toolStripContainer1.TabIndex = 14;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1074,9 +1074,9 @@ namespace WolvenKit
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 418);
+            this.ClientSize = new System.Drawing.Size(1836, 880);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.statusToolStrip);
             this.Controls.Add(this.menuStrip1);
@@ -1084,7 +1084,8 @@ namespace WolvenKit
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(575, 365);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(767, 449);
             this.Name = "frmMain";
             this.Text = "Wolven kit";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);

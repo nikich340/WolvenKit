@@ -28,7 +28,12 @@ namespace WolvenKit.Common
         {
             get
             {
-                string bundlename = FullPath.Split(Path.DirectorySeparatorChar).Skip(1).First();
+                var parts = FullPath.Split(Path.DirectorySeparatorChar);
+                string bundlename = parts.First();
+                if (parts.Count() > 1)
+                {
+                    bundlename = parts.Skip(1).First();
+                }
                 return (EBundleType)Enum.Parse(typeof(EBundleType), bundlename);
             }
         }
