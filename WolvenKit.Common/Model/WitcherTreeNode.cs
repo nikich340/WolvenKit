@@ -34,7 +34,9 @@ namespace WolvenKit.Common
                 {
                     bundlename = parts.Skip(1).First();
                 }
-                return (EBundleType)Enum.Parse(typeof(EBundleType), bundlename);
+                EBundleType type = EBundleType.Bundle;
+                Enum.TryParse<EBundleType>(bundlename, out type);
+                return type;
             }
         }
 
