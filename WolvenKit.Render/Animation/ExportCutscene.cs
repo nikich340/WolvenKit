@@ -38,6 +38,18 @@ namespace WolvenKit.Render.Animation
                         CutsceneTemplate.entToHideTags = chunk.GetVariableByName("entToHideTags") as CArray;
                         CutsceneTemplate.lastLevelLoaded = chunk.GetVariableByName("lastLevelLoaded") as CString;
                         CutsceneTemplate.point = chunk.GetVariableByName("point") as CTagList;
+                        CutsceneTemplate.requiredSfxTag = chunk.GetVariableByName("requiredSfxTag") as CName;
+                        CutsceneTemplate.fadeBefore = chunk.GetVariableByName("fadeBefore") as CFloat;
+                        CutsceneTemplate.fadeAfter = chunk.GetVariableByName("fadeAfter") as CFloat;
+                        CutsceneTemplate.cameraBlendInTime = chunk.GetVariableByName("cameraBlendInTime") as CFloat;
+                        CutsceneTemplate.cameraBlendOutTime = chunk.GetVariableByName("cameraBlendOutTime") as CFloat;
+                        CutsceneTemplate.blackscreenWhenLoading = chunk.GetVariableByName("blackscreenWhenLoading") as CBool;
+                        CutsceneTemplate.checkActorsPosition = chunk.GetVariableByName("checkActorsPosition") as CBool;
+                        CutsceneTemplate.streamable = chunk.GetVariableByName("streamable") as CBool;
+                        CutsceneTemplate.usedInFiles = chunk.GetVariableByName("usedInFiles") as CArray;
+                        CutsceneTemplate.resourcesToPreloadManuallyPaths = chunk.GetVariableByName("resourcesToPreloadManuallyPaths") as CArray;
+                        CutsceneTemplate.reverbName = chunk.GetVariableByName("reverbName") as CString;
+                        CutsceneTemplate.banksDependency = chunk.GetVariableByName("banksDependency") as CArray;
 
                         for (int i = 0; i < actorsDef.Count(); i++)
                         {

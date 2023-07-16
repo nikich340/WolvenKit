@@ -62,14 +62,41 @@ namespace WolvenKit.Render.Animation
                 var jset = new JsonSerializerSettings() { Converters = converters, NullValueHandling = NullValueHandling.Ignore };
                 loadedCutscene = JsonConvert.DeserializeObject<CCutsceneTemplate>(json, jset);
                 W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.SCutsceneActorDefs);
-                if (loadedCutscene.effects != null)
+                if (loadedCutscene.effects != null && (loadedCutscene.effects as CArray).array != null)
                     W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.effects);
-                if (loadedCutscene.burnedAudioTrackName != null)
+                if (loadedCutscene.burnedAudioTrackName != null && (loadedCutscene.burnedAudioTrackName as CStringAnsi).val != null)
                     W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.burnedAudioTrackName);
-                if (loadedCutscene.point != null)
+                if (loadedCutscene.point != null && (loadedCutscene.point as CTagList).tags != null)
                     W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.point);
-                if (loadedCutscene.entToHideTags != null)
+                
+                if (loadedCutscene.resourcesToPreloadManuallyPaths != null && (loadedCutscene.resourcesToPreloadManuallyPaths as CArray).array != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.resourcesToPreloadManuallyPaths);
+                if (loadedCutscene.banksDependency != null && (loadedCutscene.banksDependency as CArray).array != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.banksDependency);
+                if (loadedCutscene.fadeBefore != null && (loadedCutscene.fadeBefore as CFloat).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.fadeBefore);
+                if (loadedCutscene.fadeAfter != null && (loadedCutscene.fadeAfter as CFloat).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.fadeAfter);
+                if (loadedCutscene.cameraBlendInTime != null && (loadedCutscene.cameraBlendInTime as CFloat).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.cameraBlendInTime);
+                if (loadedCutscene.cameraBlendOutTime != null && (loadedCutscene.cameraBlendOutTime as CFloat).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.cameraBlendOutTime);
+                if (loadedCutscene.streamable != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.streamable);
+                if (loadedCutscene.blackscreenWhenLoading != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.blackscreenWhenLoading);
+                if (loadedCutscene.checkActorsPosition != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.checkActorsPosition);
+                if (loadedCutscene.reverbName != null && (loadedCutscene.reverbName as CString).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.reverbName);
+                if (loadedCutscene.entToHideTags != null && (loadedCutscene.entToHideTags as CArray).array != null)
                     W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.entToHideTags);
+                if (loadedCutscene.usedInFiles != null && (loadedCutscene.usedInFiles as CArray).array != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.usedInFiles);
+                if (loadedCutscene.lastLevelLoaded != null && (loadedCutscene.lastLevelLoaded as CString).val != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.lastLevelLoaded);
+                if (loadedCutscene.requiredSfxTag != null && (loadedCutscene.requiredSfxTag as CName).Value != null)
+                    W2AnimFile.chunks[0].data.AddVariable(loadedCutscene.requiredSfxTag);
 
                 if (loadedCutscene.animevents != null)
                     (W2AnimFile.chunks[0].data as CR2W.Types.CCutsceneTemplate).animevents = (CBufferUInt32<CVectorWrapper>)loadedCutscene.animevents;
