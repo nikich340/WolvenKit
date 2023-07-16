@@ -634,21 +634,6 @@ namespace WolvenKit
 
         }
 
-        private void contextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
-            {
-                exportw2rigjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w2rig";
-                exportW2animsjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w2anims";
-                exportW2cutscenejsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w2cutscene";
-                exportW3facjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3fac";
-                exportW3facposejsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3fac";
-                fastRenderToolStripMenuItem.Enabled = Path.GetExtension(selectedobject.Name) == ".w2mesh";
-                exportW3dyngjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w3dyng";
-                exportW2entjsonToolStripMenuItem.Visible = Path.GetExtension(selectedobject.Name) == ".w2ent";
-            }
-        }
-
         private void createW2animsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
@@ -701,28 +686,12 @@ namespace WolvenKit
 
         #endregion
 
-
-
-
-        }
-
         private void treeListView_Expanded(object sender, TreeBranchExpandedEventArgs e)
         {
         }
 
         private void treeListView_Collapsed(object sender, TreeBranchCollapsedEventArgs e)
         {
-        }
-
-        private void treeListView_ItemActivate(object sender, EventArgs e)
-        {
-            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
-            {
-                if (!selectedobject.IsDirectory())
-                    RequestFileOpen?.Invoke(this, new RequestFileArgs { File = selectedobject.FullName });
-                else
-                    treeListView.ToggleExpansion(selectedobject);
-            }
         }
 
         private void exportW2entjsonToolStripMenuItem_Click(object sender, EventArgs e)
