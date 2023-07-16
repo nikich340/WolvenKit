@@ -83,6 +83,10 @@ namespace WolvenKit.Render
                     Bone myBone = new Bone();
                     //finde the bone name using mapping
                     int map = (mimicMapping[j] as CInt32).val;
+                    if (map < 0)
+                    {
+                        continue;
+                    }
                     var BoneName = (mimicSkeletonBones.array[map] as CVector).GetVariableByName("nameAsCName") as CName;
 
                     myBone.BoneName = BoneName.Value; // find the mapping
