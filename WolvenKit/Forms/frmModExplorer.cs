@@ -684,6 +684,46 @@ namespace WolvenKit
                 }
             }
         }
+
+        protected void createW2cutsceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeListView.SelectedObject is FileSystemInfo selectedobject)
+            {
+                var filename = selectedobject.FullName;
+                var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
+                if (!File.Exists(fullpath) && !Directory.Exists(fullpath))
+                    return;
+                string dir;
+                if (File.Exists(fullpath))
+                    dir = Path.GetDirectoryName(fullpath);
+                else
+                    dir = fullpath;
+                var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).ToList();
+                var folderName = Path.GetFileName(fullpath);
+                ConvertCutscene csanim = new ConvertCutscene();
+                if (File.Exists(fullpath + ".w2cutscene"))
+                {
+                    if (MessageBox.Show(
+                         folderName + ".w2cutscene already exists. This file will be overwritten. Are you sure you want to permanently overwrite " + folderName + " w2cutscene?"
+                         , "Confirmation", MessageBoxButtons.YesNo
+                     ) != DialogResult.Yes)
+                    {
+                        return;
+                    }
+                }
+
+                csanim.Load(files, fullpath + ".w2cutscene");
+                try
+                {
+                    //csanim.Load(files, fullpath + ".w2cutscene");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error cooking files.");
+                }
+            }
+        }
+
         private async void exportW2meshToFbxToolStripMenuItem_Click(object sender, EventArgs e) => vm.ExportMeshCommand.SafeExecute();
         
         private async void dumpWccliteXMLToolStripMenuItem_Click(object sender, EventArgs e) => vm.DumpXMLCommand.SafeExecute();

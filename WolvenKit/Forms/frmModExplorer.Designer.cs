@@ -36,6 +36,7 @@ namespace WolvenKit
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModExplorer));
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createW2animsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createW2cutsceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW2cutscenejsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportW2animsjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +84,7 @@ namespace WolvenKit
             this.contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createW2animsToolStripMenuItem,
+            this.createW2cutsceneToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.toolStripSeparator3,
             this.dumpFileToolStripMenuItem,
@@ -108,6 +110,13 @@ namespace WolvenKit
             this.createW2animsToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.createW2animsToolStripMenuItem.Text = "Create w2anims";
             this.createW2animsToolStripMenuItem.Click += new System.EventHandler(this.createW2animsToolStripMenuItem_Click);
+            // 
+            // createW2cutsceneToolStripMenuItem
+            // 
+            this.createW2cutsceneToolStripMenuItem.Name = "createW2cutsceneToolStripMenuItem";
+            this.createW2cutsceneToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.createW2cutsceneToolStripMenuItem.Text = "Create .w2cutscene";
+            this.createW2cutsceneToolStripMenuItem.Click += new System.EventHandler(this.createW2cutsceneToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -462,6 +471,7 @@ namespace WolvenKit
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem createW2animsToolStripMenuItem;
+        private ToolStripMenuItem createW2cutsceneToolStripMenuItem;
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem exportW2cutscenejsonToolStripMenuItem;
         private ToolStripMenuItem exportW2animsjsonToolStripMenuItem;

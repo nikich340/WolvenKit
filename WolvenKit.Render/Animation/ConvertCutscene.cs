@@ -16,7 +16,7 @@ using WolvenKit.CR2W.Types.Utils;
 
 namespace WolvenKit.Render.Animation
 {
-    internal class ConvertCutscene : ConvertAnimation
+    public class ConvertCutscene : ConvertAnimation
     {
         public ConvertCutscene()
         {
