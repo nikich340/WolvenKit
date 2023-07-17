@@ -402,12 +402,13 @@ namespace WolvenKit
                         || selectedobject.FullName == ActiveMod.BundleDirectory
                         ;
 
+                createW2cutsceneToolStripMenuItem.Enabled = !isToplevelDir;
                 createW2animsToolStripMenuItem.Enabled = !isToplevelDir;
-                exportToolStripMenuItem.Enabled = !isToplevelDir && (ext == "w3fac" || ext == "w2cutscene" || ext == "w2anims" || ext == "w2rig" || ext == "xbm"
+                exportToolStripMenuItem.Enabled = !isToplevelDir || (ext == "w3fac" || ext == "w2cutscene" || ext == "w2anims" || ext == "w2rig" || ext == "xbm"
                     || Enum.GetNames(typeof(EExportable)).Contains(ext));
 
                 exportW2animsjsonToolStripMenuItem.Visible = ext == "w2anims";
-                exportW2cutscenejsonToolStripMenuItem.Visible = ext == "w2cutscene";
+                exportW2cutscenejsonToolStripMenuItem.Visible = !isToplevelDir;
                 exportw2rigjsonToolStripMenuItem.Visible = ext == "w2rig";
                 exportW3facjsonToolStripMenuItem.Visible = ext == "w3fac";
                 exportWithWccToolStripMenuItem.Visible = Enum.GetNames(typeof(EExportable)).Contains(ext) || ext == "xbm";
@@ -631,11 +632,104 @@ namespace WolvenKit
         }
         private void exportW2cutscenejsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string scriptName = "dumpW2CUTSCENE";
+            LoggerService logger = MainController.Get().Logger;
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
             {
-                var settings = new frmAnims(selectedobject.FullName,
-                                        ActiveMod.FileDirectory + "\\" + "Mod\\Bundle\\characters\\base_entities\\woman_base\\woman_base.w2rig");
-                settings.ShowDialog();
+                var filename = selectedobject.FullName;
+                var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
+                if (File.Exists(fullpath))
+                {
+                    logger?.LogString($"[{scriptName}] Processing single file.", Logtype.Important);
+                    var settings = new frmAnims(fullpath,
+                                        ActiveMod.FileDirectory + "\\" + "Mod\\Bundle\\characters\\base_entities\\man_base\\man_base.w2rig");
+                    settings.ShowDialog();
+                }
+                else if (Directory.Exists(fullpath))
+                {
+                    logger?.LogString($"[{scriptName}] Processing folder.", Logtype.Important);
+                    MainController.Get().ProjectStatus = "Busy";
+                    List<string> cr2wPaths = new List<string>();
+                    string rootDir = "";
+
+                    cr2wPaths = new List<string>(Directory.EnumerateFiles(fullpath, "*.w2cutscene", SearchOption.AllDirectories));
+                    rootDir = fullpath;
+                    logger?.LogString($"[{scriptName}] Files to process: {cr2wPaths.Count}", Logtype.Important);
+
+                    string savePath;
+                    int percent_old = -1;
+                    Task.Run(() => //Run the method in another thread to prevent freezing UI
+                    {
+                        List<string> errors = new List<string>();
+                        for (int i = 0; i < cr2wPaths.Count; ++i)
+                        {
+                            Debug.WriteLine($"[{i}]: {fullpath}");
+                            string ext = Path.GetExtension(cr2wPaths[i]);
+                            int percent = (int)((i) / (float)cr2wPaths.Count * 100.0);
+                            if (percent > percent_old)
+                            {
+                                //logger?.LogString($"[{scriptName}] ({percent}%) Processing: {cr2wPaths[i]}..", Logtype.Normal);
+                                percent_old = percent;
+                            }
+                            logger?.LogString($"[{scriptName}] ({percent}%) Processing: {cr2wPaths[i]}..", Logtype.Normal);
+
+                            if (string.IsNullOrEmpty(rootDir))
+                            {
+                                savePath = $"{cr2wPaths[i]}.json";
+                            }
+                            else
+                            {
+                                savePath = $"{rootDir}_{scriptName}\\{cr2wPaths[i].Substring(rootDir.Length + 1, cr2wPaths[i].Length - (rootDir.Length + 1))}.json";
+                                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                            }
+                            if (File.Exists(savePath))
+                            {
+                                if (MessageBox.Show(savePath + " already exists. Are you sure you want to overwrite it?", "Confirmation", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            var csExportTool = new ExportCutscene();
+                            using (var stream = File.Open(cr2wPaths[i], FileMode.Open))
+                            {
+                                using (var reader = new BinaryReader(stream))
+                                {
+                                    var cr2wCS = new CR2WFile(reader)
+                                    {
+                                        FileName = cr2wPaths[i]
+                                    };
+                                    csExportTool.LoadData(cr2wCS);
+                                    csExportTool.LoadCutsceneData(cr2wCS, App.MainController.Get().BundleManager);
+                                }
+                            }
+
+                            try
+                            {
+                                csExportTool.SaveJson(savePath);
+                                logger?.LogString($"[{scriptName}] ({percent}%) OK created: {savePath}..", Logtype.Success);
+                            }
+                            catch (Exception ex)
+                            {
+                                logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {savePath}..", Logtype.Error);
+                                errors.Add($"{cr2wPaths[i]}: Can't create JSON.");
+                            }
+                        }
+                        //logFile.Close();
+                        if (errors.Count > 0)
+                        {
+                            logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
+                        }
+                        else
+                        {
+                            logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                        }
+                        MainController.Get().ProjectStatus = "Ready";
+                    });
+                } else
+                {
+                    logger?.LogString($"[{scriptName}] No files to process.", Logtype.Important);
+                }
             }
         }
         private void exportW3facjsonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -768,11 +862,11 @@ namespace WolvenKit
                         var csTool = new ConvertCutscene();
                         if (csTool.CreateW2Cutscene(cr2wPaths[i], savePath))
                         {
-                            logger?.LogString($"[{scriptName}] ({percent}%) OK created: {cr2wPaths[i]}..", Logtype.Success);
+                            logger?.LogString($"[{scriptName}] ({percent}%) OK created: {savePath}..", Logtype.Success);
                         }
                         else
                         {
-                            logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {cr2wPaths[i]}..", Logtype.Error);
+                            logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {savePath}..", Logtype.Error);
                             errors.Add($"{cr2wPaths[i]}: Can't export W2CUTSCENE.");
                         }
                     }
