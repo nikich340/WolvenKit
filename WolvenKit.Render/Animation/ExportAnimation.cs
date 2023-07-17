@@ -58,7 +58,7 @@ namespace WolvenKit.Render.Animation
         CR2WFile animFile;
         int selectedAnimIdx;
 
-        public static List<KeyValuePair<string, int>> AnimationNames = new List<KeyValuePair<string, int>>();
+        public List<KeyValuePair<string, int>> AnimationNames = new List<KeyValuePair<string, int>>();
         public ExportAnimation()
         {
         }

@@ -18,9 +18,10 @@ namespace WolvenKit
 {
     public partial class frmAnims : Form
     {
-        private CR2WFile animsFile;
-        private ExportAnimation exportAnims { get; set; }
-        private Rig exportRig { get; set; }
+        protected CR2WFile animsFile;
+        protected ExportAnimation exportAnims { get; set; }
+        protected Rig exportRig { get; set; }
+        protected bool isCutscene { get; set; }
 
         public frmAnims(string w2animsFilePath = null, string w2rigFilePath = null)
         {
@@ -46,6 +47,10 @@ namespace WolvenKit
                 {
                     string w2rigFilePath = txw2rig.Text;
                     string w2animsFilePath = txw2anims.Text;
+                    isCutscene = false;
+                    txw2rig.Enabled = true;
+                    radioButtonAnim1.Enabled = true;
+                    radioButtonAnim2.Enabled = true;
 
                     if (File.Exists(w2animsFilePath) && (Path.GetExtension(w2animsFilePath) == ".w2cutscene"))
                     {
@@ -61,8 +66,12 @@ namespace WolvenKit
                             };
                             exportAnims.LoadData(animsFile);
                             (exportAnims as ExportCutscene).LoadCutsceneData(animsFile, App.MainController.Get().BundleManager);
+                            isCutscene = true;
                         }
                         Console.WriteLine("This is a cutscene file");
+                        txw2rig.Enabled = false;
+                        radioButtonAnim1.Enabled = false;
+                        radioButtonAnim2.Enabled = false;
                     }
                     else if (File.Exists(w2rigFilePath))
                     {
@@ -93,13 +102,11 @@ namespace WolvenKit
                             };
                             exportAnims.LoadData(animsFile, exportRig);
                         }
-
                     }
                     comboBoxAnim.Items.Clear();
-                    for (int i = 0; i < ExportAnimation.AnimationNames.Count; i++)
-                        comboBoxAnim.Items.Add(ExportAnimation.AnimationNames[i].Key);
-                    if(ExportAnimation.AnimationNames.Count > 0) comboBoxAnim.SelectedItem = ExportAnimation.AnimationNames[0].Key;
-
+                    for (int i = 0; i < exportAnims.AnimationNames.Count; i++)
+                        comboBoxAnim.Items.Add(exportAnims.AnimationNames[i].Key);
+                    if(exportAnims.AnimationNames.Count > 0) comboBoxAnim.SelectedItem = exportAnims.AnimationNames[0].Key;
                 }
             }
             else
@@ -124,11 +131,11 @@ namespace WolvenKit
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(txw2rig.Text))
+            if (!File.Exists(txw2rig.Text) && !isCutscene)
             {
                 DialogResult = DialogResult.None;
                 txw2rig.Focus();
-                MessageBox.Show("Invalid path", "failed to save.");
+                MessageBox.Show("Invalid w2rig path", "failed to save.");
                 return;
             }
 
@@ -136,36 +143,39 @@ namespace WolvenKit
             {
                 DialogResult = DialogResult.None;
                 txw2anims.Focus();
-                MessageBox.Show("Invalid path", "failed to save.");
+                MessageBox.Show("Invalid file path", "failed to save.");
                 return;
             }
-            using (var sf = new SaveFileDialog())
+            Task.Run(() =>
             {
-                sf.Filter = "W3 json | *.json";
-                sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
-                if (sf.ShowDialog() == DialogResult.OK)
+                using (var sf = new SaveFileDialog())
                 {
-                    if (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2cutscene"))
+                    sf.Filter = "W3 json | *.json";
+                    sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
+                    if (sf.ShowDialog() == DialogResult.OK)
                     {
-                        (exportAnims as ExportCutscene).SaveJson(sf.FileName);
-                    }
-                    else
-                    {
-                        if (radioButtonAnim1.Checked)
+                        if (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2cutscene"))
                         {
-                            exportAnims.Apply(exportRig);
-                            exportAnims.SaveJson(sf.FileName);
+                            (exportAnims as ExportCutscene).SaveJson(sf.FileName);
                         }
                         else
                         {
-                            exportAnims.Apply(exportRig);
-                            exportAnims.LoadAllAnims();
-                            exportAnims.SaveSet(sf.FileName);
+                            if (radioButtonAnim1.Checked)
+                            {
+                                exportAnims.Apply(exportRig);
+                                exportAnims.SaveJson(sf.FileName);
+                            }
+                            else
+                            {
+                                exportAnims.Apply(exportRig);
+                                exportAnims.LoadAllAnims();
+                                exportAnims.SaveSet(sf.FileName);
+                            }
                         }
+                        MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
+            });
         }
 
         private void btBrowseAnims_Click(object sender, EventArgs e)

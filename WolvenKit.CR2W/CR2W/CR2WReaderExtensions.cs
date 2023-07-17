@@ -101,6 +101,23 @@ namespace WolvenKit.CR2W
             return null;
         }
 
+        public static bool HasVariable(this CR2WExportWrapper arr, string name)
+        {
+            if (arr.data is CVector)
+            {
+                var vdata = (CVector)arr.data;
+                var variables = vdata.GetEditableVariables().ToList();
+
+                for (var i = 0; i < variables.Count; i++)
+                {
+                    if (variables[i].Name == name)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
         public static CVariable GetVariableByName(this CR2WExportWrapper arr, CR2WFile file, string name)
         {
             if (arr.data is CVector)

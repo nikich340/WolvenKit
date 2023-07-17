@@ -433,7 +433,7 @@ namespace WolvenKit.Render.Animation
                     if (entity != null)
                         foreach (var chunk in entity.chunks)
                         {
-                            if (chunk.Type == "CMeshComponent")
+                            if (chunk.Type == "CMeshComponent" && chunk.HasVariable("mesh"))
                             {
                                 string mesh = (chunk.GetVariableByName("mesh") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CMeshComponent(mesh));
@@ -441,7 +441,8 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CMorphedMeshComponent")
+                            else if (chunk.Type == "CMorphedMeshComponent" && chunk.HasVariable("morphTarget") 
+                                && chunk.HasVariable("morphSource") && chunk.HasVariable("morphComponentId"))
                             {
                                 string morphTarget = (chunk.GetVariableByName("morphTarget") as CHandle).ToString().Split(' ')[1];
                                 string morphSource = (chunk.GetVariableByName("morphSource") as CHandle).ToString().Split(' ')[1];
@@ -451,7 +452,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CMimicComponent")
+                            else if (chunk.Type == "CMimicComponent" && chunk.HasVariable("name") && chunk.HasVariable("mimicFace"))
                             {
                                 string name = (chunk.GetVariableByName("name") as CString).val;
                                 string mimicFace = (chunk.GetVariableByName("mimicFace") as CHandle).ToString().Split(' ')[1];
@@ -461,7 +462,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                                 new_mesh.animation_face_object = GetFace(mimicFace);
                             }
-                            if (chunk.Type == "CMeshSkinningAttachment")
+                            else if (chunk.Type == "CMeshSkinningAttachment" && chunk.HasVariable("parent") && chunk.HasVariable("child"))
                             {
                                 int parent = (chunk.GetVariableByName("parent") as CPtr).Reference.ChunkIndex;
                                 int child = (chunk.GetVariableByName("child") as CPtr).Reference.ChunkIndex;
@@ -470,7 +471,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimatedAttachment")
+                            else if (chunk.Type == "CAnimatedAttachment" && chunk.HasVariable("parent") && chunk.HasVariable("child"))
                             {
                                 int parent = (chunk.GetVariableByName("parent") as CPtr).Reference.ChunkIndex;
                                 int child = (chunk.GetVariableByName("child") as CPtr).Reference.ChunkIndex;
@@ -479,7 +480,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleBufferComponent")
+                            else if (chunk.Type == "CAnimDangleBufferComponent" && chunk.HasVariable("name") && chunk.HasVariable("skeleton"))
                             {
                                 string name = (chunk.GetVariableByName("name") as CString).val;
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
@@ -488,7 +489,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleComponent")
+                            else if (chunk.Type == "CAnimDangleComponent" && chunk.HasVariable("name") && chunk.HasVariable("constraint"))
                             {
                                 string name = (chunk.GetVariableByName("name") as CString).val;
                                 int constraint = (chunk.GetVariableByName("constraint") as CPtr).Reference.ChunkIndex;
@@ -497,7 +498,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Dyng")
+                            else if (chunk.Type == "CAnimDangleConstraint_Dyng" && chunk.HasVariable("dyng"))
                             {
                                 string dyng = (chunk.GetVariableByName("dyng") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Dyng(dyng));
@@ -505,7 +506,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Breast")
+                            else if (chunk.Type == "CAnimDangleConstraint_Breast" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Breast(skeleton));
@@ -513,7 +514,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Collar")
+                            else if (chunk.Type == "CAnimDangleConstraint_Collar" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Collar(skeleton));
@@ -521,7 +522,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Dress")
+                            else if (chunk.Type == "CAnimDangleConstraint_Dress" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Dress(skeleton));
@@ -529,7 +530,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Hood")
+                            else if (chunk.Type == "CAnimDangleConstraint_Hood" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Hood(skeleton));
@@ -537,7 +538,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Hinge")
+                            else if (chunk.Type == "CAnimDangleConstraint_Hinge" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Hinge(skeleton));
@@ -545,7 +546,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().type = chunk.Type;
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
-                            if (chunk.Type == "CAnimDangleConstraint_Pusher")
+                            else if (chunk.Type == "CAnimDangleConstraint_Pusher" && chunk.HasVariable("skeleton"))
                             {
                                 string skeleton = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                                 new_mesh.chunks.Add(new CAnimDangleConstraint_Pusher(skeleton));
