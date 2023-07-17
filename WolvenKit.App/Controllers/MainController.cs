@@ -375,7 +375,7 @@ namespace WolvenKit.App
                 }
                 #endregion
 
-                loadStatus = "Loading sound manager!";
+                /*loadStatus = "Loading sound manager!";
                 #region Load sound manager
                 if (soundManager == null)
                 {
@@ -422,6 +422,7 @@ namespace WolvenKit.App
                     modsoundmanager.LoadModsBundles(Path.GetDirectoryName(Configuration.ExecutablePath));
                 }
                 #endregion
+                */
 
                 loadStatus = "Loading depot manager!";
                 #region Load depot manager
