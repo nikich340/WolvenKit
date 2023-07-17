@@ -12,6 +12,7 @@ using IrrlichtLime.Core;
 using IrrlichtLime.Scene;
 using WolvenKit.Render.Animation;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace WolvenKit.Render.Animation
 {
@@ -218,7 +219,8 @@ namespace WolvenKit.Render.Animation
 
             bitbuff.data.AddVariable(animVar("array:129,0,Int8", "data", bitbuff.cr2w));
             bitbuff.data.AddVariable(animVar("array:129,0,Int8", "fallbackData", bitbuff.cr2w));
-            bitbuff.data.AddVariable(animVar("DeferredDataBuffer", "deferredData", bitbuff.cr2w).SetValue(bufferNumber.ToString()));
+            //bitbuff.data.AddVariable(animVar("DeferredDataBuffer", "deferredData", bitbuff.cr2w).SetValue(bufferNumber.ToString()));
+            bitbuff.data.AddVariable(animVar("DeferredDataBuffer", "deferredData", bitbuff.cr2w).SetValue("0"));
             bitbuff.data.AddVariable(animVar("SAnimationBufferOrientationCompressionMethod", "orientationCompressionMethod", bitbuff.cr2w).SetValue("ABOCM_PackIn48bitsW"));
 
             bitbuff.data.AddVariable(animVar("Float", "duration", bitbuff.cr2w).SetValue(1F));
@@ -261,7 +263,7 @@ namespace WolvenKit.Render.Animation
 
             fallbackData.SetValue(fallback);
             dataData.SetValue(bufferData);
-            saveToFileBuffer(bufferData, savefileName + "." + bufferNumber + ".buffer");
+            //saveToFileBuffer(bufferData, savefileName + "." + bufferNumber + ".buffer");
             return bitbuff;
         }
 
@@ -308,7 +310,70 @@ namespace WolvenKit.Render.Animation
             return single_24;
         }
 
+		public int dumpW2animsNames(CR2WFile animsFile)
+        {
+            DialogResult markAdditives = MessageBox.Show("Do you want to mark anim types?", "Question", MessageBoxButtons.YesNo);
+            List<string> animNames = new List<string>();
+            string duplications = string.Empty;
+            int duplCnt = 0;
+            int ret = -1;
 
+            int idx = 0;
+            foreach (var chunk in animsFile.chunks)
+            {
+                if (chunk.Type == "CSkeletalAnimationSetEntry")
+                {
+                    var animRef = chunk.GetVariableByName("animation");
+                    var animName = "-";
+                    var animType = "SAT_Normal";
+                    var animAdditiveType = "AT_Local";
+                    if (animRef is CPtr)
+                    {
+                        var CSkelAnimChunk = (animRef as CPtr).Reference;
+                        
+                        var animNameVar = CSkelAnimChunk.GetVariableByName("name");
+                        if (animNameVar != null)
+                            animName = animNameVar.ToString();
+
+                        var animTypeVar = CSkelAnimChunk.GetVariableByName("Animation type for reimport");
+                        if (animTypeVar != null)
+                            animType = animTypeVar.ToString();
+
+                        var animAddTypeVar = CSkelAnimChunk.GetVariableByName("Additive type for reimport");
+                        if (animAddTypeVar != null)
+                            animAdditiveType = animAddTypeVar.ToString();
+                    }
+
+                    if (animName == "-")
+                        continue;
+
+                    if (markAdditives == DialogResult.Yes)
+                    {
+                        animName += "|" + animType + "|" + animAdditiveType;
+                    }
+
+                    if (animNames.Contains(animName))
+                    {
+                        duplications += animName + "\n";
+                        ++duplCnt;
+                    } else
+                    {
+                        animNames.Add(animName);
+                    }
+                    ++ret;
+                }
+                ++idx;
+            }
+
+            if (duplCnt > 0)
+            {
+                MessageBox.Show(duplCnt + " duplicated names detected:\n" + duplications, "WARNING", MessageBoxButtons.OK);
+            }
+
+            File.WriteAllText( animsFile.FileName + "-names.txt", string.Join("\n", animNames.ToArray()) );
+            File.WriteAllText( animsFile.FileName + "-additives.txt", string.Join("\n", animNames.ToArray()) );
+            return ret + 1;
+        }
 
         private byte[] getBuffer(CR2WExportWrapper lastAnimBuffer, CAnimationBufferBitwiseCompressed animBuffer, string dataAddrType)
         {
