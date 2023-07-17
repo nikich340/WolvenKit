@@ -649,20 +649,32 @@ namespace WolvenKit
 
         private void createW2animsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string scriptName = "createW2ANIMS";
+            LoggerService logger = MainController.Get().Logger;
+            MainController.Get().ProjectStatus = "Busy";
+
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
             {
                 var filename = selectedobject.FullName;
                 var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
                 if (!File.Exists(fullpath) && !Directory.Exists(fullpath))
+                {
+                    logger?.LogString($"[{scriptName}] No files to process.", Logtype.Important);
                     return;
+                }
                 string dir;
                 if (File.Exists(fullpath))
                     dir = Path.GetDirectoryName(fullpath);
                 else
                     dir = fullpath;
-                var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).ToList();
+                var files = Directory.GetFiles(dir, "*.json", SearchOption.AllDirectories).ToList();
+                if (files.Count < 1)
+                {
+                    logger?.LogString($"[{scriptName}] No json files to process.", Logtype.Important);
+                    return;
+                }
                 var folderName = Path.GetFileName(fullpath);
-                ConvertAnimation anim = new ConvertAnimation();
+                ConvertAnimation animTool = new ConvertAnimation();
                 if (File.Exists(fullpath + ".w2anims"))
                 {
                     if (MessageBox.Show(
@@ -674,53 +686,107 @@ namespace WolvenKit
                     }
                 }
 
-                try
+                Task.Run(() =>
                 {
-                    anim.Load(files, fullpath + ".w2anims");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error cooking files.");
-                }
+                    logger?.LogString($"[{scriptName}] Processing: {files.Count} files..", Logtype.Normal);
+                    if (animTool.CreateW2Anims(files, fullpath + ".w2anims"))
+                    {
+                        logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                    }
+                    else
+                    {
+                        logger?.LogString($"[{scriptName}] Finished with errors.", Logtype.Error);
+                    }
+                    MainController.Get().ProjectStatus = "Ready";
+                });
             }
         }
 
         protected void createW2cutsceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string scriptName = "createW2CUTSCENE"; // save folder suffix
+            LoggerService logger = MainController.Get().Logger;
+            MainController.Get().ProjectStatus = "Busy";
+
             if (treeListView.SelectedObject is FileSystemInfo selectedobject)
             {
                 var filename = selectedobject.FullName;
                 var fullpath = Path.Combine(ActiveMod.FileDirectory, filename);
-                if (!File.Exists(fullpath) && !Directory.Exists(fullpath))
-                    return;
-                string dir;
-                if (File.Exists(fullpath))
-                    dir = Path.GetDirectoryName(fullpath);
-                else
-                    dir = fullpath;
-                var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).ToList();
-                var folderName = Path.GetFileName(fullpath);
-                ConvertCutscene csanim = new ConvertCutscene();
-                if (File.Exists(fullpath + ".w2cutscene"))
+                List<string> cr2wPaths = new List<string>();
+                string rootDir = "";
+
+                if (Directory.Exists(fullpath))
                 {
-                    if (MessageBox.Show(
-                         folderName + ".w2cutscene already exists. This file will be overwritten. Are you sure you want to permanently overwrite " + folderName + " w2cutscene?"
-                         , "Confirmation", MessageBoxButtons.YesNo
-                     ) != DialogResult.Yes)
-                    {
-                        return;
-                    }
+                    cr2wPaths = new List<string>(Directory.EnumerateFiles(fullpath, "*.json", SearchOption.AllDirectories));
+                    rootDir = fullpath;
+                    logger?.LogString($"[{scriptName}] Files to process: {cr2wPaths.Count}", Logtype.Important);
+                }
+                else if (File.Exists(fullpath))
+                {
+                    cr2wPaths.Add(fullpath);
+                }
+                else
+                {
+                    logger?.LogString($"[{scriptName}] No valid files to process.", Logtype.Important);
+                    MainController.Get().ProjectStatus = "Ready";
+                    return;
                 }
 
-                csanim.Load(files, fullpath + ".w2cutscene");
-                try
+                string savePath;
+                int percent_old = -1;
+                Task.Run(() => //Run the method in another thread to prevent freezing UI
                 {
-                    //csanim.Load(files, fullpath + ".w2cutscene");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error cooking files.");
-                }
+                    List<string> errors = new List<string>();
+                    for (int i = 0; i < cr2wPaths.Count; ++i)
+                    {
+                        Debug.WriteLine($"[{i}]: {fullpath}");
+                        string ext = Path.GetExtension(cr2wPaths[i]);
+                        int percent = (int)((i) / (float)cr2wPaths.Count * 100.0);
+                        if (percent > percent_old)
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Processing: {cr2wPaths[i]}..", Logtype.Normal);
+                            percent_old = percent;
+                        }
+
+                        if (string.IsNullOrEmpty(rootDir))
+                        {
+                            savePath = $"{cr2wPaths[i]}.w2cutscene";
+                        }
+                        else
+                        {
+                            savePath = $"{rootDir}_{scriptName}\\{cr2wPaths[i].Substring(rootDir.Length + 1, cr2wPaths[i].Length - (rootDir.Length + 1))}.w2cutscene";
+                            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                        }
+                        if (File.Exists(savePath))
+                        {
+                            if (MessageBox.Show(savePath + " already exists. Are you sure you want to overwrite it?", "Confirmation", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                            {
+                                continue;
+                            }
+                        }
+
+                        var csTool = new ConvertCutscene();
+                        if (csTool.CreateW2Cutscene(cr2wPaths[i], savePath))
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) OK created: {cr2wPaths[i]}..", Logtype.Success);
+                        }
+                        else
+                        {
+                            logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {cr2wPaths[i]}..", Logtype.Error);
+                            errors.Add($"{cr2wPaths[i]}: Can't export W2CUTSCENE.");
+                        }
+                    }
+                    //logFile.Close();
+                    if (errors.Count > 0)
+                    {
+                        logger?.LogString($"[{scriptName}] Finished with errors:\n\t{String.Join("\n\t", errors)}", Logtype.Error);
+                    }
+                    else
+                    {
+                        logger?.LogString($"[{scriptName}] Finished.", Logtype.Success);
+                    }
+                    MainController.Get().ProjectStatus = "Ready";
+                });
             }
         }
 

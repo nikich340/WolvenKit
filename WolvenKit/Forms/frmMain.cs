@@ -2597,7 +2597,7 @@ _col - for simple stuff like boxes and spheres", "Information about importing mo
                             try
                             {
                                 ConvertAnimation anim = new ConvertAnimation();
-                                anim.Load(new List<string>() { of.FileName }, sf.FileName);
+                                anim.CreateW2Anims(new List<string>() { of.FileName }, sf.FileName);
                             }
                             catch (Exception ex)
                             {

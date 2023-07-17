@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WolvenKit.CR2W;
 using WolvenKit.CR2W.Types;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace WolvenKit.Render.Animation
             //(animPointerArr as CArray).AddVariable(animVar("ptr:CSkeletalAnimationSetEntry", null, SkeletalAnimationSet.cr2w).SetValue(2));
         }
 
-        public new void Load(List<string> files, string savefileName)
+        public bool CreateW2Cutscene(string filename, string savefileName)
         {
             byte[] data;
             //data = File.ReadAllBytes(@"D:\w3.modding\animation\template.w2anims"); //need a better way to generate a working blank CR2WFile
@@ -38,14 +39,19 @@ namespace WolvenKit.Render.Animation
             using (MemoryStream ms = new MemoryStream(data))
             using (BinaryReader br = new BinaryReader(ms))
             {
-                W2AnimFile = new CR2WFile(br);
-                createCCutsceneTemplate();
-                for (int i = 0; i < files.Count(); i++)
+                try
                 {
-                    string filename = files[i];
+                    W2AnimFile = new CR2WFile(br);
+                    createCCutsceneTemplate();
                     importCutscene(filename, savefileName);
+                    saveToFile(savefileName);
+                    return true;
                 }
-                saveToFile(savefileName);
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error creating w2cutscene!");
+                    return false;
+                }
             }
         }
 

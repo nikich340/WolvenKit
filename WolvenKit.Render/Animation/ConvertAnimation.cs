@@ -272,7 +272,7 @@ namespace WolvenKit.Render.Animation
         //    return bufferData;
         //}
 
-        public void Load(List<string> files, string savefileName)
+        public bool CreateW2Anims(List<string> files, string savefileName)
         {
             byte[] data;
             //data = File.ReadAllBytes(@"D:\w3.modding\animation\template.w2anims"); //need a better way to generate a working blank CR2WFile
@@ -280,14 +280,23 @@ namespace WolvenKit.Render.Animation
             using (MemoryStream ms = new MemoryStream(data))
             using (BinaryReader br = new BinaryReader(ms))
             {
-                W2AnimFile = new CR2WFile(br);
-                createAnimationSet();
-                for (int i = 0; i < files.Count(); i++)
+                try
                 {
-                    string filename = files[i];
-                    createAnimation(importJsonAnim(filename), i, savefileName);
+                    W2AnimFile = new CR2WFile(br);
+                    createAnimationSet();
+                    for (int i = 0; i < files.Count(); i++)
+                    {
+                        string filename = files[i];
+                        createAnimation(importJsonAnim(filename), i, savefileName);
+                    }
+                    saveToFile(savefileName);
+                    return true;
                 }
-                saveToFile(savefileName);
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error creating w2anims!");
+                    return false;
+                }
             }
         }
 
