@@ -30,6 +30,9 @@ namespace WolvenKit.CR2W.Types
             if (val is float)
             {
                 this.val = (float) val;
+            } else if (val is string)
+            {
+                this.val = float.Parse(val as string);
             }
 
             return this;

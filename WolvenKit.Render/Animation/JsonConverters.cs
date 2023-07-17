@@ -484,7 +484,8 @@ namespace WolvenKit.Render.Animation
 
 
 
-            if (type == "StringAnsi")
+
+            /*if (type == "StringAnsi")
             {
                 JToken Name = jObject["Name"];
                 JToken Val = jObject["val"];
@@ -493,14 +494,41 @@ namespace WolvenKit.Render.Animation
                 (newvar as CStringAnsi).SetValue(val);
                 (newvar as CStringAnsi).Name = nameFinal;
                 return newvar;
-            }
-            else
+            }*/
+            string str_val = null;
+            if (jObject["Value"] != null)
             {
-                if (RootValue != null)
+                str_val = jObject["Value"].ToString();
+            } else if (jObject["val"] != null) {
+                str_val = jObject["val"].ToString();
+            }
+
+            if (str_val != null)
+            {
+                switch (type)
                 {
-
-                    newvar.SetValue(RootValue.ToString());
-
+                    case "Uint8":
+                        newvar.SetValue(byte.Parse(str_val));
+                        break;
+                    case "Int32":
+                        newvar.SetValue(int.Parse(str_val));
+                        break;
+                    case "Float":
+                        newvar.SetValue(float.Parse(str_val));
+                        break;
+                    case "Bool":
+                        newvar.SetValue(bool.Parse(str_val));
+                        break;
+                    case "StringAnsi":
+                        //CStringAnsi newName = new CStringAnsi(w2AnimFile).SetValue(Name + "\0") as CStringAnsi;
+                        (newvar as CStringAnsi).SetValue(str_val);
+                        break;
+                    case "String":
+                        (newvar as CString).SetValue(str_val);
+                        break;
+                    default:
+                        newvar.SetValue(str_val);
+                        break;
                 }
             }
             return newvar;
