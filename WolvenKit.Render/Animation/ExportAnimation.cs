@@ -294,6 +294,8 @@ namespace WolvenKit.Render.Animation
 
         CAnimationBufferBitwiseCompressed readBuffer(CR2WExportWrapper chunk, CR2WFile animFile, CSkeleton bufferSkel, String animName = "-")
         {
+            if (bufferSkel == null)
+                return null;
             List<Bone> bones = new List<Bone>();
             //List<Track> tracks = new List<Track>();
             List<List<uint>> positionsKeyframes = new List<List<uint>>();
