@@ -96,7 +96,8 @@ namespace WolvenKit.CR2W.Types
         public override void AddVariable(CVariable var)
         {
             variables.Add(var);
-            var.ParentVariable = this;
+            if (var != null)
+                var.ParentVariable = this;
         }
 
         public override void RemoveVariable(IEditableVariable child)
