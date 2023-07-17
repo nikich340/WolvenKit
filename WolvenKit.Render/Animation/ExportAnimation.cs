@@ -150,7 +150,7 @@ namespace WolvenKit.Render.Animation
             SkeletalAnimation.framesPerSecond = (animation.GetVariableByName("framesPerSecond") as CFloat).val;
             SkeletalAnimation.duration = (animation.GetVariableByName("duration") as CFloat)?.val ?? 1.0f;
             CR2WExportWrapper animBufferChunk = (animation.GetVariableByName("animBuffer") as CPtr).Reference;
-            SkeletalAnimation.animBuffer = getBuffer(animBufferChunk, meshSkeleton);
+            SkeletalAnimation.animBuffer = getBuffer(animBufferChunk, meshSkeleton, SkeletalAnimation.name);
 
             SkeletalAnimationSetEntry.animation = SkeletalAnimation;
             return SkeletalAnimationSetEntry;
@@ -268,7 +268,7 @@ namespace WolvenKit.Render.Animation
         //}
 
 
-        public IAnimationBuffer getBuffer(CR2WExportWrapper chunk, CSkeleton bufferSkel)
+        public IAnimationBuffer getBuffer(CR2WExportWrapper chunk, CSkeleton bufferSkel, String animName = "-")
         {
             if (chunk.Type == "CAnimationBufferMultipart")
             {
@@ -288,11 +288,11 @@ namespace WolvenKit.Render.Animation
             }
             //if (chunk.Type == "CAnimationBufferBitwiseCompressed")
             else {
-                return readBuffer(chunk, animFile, bufferSkel);
+                return readBuffer(chunk, animFile, bufferSkel, animName);
             }
         }
 
-        CAnimationBufferBitwiseCompressed readBuffer(CR2WExportWrapper chunk, CR2WFile animFile, CSkeleton bufferSkel)
+        CAnimationBufferBitwiseCompressed readBuffer(CR2WExportWrapper chunk, CR2WFile animFile, CSkeleton bufferSkel, String animName = "-")
         {
             List<Bone> bones = new List<Bone>();
             //List<Track> tracks = new List<Track>();
@@ -322,6 +322,7 @@ namespace WolvenKit.Render.Animation
 
             var deferredData = chunk.GetVariableByName("deferredData") as CInt16;
             var streamingOption = (chunk.GetVariableByName("streamingOption") as CVariable);
+            Console.WriteLine("deferredData is null: " + (deferredData != null) + ", val: " + deferredData.val);
 
             if (deferredData != null && deferredData.val != 0)
                 if (streamingOption != null && streamingOption.ToString() == "ABSO_PartiallyStreamable")
@@ -331,6 +332,8 @@ namespace WolvenKit.Render.Animation
                     data = File.ReadAllBytes(animFile.FileName + "." + deferredData.val + ".buffer");
             else
                 data = (chunk.GetVariableByName("data") as CByteArray).Bytes;
+
+            Console.WriteLine("Animation: " + animName + ", data bytes = " + data.Count());
             using (MemoryStream ms = new MemoryStream(data))
             using (BinaryReader br = new BinaryReader(ms))
             {
@@ -381,6 +384,7 @@ namespace WolvenKit.Render.Animation
                         //}
                     }
                 }
+                bool shownMsg = false;
                 foreach (CVector bone in (chunk.GetVariableByName("bones") as CArray).array)
                 {
                     List<uint> currkeyframe = new List<uint>();
@@ -397,6 +401,11 @@ namespace WolvenKit.Render.Animation
 
 
                     string cm = chunk.GetVariableByName("orientationCompressionMethod")?.ToString() ?? "";
+                    if (!shownMsg)
+                    {
+                        Console.WriteLine("compression = [" + cm + "]");
+                        shownMsg = true;
+                    }
 
                     if (cm == "ABOCM_PackIn48bitsW") { 
                         for (uint idx = 0; idx < orientNumFrames; idx++)
@@ -404,7 +413,9 @@ namespace WolvenKit.Render.Animation
                             keyFrame = idx;
                             currkeyframe.Add(keyFrame);
                             byte[] odata = br.ReadBytes(6);
-                            ulong bits = (ulong)odata[0] << 40 | (ulong)odata[1] << 32 | (ulong)odata[2] << 24 | (ulong)odata[3] << 16 | (ulong)odata[4] << 8 | odata[5];
+                            ulong bits = 0;
+                            if (odata.Count() == 6)
+                                bits = (ulong)odata[0] << 40 | (ulong)odata[1] << 32 | (ulong)odata[2] << 24 | (ulong)odata[3] << 16 | (ulong)odata[4] << 8 | odata[5];
 
                             ushort[] orients = new ushort[4];
                             float[] quart = new float[4];
@@ -420,7 +431,11 @@ namespace WolvenKit.Render.Animation
                             }
                             quart[3] = -quart[3];
 
-                            Quaternion orientation = new Quaternion(quart[0], quart[1], quart[2], quart[3]);
+                            Quaternion orientation = new Quaternion(quart[0], quart[1], quart[2], quart[3]).Normalize();
+                            if (float.IsNaN(orientation.X) || float.IsNaN(orientation.Y) || float.IsNaN(orientation.Z) || float.IsNaN(orientation.W))
+                            {
+                                Console.WriteLine("NaN! orients: " + orients + ", quart: " + quart);
+                            }
                             currorient.Add(orientation);
                             Vector3Df euler = orientation.ToEuler();
                             currorientEuler.Add(euler);
@@ -438,6 +453,13 @@ namespace WolvenKit.Render.Animation
                             float y = br.ReadSingle();
                             float z = br.ReadSingle();
 
+                            if (float.IsNaN(x))
+                                x = 0.0f;
+                            if (float.IsNaN(y))
+                                y = 0.0f;
+                            if (float.IsNaN(z))
+                                z = 0.0f;
+
                             // Yeah, a value stored inside float..
                             // 1st bit doesn't affect float much, used here to store W sign
                             bool signW = (BitConverter.GetBytes(z).First() & 1) > 0;
@@ -450,7 +472,11 @@ namespace WolvenKit.Render.Animation
                             }
                             //Console.WriteLine("X = " + x + ", Y = " + y + ", Z = " + z + ", w = " + w);
 
-                            Quaternion orientation = new Quaternion(x, y, z, w);
+                            Quaternion orientation = new Quaternion(x, y, z, w).Normalize();
+                            /*if (float.IsNaN(orientation.X) || float.IsNaN(orientation.Y) || float.IsNaN(orientation.Z) || float.IsNaN(orientation.W))
+                            {
+                                Console.WriteLine("NaN! orients: " + x + "," + y + "," + z + "," + w);
+                            }*/
                             currorient.Add(orientation);
                             Vector3Df euler = orientation.ToEuler();
                             currorientEuler.Add(euler);
@@ -458,6 +484,12 @@ namespace WolvenKit.Render.Animation
                     }
                     else //cutscenes are ABOCM_PackIn64bitsW
                     {
+                        if (!shownMsg)
+                        {
+                            //MessageBox.Show("Used cm: [" + cm + "]", "Unknown CompressionMethod!");
+                            shownMsg = true;
+                        }
+                        
                         for (uint idx = 0; idx < orientNumFrames; idx++)
                         {
                             keyFrame = idx;
@@ -477,9 +509,14 @@ namespace WolvenKit.Render.Animation
                             }
                             quart[3] = -quart[3];
 
-                            Quaternion orientation = new Quaternion(quart[0], quart[1], quart[2], quart[3]);
+
+                            Quaternion orientation = new Quaternion(quart[0], quart[1], quart[2], quart[3]).Normalize();
                             currorient.Add(orientation);
                             Vector3Df euler = orientation.ToEuler();
+                            if ( float.IsNaN(orientation.X) || float.IsNaN(orientation.Y) || float.IsNaN(orientation.Z) || float.IsNaN(orientation.W) )
+                            {
+                                Console.WriteLine("NaN! orients: " + orients + ", quart: " + quart);
+                            }
                             currorientEuler.Add(euler);
                         }
                     }
