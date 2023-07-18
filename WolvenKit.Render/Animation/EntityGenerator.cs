@@ -361,7 +361,7 @@ namespace WolvenKit.Render.Animation
                             new_mesh.chunks.Last().type = chunk.Type;
                             new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                         }
-                        else if(chunk.Type == "CMovingPhysicalAgentComponent" && chunk.GetVariableByName("skeleton") != null)
+                        else if((chunk.Type == "CMovingPhysicalAgentComponent" || chunk.Type == "CMovingAgentComponent") && chunk.GetVariableByName("skeleton") != null)
                         {
                             string animation_rig = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                             entJson.MovingPhysicalAgentComponent.skeleton = animation_rig;

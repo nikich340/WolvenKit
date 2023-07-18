@@ -711,8 +711,8 @@ namespace WolvenKit
                             }
                             catch (Exception ex)
                             {
-                                logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {savePath}..", Logtype.Error);
-                                errors.Add($"{cr2wPaths[i]}: Can't create JSON.");
+                                logger?.LogString($"[{scriptName}] ({percent}%) Can't create: {savePath}.. Error: {ex.Message}", Logtype.Error);
+                                errors.Add($"{cr2wPaths[i]}: Can't create JSON. Error: {ex.Message}");
                             }
                         }
                         //logFile.Close();
