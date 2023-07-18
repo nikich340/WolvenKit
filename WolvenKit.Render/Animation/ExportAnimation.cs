@@ -596,7 +596,10 @@ namespace WolvenKit.Render.Animation
 
 
             Vector3Df current;
-            for (int i = 0; i < orientations.Count; i++)
+            // temp fix - why there are more bones in cs than in rig?? 
+            //   animations\cutscenes\no_mans_land\q105_witches\cs105_ciri_escapes_witch_sisters\cs105_ciri_escapes_witch_sisters.w2cutscene
+            //     witch2:Root:cs105_ciri_escapes_witch_sisters
+            for (int i = 0; i < Math.Min(bufferSkel.names.Count, orientations.Count); i++)
             {
                 Bone bone = new Bone();
                 bone.index = i;
