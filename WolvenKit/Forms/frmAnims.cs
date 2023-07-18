@@ -33,7 +33,7 @@ namespace WolvenKit
             //comboBoxTheme.SelectedItem = config.ColorTheme;
             btSave.Enabled = checkEnabled();
 
-            comboBoxAnim.DataBindings.Add("Enabled", radioButtonAnim1, "Checked");
+            comboBoxAnim.DataBindings.Add("Enabled", radioButtonAnim2, "Checked");
             setupcomboBox();
         }
 
@@ -146,36 +146,40 @@ namespace WolvenKit
                 MessageBox.Show("Invalid file path", "failed to save.");
                 return;
             }
-            Task.Run(() =>
+            using (var sf = new SaveFileDialog())
             {
-                using (var sf = new SaveFileDialog())
+                sf.Filter = "W3 json | *.json";
+                sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
+                if (sf.ShowDialog() == DialogResult.OK)
                 {
-                    sf.Filter = "W3 json | *.json";
-                    sf.FileName = Path.GetFileName(txw2anims.Text) + ".json";
-                    if (sf.ShowDialog() == DialogResult.OK)
+                    var savePath = sf.FileName;
+                    var exportAll = radioButtonAnim1.Checked;
+                    var animsPath = txw2anims.Text;
+                    Task.Run(() =>
                     {
-                        if (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2cutscene"))
+                        if (File.Exists(animsPath) && (Path.GetExtension(animsPath) == ".w2cutscene"))
                         {
-                            (exportAnims as ExportCutscene).SaveJson(sf.FileName);
+                            (exportAnims as ExportCutscene).SaveJson(savePath);
                         }
                         else
                         {
-                            if (radioButtonAnim1.Checked)
+                            if (exportAll)
                             {
                                 exportAnims.Apply(exportRig);
-                                exportAnims.SaveJson(sf.FileName);
+                                exportAnims.SaveJson(savePath);
+
                             }
                             else
                             {
                                 exportAnims.Apply(exportRig);
                                 exportAnims.LoadAllAnims();
-                                exportAnims.SaveSet(sf.FileName);
+                                exportAnims.SaveSet(savePath);
                             }
                         }
                         MessageBox.Show(this, "Sucessfully wrote file!", "WolvenKit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    });
                 }
-            });
+            }
         }
 
         private void btBrowseAnims_Click(object sender, EventArgs e)
@@ -228,8 +232,9 @@ namespace WolvenKit
 
         private bool checkEnabled()
         {
-            return (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2anims" || Path.GetExtension(txw2anims.Text) == ".w2cutscene")) &&
-                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig") || (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w3fac");
+            return (File.Exists(txw2anims.Text) && (Path.GetExtension(txw2anims.Text) == ".w2anims" &&
+                (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w2rig") || (File.Exists(txw2rig.Text) && Path.GetExtension(txw2rig.Text) == ".w3fac"))
+                 || Path.GetExtension(txw2anims.Text) == ".w2cutscene");
         }
 
         private void comboBoxAnim_SelectedIndexChanged(object sender, EventArgs e)
