@@ -312,7 +312,7 @@ namespace WolvenKit.Render.Animation
             CAnimationBufferBitwiseCompressed AnimationBuffer = new CAnimationBufferBitwiseCompressed();
             string dataAddrVar = "dataAddr";
             uint keyFrame = 0;
-            byte[] data;
+            byte[] data = new byte[0];
             //data = (chunk.GetVariableByName("fallbackData") as CByteArray).Bytes;
 
             uint numFrames = (chunk.GetVariableByName("numFrames") as CUInt32).val;
@@ -324,18 +324,29 @@ namespace WolvenKit.Render.Animation
 
             var deferredData = chunk.GetVariableByName("deferredData") as CInt16;
             var streamingOption = (chunk.GetVariableByName("streamingOption") as CVariable);
-            Console.WriteLine("deferredData is null: " + (deferredData != null) + ", val: " + deferredData.val);
+            Console.WriteLine("deferredData is valid: " + (deferredData != null) + ", val: " + deferredData.val);
 
             if (deferredData != null && deferredData.val != 0)
-                if (streamingOption != null && streamingOption.ToString() == "ABSO_PartiallyStreamable")
-                    data = ConvertAnimation.Combine((chunk.GetVariableByName("data") as CByteArray).Bytes,
-                    File.ReadAllBytes(animFile.FileName + "." + deferredData.val + ".buffer"));
-                else
-                    data = File.ReadAllBytes(animFile.FileName + "." + deferredData.val + ".buffer");
+            {
+                var bufferPath = animFile.FileName + "." + deferredData.val + ".buffer";
+                if (File.Exists(bufferPath))
+                {
+                    if (streamingOption != null && streamingOption.ToString() == "ABSO_PartiallyStreamable")
+                        data = ConvertAnimation.Combine((chunk.GetVariableByName("data") as CByteArray).Bytes,
+                                                        File.ReadAllBytes(animFile.FileName + "." + deferredData.val + ".buffer"));
+                    else
+                        data = File.ReadAllBytes(animFile.FileName + "." + deferredData.val + ".buffer");
+                } else
+                {
+                    MessageBox.Show($"Buffer file is not found: {bufferPath}", "ERROR");
+                }
+            }
             else
+            {
                 data = (chunk.GetVariableByName("data") as CByteArray).Bytes;
+            }
 
-            Console.WriteLine("Animation: " + animName + ", data bytes = " + data.Count());
+            //Console.WriteLine("Animation: " + animName + ", data bytes = " + data.Count());
             using (MemoryStream ms = new MemoryStream(data))
             using (BinaryReader br = new BinaryReader(ms))
             {
