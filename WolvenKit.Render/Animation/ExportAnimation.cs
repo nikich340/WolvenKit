@@ -412,6 +412,10 @@ namespace WolvenKit.Render.Animation
 
                     int orientNumFrames = ((bone.GetVariableByName("orientation") as CVector).GetVariableByName("numFrames") as CUInt16).val;
 
+                    int compression = 0;
+                    var compr = (bone.GetVariableByName("orientation") as CVector).GetVariableByName("compression") as CInt8;
+                    if (compr != null)
+                        compression = compr.val;
 
                     string cm = chunk.GetVariableByName("orientationCompressionMethod")?.ToString() ?? "";
                     if (!shownMsg)
@@ -462,9 +466,29 @@ namespace WolvenKit.Render.Animation
                             keyFrame = idx;
                             currkeyframe.Add(keyFrame);
 
-                            float x = br.ReadSingle();
-                            float y = br.ReadSingle();
-                            float z = br.ReadSingle();
+                            float x = 0;
+                            float y = 0;
+                            float z = 0;
+
+                            if (compression == 0)
+                            {
+                                // read 12 bytes normally
+                                x = br.ReadSingle();
+                                y = br.ReadSingle();
+                                z = br.ReadSingle();
+                            } else if (compression == 1)
+                            {
+                                // no idea..
+                                MessageBox.Show("You have met a combination of: [" + cm + "] + compression == 1.\nShow this to nikich340#1247", "Unknown CompressionMethod!");
+                            }
+                            else if (compression == 2)
+                            {
+                                byte[] odata = br.ReadBytes(6);
+                                x = BitConverter.ToSingle(new byte[4] { 0, 0, odata[0], odata[1] }, 0);
+                                y = BitConverter.ToSingle(new byte[4] { 0, 0, odata[2], odata[3] }, 0);
+                                z = BitConverter.ToSingle(new byte[4] { 0, 0, odata[4], odata[5] }, 0);
+                            }
+
 
                             if (float.IsNaN(x))
                                 x = 0.0f;
@@ -495,7 +519,7 @@ namespace WolvenKit.Render.Animation
                             currorientEuler.Add(euler);
                         }
                     }
-                    else //cutscenes are ABOCM_PackIn64bitsW
+                    else if (cm == "") //cutscenes are ABOCM_PackIn64bitsW
                     {
                         if (!shownMsg)
                         {
@@ -532,6 +556,14 @@ namespace WolvenKit.Render.Animation
                             }
                             currorientEuler.Add(euler);
                         }
+                    } else
+                    {
+                        if (!shownMsg)
+                        {
+                            MessageBox.Show("Used cm: [" + cm + "]", "Unknown CompressionMethod!");
+                            shownMsg = true;
+                        }
+                        return null;
                     }
 
                     orientKeyframes.Add(currkeyframe);
@@ -541,8 +573,8 @@ namespace WolvenKit.Render.Animation
                     // TODO: Refactor
                     List<Vector3Df> currposition = new List<Vector3Df>();
                     currkeyframe = new List<uint>();
-                    int compression = 0;
-                    var compr = (bone.GetVariableByName("position") as CVector).GetVariableByName("compression") as CInt8;
+                    compression = 0;
+                    compr = (bone.GetVariableByName("position") as CVector).GetVariableByName("compression") as CInt8;
                     if (compr != null)
                         compression = compr.val;
                     addr = (bone.GetVariableByName("position") as CVector).GetVariableByName(dataAddrVar) as CUInt32;
