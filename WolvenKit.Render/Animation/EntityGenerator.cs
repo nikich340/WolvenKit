@@ -277,7 +277,7 @@ namespace WolvenKit.Render.Animation
                 if (entity != null)
                     foreach (var chunk in entity.chunks)
                     {
-                        if (chunk.Type == "CEntityTemplate" && chunk.GetVariableByName("appearances") != null)
+                        if (chunk.Type == "CEntityTemplate" && chunk.HasVariable("appearances"))
                         {
                             List<CVariable> appearances = (chunk.GetVariableByName("appearances") as CArray).array;
                             int appSelect = 0;
@@ -311,7 +311,7 @@ namespace WolvenKit.Render.Animation
                             foreach (CHandle staticChunkPtr in (chunk.GetVariableByName("components") as CArray).array)
                             {
                                 CR2WExportWrapper staticChunk = staticChunkPtr.Reference;
-                                if (staticChunk.Type == "CStaticMeshComponent")
+                                if (staticChunk.Type == "CStaticMeshComponent" && chunk.HasVariable("mesh"))
                                 {
                                     string mesh = (staticChunk.GetVariableByName("mesh") as CHandle).ToString().Split(' ')[1];
                                     new_mesh.chunks.Add(new CStaticMeshComponent(mesh));
@@ -319,7 +319,7 @@ namespace WolvenKit.Render.Animation
                                     new_mesh.chunks.Last().type = staticChunk.Type;
                                     new_mesh.chunks.Last().chunkIndex = staticChunk.ChunkIndex;
                                 }
-                                if (staticChunk.Type == "CMeshComponent")
+                                if (staticChunk.Type == "CMeshComponent" && chunk.HasVariable("mesh"))
                                 {
                                     string mesh = (staticChunk.GetVariableByName("mesh") as CHandle).ToString().Split(' ')[1];
                                     new_mesh.chunks.Add(new CMeshComponent(mesh));
@@ -327,7 +327,7 @@ namespace WolvenKit.Render.Animation
                                     new_mesh.chunks.Last().type = staticChunk.Type;
                                     new_mesh.chunks.Last().chunkIndex = staticChunk.ChunkIndex;
                                 }
-                                if (staticChunk.Type == "CAnimatedComponent")
+                                if (staticChunk.Type == "CAnimatedComponent" && chunk.HasVariable("name") && chunk.HasVariable("skeleton"))
                                 {
                                     string name = (staticChunk.GetVariableByName("name") as CString).val;
                                     string skeleton = (staticChunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
@@ -341,7 +341,7 @@ namespace WolvenKit.Render.Animation
                         }
                         else if(chunk.Type == "CHardAttachment")
                         {
-                            if (chunk.GetVariableByName("parentSlot") != null)
+                            if (chunk.HasVariable("parent") && chunk.HasVariable("child") && chunk.HasVariable("parentSlot") && chunk.HasVariable("parentSlotName"))
                             {
                                 int parent = (chunk.GetVariableByName("parent") as CPtr).Reference.ChunkIndex;
                                 int child = (chunk.GetVariableByName("child") as CPtr).Reference.ChunkIndex;
@@ -353,7 +353,7 @@ namespace WolvenKit.Render.Animation
                                 new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                             }
                         }
-                        else if(chunk.Type == "CSkeletonBoneSlot")
+                        else if(chunk.Type == "CSkeletonBoneSlot" && chunk.HasVariable("boneIndex"))
                         {
                             uint boneIndex = (chunk.GetVariableByName("boneIndex") as CUInt32).val;
                             new_mesh.chunks.Add(new CSkeletonBoneSlot(boneIndex));
@@ -361,14 +361,14 @@ namespace WolvenKit.Render.Animation
                             new_mesh.chunks.Last().type = chunk.Type;
                             new_mesh.chunks.Last().chunkIndex = chunk.ChunkIndex;
                         }
-                        else if((chunk.Type == "CMovingPhysicalAgentComponent" || chunk.Type == "CMovingAgentComponent") && chunk.GetVariableByName("skeleton") != null)
+                        else if((chunk.Type == "CMovingPhysicalAgentComponent" || chunk.Type == "CMovingAgentComponent") && chunk.HasVariable("skeleton"))
                         {
                             string animation_rig = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                             entJson.MovingPhysicalAgentComponent.skeleton = animation_rig;
                             entJson.animation_rig_object = GetRig(animation_rig, 0);
                             hasCMovingPhysicalAgentComponent = true;
                         }
-                        else if(chunk.Type == "CAnimatedComponent" && !hasCMovingPhysicalAgentComponent) {
+                        else if(chunk.Type == "CAnimatedComponent" && !hasCMovingPhysicalAgentComponent && chunk.HasVariable("skeleton")) {
                             string animation_rig = (chunk.GetVariableByName("skeleton") as CHandle).ToString().Split(' ')[1];
                             entJson.MovingPhysicalAgentComponent.skeleton = animation_rig;
                             entJson.animation_rig_object = GetRig(animation_rig, 0);
